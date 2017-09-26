@@ -9,7 +9,8 @@ extern "C" {
 
 #include <glitter.h>
 
-#define DARRSZ (D) ((D)->esz * (D)->maxsz)
+#define DARRSZN(D, N) ((D)->esz * (N))
+#define DARRSZ(D) (DARRSZN ((D), (D)->maxsz))
 
 typedef __attribute__ ((const, warn_unused_result))
 size_t (*darr_resize_cb_t (size_t esz, size_t n, size_t inc);
@@ -30,23 +31,23 @@ int init_darr2 (darr_t *restrict darr, size_t maxn, size_t esz,
    darr_resize_cb_t resizecb)
 __attribute__ ((leaf, nonnull (1, 3), nothrow, warn_unused_result)) ;
 
-void ensure_cap_darr (darr_t *restrict darr, size_t n)
-__attribute__ ((leaf, nonnull (1), nothrow)) ;
+int ensure_cap_darr (darr_t *restrict darr, size_t n)
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 
-void trim_cap_darr (darr_t *restrict darr, size_t n)
-__attribute__ ((leaf, nonnull (1), nothrow)) ;
+int trim_cap_darr (darr_t *restrict darr, size_t n)
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 
 void add_darr (darr_t *restrict darr, void const *restrict e)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+__attribute__ ((nonnull (1, 2), nothrow)) ;
 
 void adds_darr (darr_t *restrict darr, void const *restrict e, size_t n)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+__attribute__ ((nonnull (1, 2), nothrow)) ;
 
 void remove_darr (darr_t *restrict darr, void *restrict e)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+__attribute__ ((nonnull (1, 2), nothrow)) ;
 
 void removes_darr (darr_t *restrict darr, void *restrict e, size_t n)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+__attribute__ ((nonnull (1, 2), nothrow)) ;
 
 void free_darr (darr_t *restrict darr)
 __attribute__ ((const, leaf, nonnull (1), nothrow)) ;

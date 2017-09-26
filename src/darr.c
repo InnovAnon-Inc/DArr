@@ -51,27 +51,37 @@ int init_darr2 (darr_t *restrict darr, size_t esz, size_t maxn,
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
-   if (n <= darr->n) return;
-   new_data = realloc (darr->data, n);
+   size_t new_n;
+   if (n <= darr->maxn) return;
+   new_n = darr->resizecb (n);
+   new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
-   darr->n = n;
+   darr->maxn = new_n;
    return 0;
 }
 
-__attribute__ ((leaf, nonnull (1), nothrow))
-void trim_cap_darr (darr_t *restrict darr, size_t n) {}
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
+int trim_cap_darr (darr_t *restrict darr, size_t n) {
+   void *restrict new_data;
+   if (n >= darr->maxn) return;
+   new_data = realloc (darr->data, DARRSZN (darr, n));
+   error_check (new_data == NULL) return -1;
+   darr->data = new_data;
+   darr->maxn = n;
+   return 0;
+}
 
-__attribute__ ((leaf, nonnull (1, 2), nothrow))
+__attribute__ ((nonnull (1, 2), nothrow))
 void add_darr (darr_t *restrict darr, void const *restrict e) {}
 
-__attribute__ ((leaf, nonnull (1, 2), nothrow))
+__attribute__ ((nonnull (1, 2), nothrow))
 void adds_darr (darr_t *restrict darr, void const *restrict e, size_t n) {}
 
-__attribute__ ((leaf, nonnull (1, 2), nothrow))
+__attribute__ ((nonnull (1, 2), nothrow))
 void remove_darr (darr_t *restrict darr, void *restrict e) {}
 
-__attribute__ ((leaf, nonnull (1, 2), nothrow))
+__attribute__ ((nonnull (1, 2), nothrow))
 void removes_darr (darr_t *restrict darr, void *restrict e, size_t n) {}
 
 __attribute__ ((const, leaf, nonnull (1), nothrow))
