@@ -13,7 +13,7 @@ extern "C" {
 #define DARRSZ(D) (DARRSZN ((D), (D)->maxsz))
 
 typedef __attribute__ ((const, warn_unused_result))
-size_t (*darr_resize_cb_t (size_t esz, size_t n, size_t inc);
+size_t (*darr_resize_cb_t) (size_t esz, size_t n, size_t inc) ;
 
 typedef struct {
    size_t esz;
