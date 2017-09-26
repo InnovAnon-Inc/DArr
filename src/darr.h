@@ -9,24 +9,26 @@ extern "C" {
 
 #include <glitter.h>
 
+#define DARRSZ (D) ((D)->esz * (D)->maxsz)
+
+typedef __attribute__ ((const, warn_unused_result))
+size_t (*darr_resize_cb_t (size_t esz, size_t n, size_t inc);
+
 typedef struct {
    size_t esz;
    size_t maxn;
    size_t n;
    void *restrict data;
+   darr_resize_cb_t resizecb;
 } darr_t;
 
-void init_darr (darr_t *restrict darr)
-__attribute__ ((nonnull (1), nothrow)) ;
+int init_darr (darr_t *restrict darr, size_t esz,
+   darr_resize_cb_t resizecb)
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
 
-void init_darr2 (darr_t *restrict darr, size_t maxn)
-__attribute__ ((leaf, nonnull (1), nothrow)) ;
-
-darr_t *alloc_darr ()
-__attribute__ ((nonnull (1), nothrow)) ;
-
-darr_t *alloc_darr2 (size_t maxn)
-__attribute__ ((leaf, nonnull (1), nothrow)) ;
+int init_darr2 (darr_t *restrict darr, size_t maxn, size_t esz,
+   darr_resize_cb_t resizecb)
+__attribute__ ((leaf, nonnull (1, 3), nothrow, warn_unused_result)) ;
 
 void ensure_cap_darr (darr_t *restrict darr, size_t n)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;

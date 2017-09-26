@@ -16,28 +16,48 @@
 #include <darr.h>
 
 #ifdef TEST
+typedef __attribute__ ((const, warn_unused_result))
+size_t (*darr_resize_cb_t (size_t esz, size_t n, size_t inc);
+
 typedef struct {
    size_t esz;
    size_t maxn;
    size_t n;
    void *restrict data;
+   darr_resize_cb_t resizecb;
 } darr_t;
 #endif
 
-__attribute__ ((nonnull (1), nothrow))
-void init_darr (darr_t *restrict darr) {}
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
+int init_darr (darr_t *restrict darr, size_t esz,
+   darr_resize_cb_t resizecb) {
+   /* if your resizecb is geometric, then you may have to use
+    * init_darr2 (darr, esz, resizecb(1), resizecb) */
+   return init_darr2 (darr, esz, resizecb (0), resizecb);
+}
 
-__attribute__ ((leaf, nonnull (1), nothrow))
-void init_darr2 (darr_t *restrict darr, size_t maxn) {}
+__attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
+int init_darr2 (darr_t *restrict darr, size_t esz, size_t maxn,
+   darr_resize_cb_t resizecb) {
+   darr->esz  = esz;
+   darr->maxn = maxn;
+   darr->n    = 0;
+   darr->resizecb = resizecb;
+   darr->data = malloc (DARRSZ (darr));
+   error_check (darr->data == NULL) return -1;
+   return 0;
+}
 
-__attribute__ ((nonnull (1), nothrow))
-darr_t *alloc_darr () {}
-
-__attribute__ ((leaf, nonnull (1), nothrow))
-darr_t *alloc_darr2 (size_t maxn) {}
-
-__attribute__ ((leaf, nonnull (1), nothrow))
-void ensure_cap_darr (darr_t *restrict darr, size_t n) {}
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
+int ensure_cap_darr (darr_t *restrict darr, size_t n) {
+   void *restrict new_data;
+   if (n <= darr->n) return;
+   new_data = realloc (darr->data, n);
+   error_check (new_data == NULL) return -1;
+   darr->data = new_data;
+   darr->n = n;
+   return 0;
+}
 
 __attribute__ ((leaf, nonnull (1), nothrow))
 void trim_cap_darr (darr_t *restrict darr, size_t n) {}
