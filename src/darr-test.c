@@ -55,7 +55,7 @@ int main (void) {
 
    free_darr (&darr);
 
-   puts ("success");
+   puts ("success"); fflush (stdout);
 
    return EXIT_SUCCESS;
 }
