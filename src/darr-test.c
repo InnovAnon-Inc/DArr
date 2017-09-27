@@ -398,6 +398,7 @@ int main (void) {
    error_check (init_test (&darr) != 0) return -1;
 
    get_nums (nums, ARRSZ (nums));
+   /*
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       error_check (insert_rear_darr (&darr, nums + testi) != 0)
          return -1;
@@ -424,7 +425,7 @@ int main (void) {
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
    }
-
+   */
    error_check (inserts_rear_darr (&darr, nums, (size_t) 1) != 0) return -1;
    darr_print (&darr);
    removes_rear_darr (&darr, nums, (size_t) 1);
@@ -434,7 +435,7 @@ int main (void) {
    removes_rear_darr (&darr, nums, ARRSZ (nums));
    darr_print (&darr);
 
-
+   /*
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
@@ -454,7 +455,8 @@ int main (void) {
    error_check (removes_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
    error_check (reset_test (&darr) != 0) return -3;
-
+   */
+   /*
    error_check (test0 (&darr) != 0) return -4;
    error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
    error_check (test2 (&darr) != 0) return -6;
@@ -480,7 +482,8 @@ int main (void) {
    error_check (test0 (&darr) != 0) return -4;
 
    error_check (reset_test (&darr) != 0) return -3;
-
+   */
+   /*
    for (testi = 0; testi != ntest; testi++)
       switch (rand () % 10) {
       case 0:
@@ -515,7 +518,7 @@ int main (void) {
          break;
       default: __builtin_unreachable ();
       }
-
+   */
    free_test (&darr);
 
    puts ("success"); fflush (stdout);
