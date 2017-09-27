@@ -324,7 +324,7 @@ static int test7 (darr_t *restrict darr) {
       k    = 0;
       snum = 1;
    } else {
-      k    = (size_t) rand () % (darr->n + 1);
+      k    = (size_t) rand () % darr->n;
       snum = (size_t) rand () % (darr->n - k);
    }
    /*snum = 1 + ((size_t) rand () % darr->n);
