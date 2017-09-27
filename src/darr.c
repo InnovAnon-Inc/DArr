@@ -26,7 +26,7 @@ size_t darr_resize_exact (size_t n, size_t inc,
 __attribute__ ((leaf, warn_unused_result))
 size_t darr_resize_geometric (size_t n, size_t inc,
    void *restrict _factor) {
-   double const *restrict factor = (size_t double *restrict) _factor;
+   double const *restrict factor = (double *restrict) _factor;
    double ret = pow (factor, ceil (log (inc) / log (factor)));
    return (size_t) ret;
 }
