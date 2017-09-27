@@ -441,7 +441,7 @@ int main (void) {
    darr_print (&darr);
    */
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      error_check (insert_front_darr (&darr, 0, nums + testi) != 0)
+      error_check (insert_front_darr (&darr, (size_t) 0, nums + testi) != 0)
          return -1;
       error_check (trim_cap_darr (&darr, testi + 1) != 0)
          return -1;
@@ -455,7 +455,7 @@ int main (void) {
       printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
    }
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      error_check (insert_front_darr (&darr, 0, nums + testi) != 0)
+      error_check (insert_front_darr (&darr, (size_t) 0, nums + testi) != 0)
          return -1;
       error_check (trim_cap_darr (&darr, testi + 1) != 0)
          return -1;
@@ -468,28 +468,28 @@ int main (void) {
    }
 
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      error_check (insert_front_darr (&darr, darr->n - 1, nums + testi) != 0)
+      error_check (insert_front_darr (&darr, darr.n - 1, nums + testi) != 0)
          return -1;
       error_check (trim_cap_darr (&darr, testi + 1) != 0)
          return -1;
       darr_print (&darr);
    }
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      remove_front_darr (&darr, darr->n - 1, nums + testi);
+      remove_front_darr (&darr, darr.n - 1, nums + testi);
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
       darr_print (&darr);
       printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
    }
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      error_check (insert_front_darr (&darr, darr->n - 1, nums + testi) != 0)
+      error_check (insert_front_darr (&darr, darr.n - 1, nums + testi) != 0)
          return -1;
       error_check (trim_cap_darr (&darr, testi + 1) != 0)
          return -1;
       darr_print (&darr);
    }
    for (testi = 0; testi != ARRSZ (nums); testi++) {
-      remove_front_darr (&darr, darr->n - 1, nums + testi);
+      remove_front_darr (&darr, darr.n - 1, nums + testi);
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
    }
