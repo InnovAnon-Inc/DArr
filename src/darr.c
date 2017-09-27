@@ -165,6 +165,9 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    void *src;
    dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
+#ifndef NDEBUG
+
+#endif
    memcpy (e, src, darr->esz * n);
    /* TODO i + n != darr->n*/
    if (i + n < darr->n)
