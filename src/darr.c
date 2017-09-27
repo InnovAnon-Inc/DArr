@@ -101,7 +101,7 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
    memcpy (e,
       (void *) ((char *) (darr->data) + (darr->n - 1) * darr->esz),
-      data->esz);
+      darr->esz);
    darr->n--;
 }
 
@@ -110,7 +110,7 @@ void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
    memcpy (e,
       (void *) ((char *) (darr->data) + (darr->n - n) * darr->esz),
-      data->esz * n);
+      darr->esz * n);
    darr->n -= n;
 }
 
