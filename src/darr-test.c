@@ -56,6 +56,7 @@ int main (void) {
    }
 
    free_darr (&darr);
+/*
    error_check (init_darr (&darr, sizeof (int),
       darr_resize_geometric, &factor) != 0) {
       puts ("error -5"); fflush (stdout);
@@ -79,7 +80,7 @@ int main (void) {
    }
 
    free_darr (&darr);
-
+*/
    puts ("success"); fflush (stdout);
 
    return EXIT_SUCCESS;
