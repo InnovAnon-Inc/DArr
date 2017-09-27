@@ -398,7 +398,7 @@ int main (void) {
    error_check (init_test (&darr) != 0) return -1;
 
    get_nums (nums, ARRSZ (nums));
-
+   /*
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       error_check (insert_rear_darr (&darr, nums + testi) != 0)
          return -1;
@@ -425,7 +425,8 @@ int main (void) {
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
    }
-
+   */
+   /*
    error_check (inserts_rear_darr (&darr, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
@@ -438,6 +439,63 @@ int main (void) {
    removes_rear_darr (&darr, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
+   */
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (insert_front_darr (&darr, 0, nums + testi) != 0)
+         return -1;
+      error_check (trim_cap_darr (&darr, testi + 1) != 0)
+         return -1;
+      darr_print (&darr);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      remove_front_darr (&darr, 0, nums + testi);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
+         return -1;
+      darr_print (&darr);
+      printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (insert_front_darr (&darr, 0, nums + testi) != 0)
+         return -1;
+      error_check (trim_cap_darr (&darr, testi + 1) != 0)
+         return -1;
+      darr_print (&darr);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      remove_front_darr (&darr, 0, nums + testi);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
+         return -1;
+   }
+
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (insert_front_darr (&darr, darr->n - 1, nums + testi) != 0)
+         return -1;
+      error_check (trim_cap_darr (&darr, testi + 1) != 0)
+         return -1;
+      darr_print (&darr);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      remove_front_darr (&darr, darr->n - 1, nums + testi);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
+         return -1;
+      darr_print (&darr);
+      printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (insert_front_darr (&darr, darr->n - 1, nums + testi) != 0)
+         return -1;
+      error_check (trim_cap_darr (&darr, testi + 1) != 0)
+         return -1;
+      darr_print (&darr);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      remove_front_darr (&darr, darr->n - 1, nums + testi);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
+         return -1;
+   }
+
+
+
 
    /*
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
