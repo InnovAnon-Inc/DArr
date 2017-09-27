@@ -138,6 +138,24 @@ void removes_rear_darr (darr_t *restrict darr,
    darr->n -= n;
 }
 
+__attribute__ ((leaf, nonnull (1, 3), nothrow))
+void remove_front_darr (darr_t *restrict darr, size_t i,
+   void *restrict e) {
+   memcpy (e,
+      (void *) ((char *) (darr->data) + (darr->n - 1) * darr->esz),
+      darr->esz);
+   darr->n--;
+}
+
+__attribute__ ((leaf, nonnull (1, 3), nothrow))
+void removes_front_darr (darr_t *restrict darr, size_t i,
+   void *restrict e, size_t n) {
+   memcpy (e,
+      (void *) ((char *) (darr->data) + (darr->n - n) * darr->esz),
+      darr->esz * n);
+   darr->n -= n;
+}
+
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t *restrict darr) {
    free (darr->data);
