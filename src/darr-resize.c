@@ -27,7 +27,8 @@ __attribute__ ((leaf, warn_unused_result))
 size_t darr_resize_geometric (size_t inc,
    void *restrict _factor) {
    double const *restrict factor = (double *restrict) _factor;
-   double ret = pow (factor, ceil (log (inc) / log (factor)));
+   double tmp = ceil (log ((double) inc) / log (*factor));
+   double ret = pow (*factor, tmp);
    return (size_t) ret;
 }
 
@@ -35,7 +36,7 @@ __attribute__ ((leaf, warn_unused_result))
 size_t darr_resize_linear (size_t inc,
    void *restrict _factor) {
    size_t const *restrict factor = (size_t const *restrict) _factor;
-   double tmp = ceil ((double) inc / (double) factor);
-   double ret = factor * (size_t) tmp;
+   double tmp = ceil ((double) inc / (double) *factor);
+   double ret = *factor * (size_t) tmp;
    return ret;
 }
