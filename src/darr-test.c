@@ -151,12 +151,13 @@ int main (void) {
 
    for (k = 0; k != ARRSZ (nums); k++)
       nums[k] = rand ();
-   error_check (inserts_front_darr (&darr, 0, nums, ARRSZ (nums)) != 0) {
+   error_check (inserts_front_darr (&darr, (size_t) 0,
+      nums, ARRSZ (nums)) != 0) {
       puts ("error -6"); fflush (stdout);
       free_darr (&darr);
       return -6;
    }
-   removes_front_darr (&darr, 0, tmps, ARRSZ (tmps));
+   removes_front_darr (&darr, (size_t) 0, tmps, ARRSZ (tmps));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) {
       puts ("error -7"); fflush (stdout);
       free_darr (&darr);
