@@ -291,13 +291,25 @@ static int test7 (darr_t *restrict darr) {
    size_t k;
    size_t snum;
    int *restrict nums;
-   if (darr->n == 0) return;
+   if (darr->n == 0) return 0;
    k = (size_t) rand () % darr->n;
    snum = k + (size_t) rand () % (darr->n - k);
    nums = malloc (sizeof (int) * snum);
    error_check (nums == NULL) return -1;
    removes_front_darr (darr, k, nums, snum);
    free (nums);
+   return 0;
+}
+
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int test8 (darr_t *restrict darr) {
+   size_t snum;
+   if (darr->n == 0) return 0;
+   snum = (size_t) rand () % darr->n;
+   error_check (trim_cap_darr (darr, snum) != 0) {
+      puts ("error -15"); fflush (stdout);
+      return -15;
+   }
    return 0;
 }
 
@@ -350,6 +362,7 @@ int main (void) {
    error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
    test6 (&darr);
    error_check (test7 (&darr) != 0) return -7;
+   error_check (test8 (&darr) != 0) return -8;
 
    free_test (&darr);
 
