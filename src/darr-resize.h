@@ -13,15 +13,15 @@ extern "C" {
 
 size_t darr_resize_exact (size_t inc,
    void *restrict unused)
-__attribute__ ((leaf, warn_unused_result)) ;
+__attribute__ ((const, leaf, warn_unused_result)) ;
 
 size_t darr_resize_geometric (size_t inc,
    void *restrict factor)
-__attribute__ ((leaf, warn_unused_result)) ;
+__attribute__ ((leaf, pure, warn_unused_result)) ;
 
 size_t darr_resize_linear (size_t inc,
    void *restrict factor)
-__attribute__ ((leaf, warn_unused_result)) ;
+__attribute__ ((leaf, pure, warn_unused_result)) ;
 
 #ifdef __cplusplus
 }
