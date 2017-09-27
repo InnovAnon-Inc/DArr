@@ -292,7 +292,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    size_t sz = darr->n;
    get_nums (nums, nnum);
    if (darr->n == 0) k = 0;
-   else k = (size_t) (rand () % (darr->n + 1));
+   else k = ((size_t) rand ()) % (darr->n + 1);
    error_check (inserts_front_darr (darr, k, nums, snum) != 0) {
       puts ("error -13"); fflush (stdout);
       return -13;
@@ -503,10 +503,10 @@ int main (void) {
    removes_front_darr (&darr, (size_t) 0, nums, (size_t) 1);
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
-   error_check (inserts_front_darr (&darr, 0, nums, ARRSZ (nums)) != 0) return -1;
+   error_check (inserts_front_darr (&darr, (size_t) 0, nums, ARRSZ (nums)) != 0) return -1;
    error_check (trim_cap_darr (&darr, ARRSZ (nums)) != 0) return -1;
    darr_print (&darr);
-   removes_front_darr (&darr, 0, nums, ARRSZ (nums));
+   removes_front_darr (&darr, (size_t) 0, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
    /*
