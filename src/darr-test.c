@@ -171,7 +171,7 @@ static int removes_front_test (darr_t *restrict darr,
 }
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
-int init_test (darr_t *restrict darr) {
+static int init_test (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict arg;
    int num;
@@ -183,7 +183,7 @@ int init_test (darr_t *restrict darr) {
       return 0;
    case 1:
       darr->resizecb = darr_resize_linear;
-      darr->cbargs = malloc (sizeof (size_t)));
+      darr->cbargs = malloc (sizeof (size_t));
       error_check (darr->cbargs == NULL) return -1;
       /*sfactor = (size_t) (rand () + 1);*/
       *(darr->cbargs) = 2;
