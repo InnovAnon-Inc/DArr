@@ -496,7 +496,7 @@ int main (void) {
          return -1;
    }
    */
-
+   /*
    error_check (inserts_front_darr (&darr, (size_t) 0, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
@@ -509,7 +509,8 @@ int main (void) {
    removes_front_darr (&darr, (size_t) 0, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
-   /*
+   */
+
    error_check (inserts_front_darr (&darr, darr-n - 1, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
@@ -522,7 +523,7 @@ int main (void) {
    removes_from_darr (&darr, darr-n - 1, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
-*/
+
 
 
 
