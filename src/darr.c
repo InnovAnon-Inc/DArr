@@ -17,29 +17,6 @@
 
 #include <darr.h>
 
-__attribute__ ((leaf, warn_unused_result))
-size_t darr_resize_exact (size_t n, size_t inc,
-   void *restrict unused) {
-   return inc;
-}
-
-__attribute__ ((leaf, warn_unused_result))
-size_t darr_resize_geometric (size_t n, size_t inc,
-   void *restrict _factor) {
-   double const *restrict factor = (double *restrict) _factor;
-   double ret = pow (factor, ceil (log (inc) / log (factor)));
-   return (size_t) ret;
-}
-
-__attribute__ ((leaf, warn_unused_result))
-size_t darr_resize_linear (size_t n, size_t inc,
-   void *restrict _factor) {
-   size_t const *restrict factor = (size_t const *restrict) _factor;
-   double tmp = ceil ((double) inc / (double) factor);
-   double ret = factor * (size_t) tmp;
-   return ret;
-}
-
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
 int init_darr (darr_t *restrict darr, size_t esz,
    darr_resize_cb_t resizecb, void *restrict cbargs) {
@@ -47,7 +24,7 @@ int init_darr (darr_t *restrict darr, size_t esz,
     * init_darr2 (darr, esz, resizecb(1), resizecb) */
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
-   size_t maxn = resizecb (0, 0, cbargs);
+   size_t maxn = resizecb (0, cbargs);
 	#pragma GCC diagnostic pop
    return init_darr2 (darr, esz, maxn, resizecb);
 }
@@ -70,7 +47,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
    if (n <= darr->maxn) return;
-   new_n = darr->resizecb (darr->maxn, n, darr->cbargs);
+   new_n = darr->resizecb (n, darr->cbargs);
    new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;

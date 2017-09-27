@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include <darr.h>
+#include <darr-resize.h>
 
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {

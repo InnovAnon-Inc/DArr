@@ -12,20 +12,8 @@ extern "C" {
 #define DARRSZN(D, N) ((D)->esz * (N))
 #define DARRSZ(D) (DARRSZN ((D), (D)->maxn))
 
-size_t darr_resize_exact (size_t n, size_t inc,
-   void *restrict unused)
-__attribute__ ((leaf, warn_unused_result)) ;
-
-size_t darr_resize_geometric (size_t n, size_t inc,
-   void *restrict factor)
-__attribute__ ((leaf, warn_unused_result)) ;
-
-size_t darr_resize_linear (size_t n, size_t inc,
-   void *restrict factor)
-__attribute__ ((leaf, warn_unused_result)) ;
-
 typedef __attribute__ ((warn_unused_result))
-size_t (*darr_resize_cb_t) (size_t n, size_t inc,
+size_t (*darr_resize_cb_t) (size_t inc,
    void *restrict args) ;
 
 typedef struct {
