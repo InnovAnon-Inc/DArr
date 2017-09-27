@@ -26,7 +26,6 @@ static int insert_rear_test (darr_t *restrict darr,
       nums[k] = rand ();
       error_check (insert_rear_darr (darr, nums + k) != 0) {
          puts ("error -2"); fflush (stdout);
-         free_darr (darr);
          return -2;
       }
    }
@@ -42,12 +41,10 @@ static int remove_rear_test (darr_t *restrict darr,
       remove_rear_darr (darr, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
          puts ("error -3"); fflush (stdout);
-         free_darr (darr);
          return -3;
       }
       error_check (num != nums[nnum - k - 1]) {
          puts ("error -4"); fflush (stdout);
-         free_darr (darr);
          return -4;
       }
    }
@@ -62,7 +59,6 @@ static int inserts_rear_test (darr_t *restrict darr,
       nums[k] = rand ();
    error_check (inserts_rear_darr (darr, nums, nnum) != 0) {
       puts ("error -6"); fflush (stdout);
-      free_darr (darr);
       return -6;
    }
    return 0;
@@ -73,20 +69,17 @@ static int removes_rear_test (darr_t *restrict darr,
    int const nums[], size_t nnum) {
    int *restrict tmps = malloc (sizeof (int) * nnum);
    error_check (tmps == 0) {
-      free_darr (darr);
       return -1;
    }
    removes_rear_darr (darr, tmps, nnum);
    error_check (trim_cap_darr (darr, (size_t) 0) != 0) {
       puts ("error -7"); fflush (stdout);
       free (tmps);
-      free_darr (darr);
       return -7;
    }
    error_check (memcmp (nums, tmps, nnum) != 0) {
       puts ("error -8"); fflush (stdout);
       free (tmps);
-      free_darr (darr);
       return -8;
    }
    free (tmps);
@@ -104,7 +97,6 @@ static int insert_front_test (darr_t *restrict darr,
       error_check (insert_front_darr (darr, j,
          nums + k) != 0) {
          puts ("error -2"); fflush (stdout);
-         free_darr (darr);
          return -2;
       }
    }
@@ -122,7 +114,6 @@ static int remove_front_test (darr_t *restrict darr,
       remove_front_darr (darr, j, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
          puts ("error -3"); fflush (stdout);
-         free_darr (darr);
          return -3;
       }
       TODO (compare num against nums)
@@ -139,7 +130,6 @@ static int inserts_front_test (darr_t *restrict darr,
    error_check (inserts_front_darr (darr, (size_t) 0,
       nums, nnum) != 0) {
       puts ("error -6"); fflush (stdout);
-      free_darr (darr);
       return -6;
    }
    return 0;
@@ -150,20 +140,17 @@ static int removes_front_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    int *restrict tmps = malloc (sizeof (int) * nnum);
    error_check (tmps == NULL) {
-      free_darr (darr);
       return -1;
    }
    removes_front_darr (darr, (size_t) 0, tmps, nnum);
    error_check (trim_cap_darr (darr, (size_t) 0) != 0) {
       puts ("error -7"); fflush (stdout);
       free (tmps);
-      free_darr (darr);
       return -7;
    }
    error_check (memcmp (nums, tmps, nnum) != 0) {
       puts ("error -8"); fflush (stdout);
       free (tmps);
-      free_darr (darr);
       return -8;
    }
    free (tmps);
@@ -215,6 +202,39 @@ static int reset_test (darr_t *restrict darr) {
    return init_test (darr);
 }
 
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int test0 (darr_t *restrict darr) {
+   size_t num = rand ();
+   error_check (insert_rear_darr (darr, &num) != 0) {
+      puts ("error -10"); fflush (stdout);
+      return -10;
+   }
+   return 0;
+}
+
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int test1 (darr_t *restrict darr, size_t nnum) {
+   size_t k;
+   size_t snum = (size_t) rand () % nnum;
+   int *restrict nums = malloc (sizeof (int) * snum);
+   for (k = 0; k != snum; k++)
+      nums[k] = rand ();
+   error_check (inserts_rear_darr (darr, nums, snum) != 0) {
+      puts ("error -11"); fflush (stdout);
+      free (nums);
+      return -11;
+   }
+   free (nums);
+   return 0;
+}
+
+__attribute__ ((nonnull (1), nothrow))
+static void test2 (darr_t *restrict darr) {
+   size_t num;
+   if (darr->n == 0) return;
+   remove_rear_darr (darr, &num);
+   return;
+}
 
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
@@ -235,10 +255,6 @@ int main (void) {
    t = time (NULL);
    srand ((unsigned int) t);
 
-   /*cbs[0] = darr_resize_exact;
-   cbs[1] = darr_resize_linear;
-   cbs[2] = darr_resize_geometric;*/
-
    error_check (init_test (&darr) != 0) return -1;
 
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
@@ -249,44 +265,25 @@ int main (void) {
    error_check (inserts_rear_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (removes_rear_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
-   /*
-   free_darr (&darr);
-
-   error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &factor) != 0) {
-      puts ("error -5"); fflush (stdout);
-      free_darr (&darr);
-      return -5;
-   }
-   */
+   error_check (reset_test (&darr) != 0) return -3;
 
    error_check (insert_front_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_front_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
-   /*
-   free_darr (&darr);
-
-   error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &factor) != 0) {
-      puts ("error -5"); fflush (stdout);
-      free_darr (&darr);
-      return -5;
-   }
-   */
+   error_check (reset_test (&darr) != 0) return -3;
 
    error_check (inserts_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (removes_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
-   /*
-   free_darr (&darr);
+   error_check (reset_test (&darr) != 0) return -3;
 
-   error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &factor) != 0) {
-      puts ("error -5"); fflush (stdout);
-      free_darr (&darr);
-      return -5;
-   }
-   */
+   test0 (&darr);
+   test1 (&darr, ARRSZ (nums));
+   test2 (&darr);
+
+   finish_test (&darr);
+
+
 
    for (testi = 0; testi != ntest; testi++)
    switch (rand () % 10) {
