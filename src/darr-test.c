@@ -45,7 +45,7 @@ int main (void) {
 
    for (k = 0; k != ARRSZ (nums); k++) {
       remove_rear_darr (&darr, &num);
-      error_check (trim_cap_darr (&darr, ARRSZ (nums) - 1) != 0) {
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - k) != 0) {
          puts ("error -3"); fflush (stdout);
          return -3;
       }
@@ -55,11 +55,18 @@ int main (void) {
       }
    }
 
+   free_darr (&darr);
+   error_check (init_darr (&darr, sizeof (int),
+      darr_resize_geometric, &factor) != 0) {
+      puts ("error -5"); fflush (stdout);
+      return -5;
+   }
+
    for (k = 0; k != ARRSZ (nums); k++)
       nums[k] = rand ();
    error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) {
-      puts ("error -5"); fflush (stdout);
-      return -5;
+      puts ("error -6"); fflush (stdout);
+      return -6;
    }
    removes_rear_darr (&darr, tmps, ARRSZ (tmps));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) {
