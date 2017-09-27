@@ -361,6 +361,29 @@ static int test9 (darr_t *restrict darr) {
    return 0;
 }
 
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static void darr_print (darr_t const *restrict darr) {
+   size_t i;
+   printf ("esz : %d\n", (int) darr->esz);  fflush (stdout);
+   printf ("maxn: %d\n", (int) darr->maxn); fflush (stdout);
+   printf ("n   : %d\n", (int) darr->n);    fflush (stdout);
+   if (darr->resizecb == darr_resize_linear)
+   printf ("f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stdout);
+   else if (darr->resizecb == darr_resize_geometric)
+   printf ("f   : %g\n", *(double *restrict) darr->cbargs); fflush (stdout);
+   if (darr->n <= 30) {
+      printf ("[");
+      if (darr->n > 0) {
+         printf ("%d", * (((int *restrict) darr->data)[0]));
+         for (i = 1; i != darr->n; i++)
+            printf (", %d", * (((int *restrict) darr->data)[i]));
+      }
+      printf ("]\n");
+   }
+   puts (""); fflush (stdout);
+}
+
+
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
    darr_t darr;
@@ -373,6 +396,20 @@ int main (void) {
    srand ((unsigned int) t);
 
    error_check (init_test (&darr) != 0) return -1;
+
+   get_nums (nums, ARRSZ (nums));
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (insert_rear_darr (&darr, nums + testi) != 0)
+         return -1;
+      darr_print (&darr);
+   }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      error_check (remove_rear_darr (&darr, nums + testi) != 0)
+         return -1;
+      darr_print (&darr);
+      printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
+   }
+
 
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
