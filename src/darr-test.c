@@ -39,6 +39,7 @@ int main (void) {
       nums[k] = rand ();
       error_check (insert_rear_darr (&darr, nums + k) != 0) {
          puts ("error -2"); fflush (stdout);
+         free_darr (&darr);
          return -2;
       }
    }
@@ -47,10 +48,12 @@ int main (void) {
       remove_rear_darr (&darr, &num);
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - k) != 0) {
          puts ("error -3"); fflush (stdout);
+         free_darr (&darr);
          return -3;
       }
       error_check (num != nums[ARRSZ (nums) - k - 1]) {
          puts ("error -4"); fflush (stdout);
+         free_darr (&darr);
          return -4;
       }
    }
@@ -60,6 +63,7 @@ int main (void) {
    error_check (init_darr (&darr, sizeof (int),
       darr_resize_geometric, &factor) != 0) {
       puts ("error -5"); fflush (stdout);
+      free_darr (&darr);
       return -5;
    }
 
@@ -67,15 +71,18 @@ int main (void) {
       nums[k] = rand ();
    error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) {
       puts ("error -6"); fflush (stdout);
+      free_darr (&darr);
       return -6;
    }
    removes_rear_darr (&darr, tmps, ARRSZ (tmps));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) {
       puts ("error -7"); fflush (stdout);
+      free_darr (&darr);
       return -7;
    }
    error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0) {
       puts ("error -8"); fflush (stdout);
+      free_darr (&darr);
       return -8;
    }
 
