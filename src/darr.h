@@ -26,11 +26,11 @@ typedef struct {
 } darr_t;
 
 int init_darr (darr_t *restrict darr, size_t esz,
-   darr_resize_cb_t resizecb)
+   darr_resize_cb_t resizecb, void *restrict cbargs)
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
 
 int init_darr2 (darr_t *restrict darr, size_t maxn, size_t esz,
-   darr_resize_cb_t resizecb)
+   darr_resize_cb_t resizecb, void *restrict cbargs)
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result)) ;
 
 int ensure_cap_darr (darr_t *restrict darr, size_t n)
