@@ -37,17 +37,17 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int remove_rear_test (darr_t *restrict darr,
    int nums[], size_t nnum){
    size_t k;
-   size_t num;
+   int num;
    for (k = 0; k != nnum; k++) {
       remove_rear_darr (darr, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
          puts ("error -3"); fflush (stdout);
-         free_darr (&darr);
+         free_darr (darr);
          return -3;
       }
       error_check (num != nums[nnum - k - 1]) {
          puts ("error -4"); fflush (stdout);
-         free_darr (&darr);
+         free_darr (darr);
          return -4;
       }
    }
