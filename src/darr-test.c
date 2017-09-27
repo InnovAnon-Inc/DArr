@@ -30,28 +30,40 @@ int main (void) {
    srand ((unsigned int) t);
 
    error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &factor) != 0)
+      darr_resize_geometric, &factor) != 0) {
+      puts ("error -1"); fflush (stdout);
       return -1;
+   }
 
    for (k = 0; k != ARRSZ (nums); k++) {
       nums[k] = rand ();
-      error_check (insert_rear_darr (&darr, nums + k) != 0)
+      error_check (insert_rear_darr (&darr, nums + k) != 0) {
+         puts ("error -2"); fflush (stdout);
          return -2;
+      }
    }
 
    for (k = 0; k != ARRSZ (nums); k++) {
       remove_rear_darr (&darr, &num);
-      error_check (num != nums[k])
+      trim_cap_darr (&darr, ARRSZZ (nums) - 1);
+      error_check (num != nums[ARRSZ (nums) - k - 1]) {
+         puts ("error -3"); fflush (stdout);
          return -3;
+      }
    }
 
    for (k = 0; k != ARRSZ (nums); k++)
       nums[k] = rand ();
-   error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0)
-         return -4;
+   error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) {
+      puts ("error -4"); fflush (stdout);
+      return -4;
+   }
    removes_rear_darr (&darr, tmps, ARRSZ (tmps));
-   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0)
+   trim_cap_darr (&darr, 0);
+   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0) {
+      puts ("error -5"); fflush (stdout);
       return -5;
+   }
 
    free_darr (&darr);
 
