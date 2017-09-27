@@ -19,15 +19,18 @@
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
    darr_t darr;
+   double factor = 2;
    time_t t;
    int num;
    int nums[100];
    int tmps[ARRSZ (nums)];
+   size_t k;
 
    t = time (NULL);
    srand ((unsigned int) t);
 
-   error_check (init_darr (&darr, sizeof (int), darr_resize_geometric) != 0)
+   error_check (init_darr (&darr, sizeof (int),
+      darr_resize_geometric, &factor) != 0)
       return -1;
 
    for (k = 0; k != ARRSZ (nums); k++) {
