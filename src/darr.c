@@ -99,9 +99,8 @@ int insert_front_darr (darr_t *restrict darr, size_t i,
    error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
    dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   memmove (dest, src, darr->esz);
-   (void) memcpy ((void *) ((char *) (darr->data) + (i + 0) * darr->esz),
-      e, darr->esz);
+   memmove (dest, src, (darr->n - i) * darr->esz);
+   (void) memcpy (src, e, darr->esz);
    darr->n++;
    return 0;
 }
@@ -114,9 +113,8 @@ int inserts_front_darr (darr_t *restrict darr, size_t i,
    error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
    dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   memmove (dest, src, darr->esz);
-   (void) memcpy ((void *) ((char *) (darr->data) + (i + 0) * darr->esz),
-      e, darr->esz * n);
+   memmove (dest, src, (darr->n - i + n) * darr->esz);
+   (void) memcpy (src, e, darr->esz * n);
    darr->n += n;
    return 0;
 }
@@ -141,18 +139,24 @@ void removes_rear_darr (darr_t *restrict darr,
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void remove_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e) {
-   memcpy (e,
-      (void *) ((char *) (darr->data) + (darr->n - 1) * darr->esz),
-      darr->esz);
+   void *dest;
+   void *src;
+   dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
+   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
+   memcpy (e, src, darr->esz);
+   memmove (src, dest, (darr->n - i) * darr->esz);
    darr->n--;
 }
 
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n) {
-   memcpy (e,
-      (void *) ((char *) (darr->data) + (darr->n - n) * darr->esz),
-      darr->esz * n);
+   void *dest;
+   void *src;
+   dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
+   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
+   memcpy (e, src, darr->esz * n);
+   memmove (src, dest, (darr->n - i + n) * darr->esz);
    darr->n -= n;
 }
 
