@@ -418,7 +418,7 @@ int main (void) {
       case 9:
          error_check (test9 (&darr) != 0) return -9;
          break;
-      default __builtin_unreachable ();
+      default: __builtin_unreachable ();
       }
 
    free_test (&darr);
