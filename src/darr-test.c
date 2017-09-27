@@ -192,7 +192,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int init_test (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict arg;
-   error_check (get_cb (&cb, &arb) != 0) return -1;
+   error_check (get_cb (&cb, &arg) != 0) return -1;
    return init_darr (darr, sizeof (int), cb, arg);
 }
 
@@ -382,6 +382,17 @@ int main (void) {
    error_check (test7 (&darr) != 0) return -7;
    error_check (test8 (&darr) != 0) return -8;
    error_check (test9 (&darr) != 0) return -9;
+
+   error_check (test9 (&darr) != 0) return -9;
+   error_check (test8 (&darr) != 0) return -8;
+   error_check (test7 (&darr) != 0) return -7;
+   test6 (&darr);
+   error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
+   error_check (test4 (&darr) != 0) return -7;
+   error_check (test3 (&darr) != 0) return -6;
+   test2 (&darr);
+   error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
+   error_check (test0 (&darr) != 0) return -4;
 
    free_test (&darr);
 
