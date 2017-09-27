@@ -65,10 +65,10 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) n, (int) DARRSZN (darr, n)); fflush (stdout);
 #endif
-   new_data = realloc (darr->data, DARRSZN (darr, MAX (n, 1)));
+   new_data = realloc (darr->data, DARRSZN (darr, max (n, 1)));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
-   darr->maxn = MAX (n, 1);
+   darr->maxn = max (n, 1);
    return 0;
 }
 
