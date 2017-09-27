@@ -170,6 +170,46 @@ static int removes_front_test (darr_t *restrict darr,
    return 0;
 }
 
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+int init_test (darr_t *restrict darr) {
+   darr_resize_cb_t cb;
+   void *restrict arg;
+   int num;
+   num = rand () % 3;
+   switch (num) {
+   case 0:
+      darr->resizecb = darr_resize_exact;
+      darr->cbargs   = NULL;
+      return 0;
+   case 1:
+      darr->resizecb = darr_resize_linear;
+      darr->cbargs = malloc (sizeof (size_t)));
+      error_check (darr->cbargs == NULL) return -1;
+      /*sfactor = (size_t) (rand () + 1);*/
+      *(darr->cbargs) = 2;
+      return 0;
+   case 2:
+      darr->resizecb = darr_resize_geometric;
+      /*den = rand ();
+      do num = rand ();
+      while (num == 0);
+      dfactor = (double) den / (double) num;*/
+      darr->cbargs = malloc (sizeof (double));
+      error_check (darr->cbargs == NULL) return -1;
+      *(darr->cbargs) = (double) 2;
+      return 0;
+   default: __builtin_unreachable ();
+   }
+   return 0;
+}
+
+__attribute__ ((nonnull (1, nothrow, warn_unused_result))
+static int reset_test (darr_t *restrict darr) {
+   free_darr (darr);
+   if (darr->cbargs != NULL) free (darr->cbargs);
+   return init_test (darr);
+}
+
 
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
@@ -194,25 +234,12 @@ int main (void) {
    cbs[1] = darr_resize_linear;
    cbs[2] = darr_resize_geometric;*/
 
-   error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &dfactor) != 0) {
-      puts ("error -1"); fflush (stdout);
-      return -1;
-   }
+   error_check (init_test (&darr) != 0) return -1;
 
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
-   /*
-   free_darr (&darr);
-
-   error_check (init_darr (&darr, sizeof (int),
-      darr_resize_geometric, &factor) != 0) {
-      puts ("error -5"); fflush (stdout);
-      free_darr (&darr);
-      return -5;
-   }
-   */
+   error_check (reset_test (&darr) != 0) return -3;
 
    error_check (inserts_rear_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (removes_rear_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
