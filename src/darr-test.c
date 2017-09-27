@@ -25,9 +25,14 @@ int main (void) {
    int nums[100];
    int tmps[ARRSZ (nums)];
    size_t k;
+   darr_resize_cb_t cbs[3];
 
    t = time (NULL);
    srand ((unsigned int) t);
+
+   cbs[0] = darr_resize_exact;
+   cbs[1] = darr_resize_linear;
+   cbs[2] = darr_resize_geometric;
 
    error_check (init_darr (&darr, sizeof (int),
       darr_resize_geometric, &factor) != 0) {
@@ -58,14 +63,16 @@ int main (void) {
       }
    }
 
+   /*
    free_darr (&darr);
-/*
+
    error_check (init_darr (&darr, sizeof (int),
       darr_resize_geometric, &factor) != 0) {
       puts ("error -5"); fflush (stdout);
       free_darr (&darr);
       return -5;
    }
+   */
 
    for (k = 0; k != ARRSZ (nums); k++)
       nums[k] = rand ();
@@ -87,7 +94,7 @@ int main (void) {
    }
 
    free_darr (&darr);
-*/
+
    puts ("success"); fflush (stdout);
 
    return EXIT_SUCCESS;
