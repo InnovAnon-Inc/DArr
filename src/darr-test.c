@@ -105,14 +105,12 @@ int main (void) {
       return -5;
    }
    */
-
+/*
    for (k = 0; k != ARRSZ (nums); k++) {
       size_t j;
       if (darr.n == 0) j = 0;
       else j = (size_t) rand () % darr.n;
       nums[k] = rand ();
-      /*nums[k] = k;
-      j = 0;*/
       error_check (insert_front_darr (&darr, j,
          nums + k) != 0) {
          puts ("error -2"); fflush (stdout);
@@ -131,13 +129,8 @@ int main (void) {
          free_darr (&darr);
          return -3;
       }
-      /*error_check (num != nums[j]) {
-         puts ("error -4"); fflush (stdout);
-         free_darr (&darr);
-         return -4;
-      }*/
    }
-
+*/
    /*
    free_darr (&darr);
 
