@@ -36,7 +36,7 @@ int init_darr (darr_t *restrict darr, size_t esz,
     * init_darr2 (darr, esz, resizecb(1), resizecb) */
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
-   size_t maxn = resizecb (0);
+   size_t maxn = resizecb (esz, 0, 0);
 	#pragma GCC diagnostic pop
    return init_darr2 (darr, esz, maxn, resizecb);
 }
@@ -58,7 +58,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
    if (n <= darr->maxn) return;
-   new_n = darr->resizecb (n);
+   new_n = darr->resizecb (data->esz, data->maxn, n);
    new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
