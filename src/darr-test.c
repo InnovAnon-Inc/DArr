@@ -258,15 +258,17 @@ int main (void) {
          break;
       case 1:
          darr.resizecb = darr_resize_linear;
-         sfactor = (size_t) (rand () + 1);
+         /*sfactor = (size_t) (rand () + 1);*/
+         sfactor = 2;
          darr.cbargs = &sfactor;
          break;
       case 2:
          darr.resizecb = darr_resize_geometric;
-         den = rand ();
+         /*den = rand ();
          do num = rand ();
          while (num == 0);
-         dfactor = (double) den / (double) num;
+         dfactor = (double) den / (double) num;*/
+         dfactor = (double) 2;
          darr.cbargs = &dfactor;
          break;
       default: __builtin_unreachable ();
