@@ -346,7 +346,7 @@ static int test8 (darr_t *restrict darr) {
       puts ("error -15"); fflush (stdout);
       return -15;
    }
-   error_check (darr->n > snum) return -1;
+   error_check (darr->n > snum && !(snum == 0 && darr->n == 1)) return -1;
    return 0;
 }
 
