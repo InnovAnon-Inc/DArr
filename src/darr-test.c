@@ -275,7 +275,7 @@ static int test4 (darr_t *restrict darr) {
    size_t k;
    size_t sz = darr->n;
    if (darr->n == 0) k = 0;
-   else k = (size_t) rand () % darr->n;
+   else k = (size_t) rand () % (darr->n + 1);
    num = rand ();
    error_check (insert_front_darr (darr, k, &num) != 0) {
       puts ("error -12"); fflush (stdout);
@@ -292,7 +292,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    size_t sz = darr->n;
    get_nums (nums, nnum);
    if (darr->n == 0) k = 0;
-   else k = (size_t) rand () % darr->n;
+   else k = (size_t) (rand () % darr->n + 1);
    error_check (inserts_front_darr (darr, k, nums, snum) != 0) {
       puts ("error -13"); fflush (stdout);
       return -13;
@@ -307,7 +307,7 @@ static int test6 (darr_t *restrict darr) {
    int num;
    size_t sz = darr->n;
    if (darr->n == 0) return;
-   k = (size_t) rand () % darr->n;
+   k = (size_t) rand () % (darr->n + 1);
    remove_front_darr (darr, k, &num);
    error_check (sz - 1 != darr->n) return -1;
    return 0;
@@ -324,7 +324,7 @@ static int test7 (darr_t *restrict darr) {
       k    = 0;
       snum = 1;
    } else {
-      k    = (size_t) rand () % darr->n;
+      k    = (size_t) rand () % (darr->n + 1);
       snum = (size_t) rand () % (darr->n - k);
    }
    /*snum = 1 + ((size_t) rand () % darr->n);
@@ -468,6 +468,7 @@ int main (void) {
          return -1;
    }
    */
+   /*
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       error_check (insert_front_darr (&darr, darr.n, nums + testi) != 0)
          return -1;
@@ -494,9 +495,8 @@ int main (void) {
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
    }
+   */
 
-
-/*
    error_check (inserts_front_darr (&darr, (size_t) 0, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
@@ -509,7 +509,7 @@ int main (void) {
    removes_from_darr (&darr, 0, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
-
+   /*
    error_check (inserts_front_darr (&darr, darr-n - 1, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
