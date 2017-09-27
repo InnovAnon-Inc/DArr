@@ -31,6 +31,8 @@ int main (void) {
    size_t k;
    size_t snum;
    /*darr_resize_cb_t cbs[3];*/
+   size_t ntest = 1000;
+   size_t testi;
 
    t = time (NULL);
    srand ((unsigned int) t);
@@ -176,6 +178,7 @@ int main (void) {
    }
    */
 
+   for (testi = 0; testi != ntest; testi++)
    switch (rand () % 10) {
    case 0:
       num = rand ();
