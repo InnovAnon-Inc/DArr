@@ -175,7 +175,7 @@ int main (void) {
    }
    */
 
-   switch (rand () % 4) {
+   switch (rand () % 10) {
    case 0:
       num = rand ();
       error_check (insert_rear_darr (&darr, &num) != 0) {
@@ -218,7 +218,7 @@ int main (void) {
       for (k = 0; k != snum; k++)
          nums[k] = rand ();
       if (darr.n == 0) k = 0;
-      else k = rand () % darr.n;
+      else k = (size_t) rand () % darr.n;
       error_check (inserts_front_darr (&darr, k, nums, snum) != 0) {
          puts ("error -13"); fflush (stdout);
          free_darr (&darr);
@@ -271,8 +271,6 @@ int main (void) {
          break;
       default: __builtin_unreachable ();
       }
-      darr.resizecb = cbs[num];
-      darr.cbargs   = cbargs[?]; // TODO use random factor
       break;
    default: __builtin_unreachable ();
    }
