@@ -91,17 +91,33 @@ int inserts_rear_darr (darr_t *restrict darr,
    return 0;
 }
 
-__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
-int insert_front_darr (darr_t *restrict darr, void const *restrict e) {
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
+int insert_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e) {
    void *dest;
    void *src;
    error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
-   dest = (void *) ((char *) (darr->data) + 1 * darr->esz);
-   src  = (void *) ((char *) (darr->data) + 0 * darr->esz);
+   dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
+   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
    memmove (dest, src, darr->esz);
-   (void) memcpy ((void *) ((char *) (darr->data) + 0 * darr->esz),
+   (void) memcpy ((void *) ((char *) (darr->data) + (i + 0) * darr->esz),
       e, darr->esz);
    darr->n++;
+   return 0;
+}
+
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
+int inserts_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e, size_t n) {
+   void *dest;
+   void *src;
+   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
+   dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
+   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
+   memmove (dest, src, darr->esz);
+   (void) memcpy ((void *) ((char *) (darr->data) + (i + 0) * darr->esz),
+      e, darr->esz * n);
+   darr->n += n;
    return 0;
 }
 
