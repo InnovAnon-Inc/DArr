@@ -48,6 +48,9 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    size_t new_n;
    if (n <= darr->maxn) return;
    new_n = darr->resizecb (n, darr->cbargs);
+#ifndef NDEBUG
+   printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
+#endif
    new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
