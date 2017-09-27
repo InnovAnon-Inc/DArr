@@ -398,7 +398,7 @@ int main (void) {
    error_check (init_test (&darr) != 0) return -1;
 
    get_nums (nums, ARRSZ (nums));
-   /*
+
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       error_check (insert_rear_darr (&darr, nums + testi) != 0)
          return -1;
@@ -425,7 +425,7 @@ int main (void) {
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
    }
-   */
+
    error_check (inserts_rear_darr (&darr, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, 1) != 0) return -1;
    darr_print (&darr);
