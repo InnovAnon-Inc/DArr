@@ -37,6 +37,9 @@ size_t darr_resize_linear (size_t inc,
    void *restrict _factor) {
    size_t const *restrict factor = (size_t const *restrict) _factor;
    double tmp = ceil ((double) inc / (double) *factor);
-   double ret = *factor * (size_t) tmp;
-   return ret;
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wfloat-conversion"
+   double ret = *factor * (double) factor;
+	#pragma GCC diagnostic pop
+   return (size_t) ret;
 }
