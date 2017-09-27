@@ -334,16 +334,8 @@ static int test9 (darr_t *restrict darr) {
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
    darr_t darr;
-   double dfactor = 2;
-   size_t sfactor = 2;
    time_t t;
-   int num;
-   int den;
    int nums[100];
-   int tmps[ARRSZ (nums)];
-   size_t k;
-   size_t snum;
-   /*darr_resize_cb_t cbs[3];*/
    size_t ntest = 100;
    size_t testi;
 
@@ -394,110 +386,42 @@ int main (void) {
    error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
    error_check (test0 (&darr) != 0) return -4;
 
-   free_test (&darr);
-
-
-
    for (testi = 0; testi != ntest; testi++)
-   switch (rand () % 10) {
-   case 0:
-      num = rand ();
-      error_check (insert_rear_darr (&darr, &num) != 0) {
-         puts ("error -10"); fflush (stdout);
-         free_darr (&darr);
-         return -10;
-      }
-      break;
-   case 1:
-      snum = (size_t) rand () % ARRSZ (nums);
-      for (k = 0; k != snum; k++)
-         nums[k] = rand ();
-      error_check (inserts_rear_darr (&darr, nums, snum) != 0) {
-         puts ("error -11"); fflush (stdout);
-         free_darr (&darr);
-         return -11;
-      }
-      break;
-   case 2:
-      if (darr.n == 0) break;
-      remove_rear_darr (&darr, &num);
-      break;
-   case 3:
-      if (darr.n == 0) break;
-      snum = (size_t) rand () % darr.n;
-      removes_rear_darr (&darr, nums, snum);
-      break;
-   case 4:
-      if (darr.n == 0) k = 0;
-      else k = (size_t) rand () % darr.n;
-      num = rand ();
-      error_check (insert_front_darr (&darr, k, &num) != 0) {
-         puts ("error -12"); fflush (stdout);
-         free_darr (&darr);
-         return -12;
-      }
-      break;
-   case 5:
-      snum = (size_t) rand () % ARRSZ (nums);
-      for (k = 0; k != snum; k++)
-         nums[k] = rand ();
-      if (darr.n == 0) k = 0;
-      else k = (size_t) rand () % darr.n;
-      error_check (inserts_front_darr (&darr, k, nums, snum) != 0) {
-         puts ("error -13"); fflush (stdout);
-         free_darr (&darr);
-         return -13;
-      }
-      break;
-   case 6:
-      if (darr.n == 0) break;
-      k = (size_t) rand () % darr.n;
-      remove_front_darr (&darr, k, &num);
-      break;
-   case 7:
-      if (darr.n == 0) break;
-      k = (size_t) rand () % darr.n;
-      snum = k + (size_t) rand () % (darr.n - k);
-      removes_front_darr (&darr, k, nums, snum);
-      break;
-   case 8:
-      if (darr.n == 0) break;
-      snum = (size_t) rand () % darr.n;
-      error_check (trim_cap_darr (&darr, snum) != 0) {
-         puts ("error -15"); fflush (stdout);
-         free_darr (&darr);
-         return -15;
-      }
-      break;
-   case 9:
-      num = rand () % 3;
-      switch (num) {
+      switch (rand () % 10) {
       case 0:
-         darr.resizecb = darr_resize_exact;
-         darr.cbargs   = NULL;
+         error_check (test0 (&darr) != 0) return -4;
          break;
       case 1:
-         darr.resizecb = darr_resize_linear;
-         /*sfactor = (size_t) (rand () + 1);*/
-         sfactor = 2;
-         darr.cbargs = &sfactor;
+         error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
          break;
       case 2:
-         darr.resizecb = darr_resize_geometric;
-         /*den = rand ();
-         do num = rand ();
-         while (num == 0);
-         dfactor = (double) den / (double) num;*/
-         dfactor = (double) 2;
-         darr.cbargs = &dfactor;
+         test2 (&darr);
          break;
-      default: __builtin_unreachable ();
+      case 3:
+         error_check (test3 (&darr) != 0) return -6;
+         break;
+      case 4:
+         error_check (test4 (&darr) != 0) return -7;
+         break;
+      case 5:
+         error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
+         break;
+      case 6:
+         test6 (&darr);
+         break;
+      case 7:
+         error_check (test7 (&darr) != 0) return -7;
+         break;
+      case 8:
+         error_check (test8 (&darr) != 0) return -8;
+         break;
+      case 9:
+         error_check (test9 (&darr) != 0) return -9;
+         break;
+      default __builtin_unreachable ();
       }
-      break;
-   default: __builtin_unreachable ();
-   }
 
-   free_darr (&darr);
+   free_test (&darr);
 
    puts ("success"); fflush (stdout);
 
