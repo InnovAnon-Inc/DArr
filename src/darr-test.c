@@ -167,14 +167,14 @@ static int init_test (darr_t *restrict darr) {
    case 0:
       darr->resizecb = darr_resize_exact;
       darr->cbargs   = NULL;
-      return 0;
+      break;
    case 1:
       darr->resizecb = darr_resize_linear;
       darr->cbargs = malloc (sizeof (size_t));
       error_check (darr->cbargs == NULL) return -1;
       /*sfactor = (size_t) (rand () + 1);*/
       *(size_t *restrict) (darr->cbargs) = 2;
-      return 0;
+      break;
    case 2:
       darr->resizecb = darr_resize_geometric;
       /*den = rand ();
@@ -184,10 +184,10 @@ static int init_test (darr_t *restrict darr) {
       darr->cbargs = malloc (sizeof (double));
       error_check (darr->cbargs == NULL) return -1;
       *(double *restrict) (darr->cbargs) = (double) 2;
-      return 0;
+      break;
    default: __builtin_unreachable ();
    }
-   return 0;
+   return init_darr (&darr, sizeof (int), darr->resizecb, darr->cbargs);
 }
 
 __attribute__ ((nonnull (1), nothrow))
