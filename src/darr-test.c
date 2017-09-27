@@ -419,6 +419,20 @@ int main (void) {
          return -1;
       darr_print (&darr);
    }
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
+      remove_rear_darr (&darr, nums + testi);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
+         return -1;
+   }
+
+   error_check (inserts_rear_darr (&darr, nums, 1) != 0) return -1;
+   darr_print (&darr);
+   error_check (removes_rear_darr (&darr, nums, 1) != 0) return -1;
+   darr_print (&darr);
+   error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) return -1;
+   darr_print (&darr);
+   error_check (removes_rear_darr (&darr, nums, ARRSZ (nums)) != 0) return -1;
+   darr_print (&darr);
 
 
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
