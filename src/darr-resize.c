@@ -39,7 +39,7 @@ size_t darr_resize_linear (size_t inc,
    double tmp = ceil ((double) inc / (double) *factor);
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wfloat-conversion"
-   double ret = *factor * (double) factor;
+   double ret = (double) (*factor) * tmp;
 	#pragma GCC diagnostic pop
    return (size_t) ret;
 }
