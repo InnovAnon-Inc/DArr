@@ -203,10 +203,15 @@ static int init_test (darr_t *restrict darr) {
    return 0;
 }
 
-__attribute__ ((nonnull (1, nothrow, warn_unused_result))
-static int reset_test (darr_t *restrict darr) {
+__attribute__ ((nonnull (1), nothrow))
+static void free_test (darr_t *restrict darr) {
    free_darr (darr);
    if (darr->cbargs != NULL) free (darr->cbargs);
+}
+
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int reset_test (darr_t *restrict darr) {
+   free_test (darr);
    return init_test (darr);
 }
 
