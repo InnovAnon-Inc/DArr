@@ -290,9 +290,14 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    size_t snum = (size_t) rand () % nnum;
    size_t k;
    size_t sz = darr->n;
-   get_nums (nums, nnum);
+   get_nums (nums, snum);
    if (darr->n == 0) k = 0;
    else k = ((size_t) rand ()) % (darr->n + 1);
+
+   darr_print (darr);
+   printf ("snum: %d\n", (int) snum); fflush (stdout);
+   printf ("k   : %d\n", (int) k);    fflush (stdout);
+
    error_check (inserts_front_darr (darr, k, nums, snum) != 0) {
       puts ("error -13"); fflush (stdout);
       return -13;
@@ -371,7 +376,8 @@ static void darr_print (darr_t const *restrict darr) {
    printf ("f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stdout);
    } else if (darr->resizecb == darr_resize_geometric) {
    printf ("f   : %g\n", *(double *restrict) darr->cbargs); fflush (stdout);
-   } if (darr->n <= 30) {
+   }
+   if (darr->n <= 30) {
       printf ("[");
       if (darr->n > 0) {
          printf ("%d", ((int *restrict) darr->data)[0]);

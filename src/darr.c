@@ -47,7 +47,8 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
    if (n <= darr->maxn) return 0;
-   new_n = darr->resizecb (n, darr->cbargs);
+   TODO (max is probably unnecessary here)
+   new_n = max (darr->resizecb (n, darr->cbargs), 1);
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
 #endif
@@ -61,16 +62,18 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int trim_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
+   size_t new_n;
    if (n >= darr->maxn) return 0;
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) n, (int) DARRSZN (darr, n)); fflush (stdout);
 #endif
    TODO (new_n = darr->resizecb (n, darr->cbargss))
-   new_data = realloc (darr->data, DARRSZN (darr, max (n, 1)));
+   new_n = max (n, 1);
+   new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
-   darr->maxn = max (n, 1);
-   darr->n    = min (darr->n, darr->maxn);
+   darr->maxn = new_n;
+   darr->n    = min (darr->n, new_n);
    return 0;
 }
 
