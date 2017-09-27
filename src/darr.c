@@ -58,7 +58,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
    if (n <= darr->maxn) return;
-   new_n = darr->resizecb (data->esz, data->maxn, n);
+   new_n = darr->resizecb (darr->esz, darr->maxn, n);
    new_data = realloc (darr->data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
