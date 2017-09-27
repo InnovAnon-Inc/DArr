@@ -235,8 +235,8 @@ static void test2 (darr_t *restrict darr) {
    remove_rear_darr (darr, &num);
 }
 
-__attribute__ ((nonnull (1), nothrow))
-static void test3 (darr_t *restrict darr) {
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int test3 (darr_t *restrict darr) {
    size_t snum;
    int *restrict nums;
    if (darr->n == 0) return 0;
@@ -289,10 +289,10 @@ int main (void) {
 
    error_check (reset_test (&darr) != 0) return -3;
 
-   test0 (&darr);
-   test1 (&darr, ARRSZ (nums));
+   error_check (test0 (&darr) != 0) return -4;
+   error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
    test2 (&darr);
-   test3 (&darr);
+   error_check (test3 (&darr) != 0) return -6;
 
    free_test (&darr);
 
