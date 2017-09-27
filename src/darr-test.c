@@ -398,6 +398,8 @@ int main (void) {
    error_check (test8 (&darr) != 0) return -8;
    error_check (test9 (&darr) != 0) return -9;
 
+   error_check (reset_test (&darr) != 0) return -3;
+
    error_check (test9 (&darr) != 0) return -9;
    error_check (test8 (&darr) != 0) return -8;
    error_check (test7 (&darr) != 0) return -7;
@@ -408,6 +410,8 @@ int main (void) {
    error_check (test2 (&darr) != 0) return -6;
    error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
    error_check (test0 (&darr) != 0) return -4;
+
+   error_check (reset_test (&darr) != 0) return -3;
 
    for (testi = 0; testi != ntest; testi++)
       switch (rand () % 10) {

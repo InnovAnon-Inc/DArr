@@ -121,8 +121,8 @@ int inserts_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - i + n;
-
-   memmove (dest, src, mv * darr->esz);
+   if (mv != 0)
+      memmove (dest, src, mv * darr->esz);
    (void) memcpy (src, e, darr->esz * n);
    darr->n += n;
    return 0;
