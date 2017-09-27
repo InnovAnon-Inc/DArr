@@ -323,7 +323,7 @@ int main (void) {
    test2 (&darr);
    error_check (test3 (&darr) != 0) return -6;
    error_check (test4 (&darr) != 0) return -7;
-   error_check (test5 (&darr, ARRSZ (nums)) != 0) return -5;
+   error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
 
    free_test (&darr);
 
