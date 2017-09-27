@@ -46,7 +46,7 @@ __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
-   if (n <= darr->maxn) return;
+   if (n <= darr->maxn) return 0;
    new_n = darr->resizecb (n, darr->cbargs);
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
@@ -61,7 +61,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int trim_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
-   if (n >= darr->maxn) return;
+   if (n >= darr->maxn) return 0;
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) n, (int) DARRSZN (darr, n)); fflush (stdout);
 #endif

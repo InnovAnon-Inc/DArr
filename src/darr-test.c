@@ -46,7 +46,7 @@ int main (void) {
 
    for (k = 0; k != ARRSZ (nums); k++) {
       remove_rear_darr (&darr, &num);
-      error_check (trim_cap_darr (&darr, ARRSZ (nums) - k) != 0) {
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - k - 1) != 0) {
          puts ("error -3"); fflush (stdout);
          free_darr (&darr);
          return -3;
