@@ -17,4 +17,4 @@ darr_SOURCES = darr-test.c
 darr_LDADD = libdarr.la libdarr-resize.la
 
 AM_CPPFLAGS = -D__STDC_INT64__
-AM_CPPFLAGS += -I $(srcdir)/glitter/src
+AM_CPPFLAGS += -I $(srcdir)/../glitter/src
