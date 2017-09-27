@@ -401,11 +401,13 @@ int main (void) {
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       error_check (insert_rear_darr (&darr, nums + testi) != 0)
          return -1;
+      error_check (trim_cap_darr (&darr, testi + 1) != 0)
+         return -1;
       darr_print (&darr);
    }
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       remove_rear_darr (&darr, nums + testi);
-      error_check (trim_cap_darr (darr, ARRSZ (nums) - testi - 1) != 0)
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - testi - 1) != 0)
          return -1;
       darr_print (&darr);
       printf ("nums[%d]: %d\n", (int) testi, nums[testi]);
