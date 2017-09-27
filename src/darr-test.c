@@ -262,7 +262,7 @@ static int test4 (darr_t *restrict darr) {
    return 0;
 }
 
-__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    size_t snum = (size_t) rand () % nnum;
    size_t k;
@@ -275,6 +275,15 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
       return -13;
    }
    return 0;
+}
+
+__attribute__ ((nonnull (1), nothrow))
+static void test6 (darr_t *restrict darr) {
+   size_t k;
+   size_t num;
+   if (darr->n == 0) return;
+   k = (size_t) rand () % darr->n;
+   remove_front_darr (darr, k, &num);
 }
 
 __attribute__ ((nothrow, warn_unused_result))
@@ -324,6 +333,7 @@ int main (void) {
    error_check (test3 (&darr) != 0) return -6;
    error_check (test4 (&darr) != 0) return -7;
    error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
+   test6 (&darr);
 
    free_test (&darr);
 
