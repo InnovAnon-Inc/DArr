@@ -157,37 +157,43 @@ static int removes_front_test (darr_t *restrict darr,
    return 0;
 }
 
-__attribute__ ((nonnull (1), nothrow, warn_unused_result))
-static int init_test (darr_t *restrict darr) {
-   darr_resize_cb_t cb;
-   void *restrict arg;
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+static int get_cb (darr_resize_cb_t *restrict resizecb,
+   void *restrict *restrict cbargs) {
    int num;
    num = rand () % 3;
    switch (num) {
    case 0:
-      darr->resizecb = darr_resize_exact;
-      darr->cbargs   = NULL;
-      break;
+      *resizecb = darr_resize_exact;
+      *cbargs   = NULL;
+      return 0;
    case 1:
-      darr->resizecb = darr_resize_linear;
-      darr->cbargs = malloc (sizeof (size_t));
-      error_check (darr->cbargs == NULL) return -1;
+      *resizecb = darr_resize_linear;
+      *cbargs = malloc (sizeof (size_t));
+      error_check (*cbargs == NULL) return -1;
       /*sfactor = (size_t) (rand () + 1);*/
-      *(size_t *restrict) (darr->cbargs) = 2;
-      break;
+      *(size_t *restrict) (*cbargs) = 2;
+      return 0;
    case 2:
-      darr->resizecb = darr_resize_geometric;
+      *resizecb = darr_resize_geometric;
       /*den = rand ();
       do num = rand ();
       while (num == 0);
       dfactor = (double) den / (double) num;*/
-      darr->cbargs = malloc (sizeof (double));
-      error_check (darr->cbargs == NULL) return -1;
-      *(double *restrict) (darr->cbargs) = (double) 2;
-      break;
+      *cbargs = malloc (sizeof (double));
+      error_check (*cbargs == NULL) return -1;
+      *(double *restrict) (*cbargs) = (double) 2;
+      return 0;
    default: __builtin_unreachable ();
    }
-   return init_darr (darr, sizeof (int), darr->resizecb, darr->cbargs);
+}
+
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int init_test (darr_t *restrict darr) {
+   darr_resize_cb_t cb;
+   void *restrict arg;
+   error_check (get_cb (&cb, &arb) != 0) return -1;
+   return init_darr (darr, sizeof (int), cb, arg);
 }
 
 __attribute__ ((nonnull (1), nothrow))
@@ -313,6 +319,18 @@ static int test8 (darr_t *restrict darr) {
    return 0;
 }
 
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+static int test9 (darr_t *restrict darr) {
+   darr_resize_cb_t cb;
+   void *restrict cbargs;
+   if (darr->cbargs != NULL) free (darr->cbargs);
+   error_check (get_cb (&cb, &cbargs) != 0) return -1;
+   darr->resizecb = cb;
+   darr->cbargs   = cbargs;
+   return 0;
+}
+
+
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
    darr_t darr;
@@ -363,6 +381,7 @@ int main (void) {
    test6 (&darr);
    error_check (test7 (&darr) != 0) return -7;
    error_check (test8 (&darr) != 0) return -8;
+   error_check (test9 (&darr) != 0) return -9;
 
    free_test (&darr);
 
