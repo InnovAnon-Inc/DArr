@@ -25,6 +25,7 @@ int main (void) {
    size_t sfactor = 2;
    time_t t;
    int num;
+   int den;
    int nums[100];
    int tmps[ARRSZ (nums)];
    size_t k;
@@ -237,7 +238,7 @@ int main (void) {
       removes_front_darr (&darr, k, nums, snum);
       break;
    case 8:
-      if (darr.n == 0); break;
+      if (darr.n == 0) break;
       snum = (size_t) rand () % darr.n;
       error_check (trim_cap_darr (&darr, snum) != 0) {
          puts ("error -15"); fflush (stdout);
@@ -259,10 +260,10 @@ int main (void) {
          break;
       case 2:
          darr.resizecb = darr_resize_geometric;
-         k = rand ();
+         den = rand ();
          do num = rand ();
          while (num == 0);
-         dfactor = (double) k / (double) num;
+         dfactor = (double) den / (double) num;
          darr.cbargs = &dfactor;
          break;
       default: __builtin_unreachable ();
