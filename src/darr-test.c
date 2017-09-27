@@ -511,16 +511,16 @@ int main (void) {
    darr_print (&darr);
    */
 
-   error_check (inserts_front_darr (&darr, darr.n - 1, nums, (size_t) 1) != 0) return -1;
+   error_check (inserts_front_darr (&darr, darr.n, nums, (size_t) 1) != 0) return -1;
    error_check (trim_cap_darr (&darr, (size_t) 1) != 0) return -1;
    darr_print (&darr);
-   removes_front_darr (&darr, darr.n - 1, nums, (size_t) 1);
+   removes_front_darr (&darr, darr.n, nums, (size_t) 1);
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
-   error_check (inserts_front_darr (&darr, darr.n - 1, nums, ARRSZ (nums)) != 0) return -1;
+   error_check (inserts_front_darr (&darr, darr.n, nums, ARRSZ (nums)) != 0) return -1;
    error_check (trim_cap_darr (&darr, ARRSZ (nums)) != 0) return -1;
    darr_print (&darr);
-   removes_from_darr (&darr, darr.n - 1, nums, ARRSZ (nums));
+   removes_from_darr (&darr, darr.n, nums, ARRSZ (nums));
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
 
