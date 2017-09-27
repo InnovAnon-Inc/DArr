@@ -425,9 +425,9 @@ int main (void) {
          return -1;
    }
 
-   error_check (inserts_rear_darr (&darr, nums, 1) != 0) return -1;
+   error_check (inserts_rear_darr (&darr, nums, (size_t) 1) != 0) return -1;
    darr_print (&darr);
-   error_check (removes_rear_darr (&darr, nums, 1) != 0) return -1;
+   error_check (removes_rear_darr (&darr, nums, (size_t) 1) != 0) return -1;
    darr_print (&darr);
    error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) return -1;
    darr_print (&darr);
