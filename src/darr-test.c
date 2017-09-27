@@ -319,9 +319,14 @@ static int test7 (darr_t *restrict darr) {
    size_t snum;
    int *restrict nums;
    size_t sz = darr->n;
-   if (darr->n <= 1) return 0;
-   k    = (size_t) rand () % darr->n;
-   snum = (size_t) rand () % (darr->n - k);
+   if (darr->n == 0) return 0;
+   if (darr->n == 1) {
+      k    = 0;
+      snum = 1;
+   } else {
+      k    = (size_t) rand () % darr->n;
+      snum = (size_t) rand () % (darr->n - k);
+   }
    /*snum = 1 + ((size_t) rand () % darr->n);
    k    = (size_t) rand () % (darr->n - snum);*/
    nums = malloc (sizeof (int) * snum);
