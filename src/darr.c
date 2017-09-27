@@ -144,7 +144,8 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
    dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
    memcpy (e, src, darr->esz);
-   memmove (src, dest, (darr->n - i) * darr->esz);
+   if (i != darr->n)
+      memmove (src, dest, (darr->n - i) * darr->esz);
    darr->n--;
 }
 
@@ -156,7 +157,8 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
    memcpy (e, src, darr->esz * n);
-   memmove (src, dest, (darr->n - i + n) * darr->esz);
+   if (i + n < darr->n)
+      memmove (src, dest, (darr->n - i + n) * darr->esz);
    darr->n -= n;
 }
 
