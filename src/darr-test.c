@@ -240,9 +240,9 @@ static int test3 (darr_t *restrict darr) {
    size_t snum;
    int *restrict nums;
    if (darr->n == 0) return 0;
+   snum = (size_t) rand () % darr->n;
    nums = malloc (sizeof (int) * snum);
    error_check (nums == NULL) return -1;
-   snum = (size_t) rand () % darr->n;
    removes_rear_darr (darr, nums, snum);
    free (nums);
    return 0;
