@@ -26,7 +26,7 @@ int init_darr (darr_t *restrict darr, size_t esz,
 	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
    size_t maxn = resizecb (0, cbargs);
 	#pragma GCC diagnostic pop
-   return init_darr2 (darr, esz, maxn, resizecb);
+   return init_darr2 (darr, esz, maxn, resizecb, cbargs);
 }
 
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
