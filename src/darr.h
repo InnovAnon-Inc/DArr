@@ -10,7 +10,7 @@ extern "C" {
 #include <glitter.h>
 
 #define DARRSZN(D, N) ((D)->esz * (N))
-#define DARRSZ(D) (DARRSZN ((D), (D)->maxsz))
+#define DARRSZ(D) (DARRSZN ((D), (D)->maxn))
 
 typedef __attribute__ ((const, warn_unused_result))
 size_t (*darr_resize_cb_t) (size_t esz, size_t n, size_t inc) ;
