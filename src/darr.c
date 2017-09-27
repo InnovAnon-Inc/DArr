@@ -99,7 +99,8 @@ int insert_front_darr (darr_t *restrict darr, size_t i,
    error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
    dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   memmove (dest, src, (darr->n - i) * darr->esz);
+   if (i != darr->n)
+      memmove (dest, src, (darr->n - i) * darr->esz);
    (void) memcpy (src, e, darr->esz);
    darr->n++;
    return 0;
@@ -110,10 +111,17 @@ int inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n) {
    void *dest;
    void *src;
+   size_t mv;
    error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
    dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
    src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   memmove (dest, src, (darr->n - i + n) * darr->esz);
+
+   if (i + n > darr->n)
+      mv = darr->n - i;
+   else
+      mv = darr->n - i + n;
+
+   memmove (dest, src, mv * darr->esz);
    (void) memcpy (src, e, darr->esz * n);
    darr->n += n;
    return 0;
