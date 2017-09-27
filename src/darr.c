@@ -69,6 +69,7 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
    darr->maxn = max (n, 1);
+   darr->n    = min (darr->n, darr->maxn);
    return 0;
 }
 
