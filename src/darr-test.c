@@ -184,7 +184,7 @@ int main (void) {
       }
       break;
    case 1:
-      num = rand () % ARRSZ (nums);
+      num = (size_t) rand () % ARRSZ (nums);
       for (k = 0; k != num; k++)
          nums[k] = rand ();
       error_check (inserts_rear_darr (&darr, nums, num) != 0) {
@@ -199,12 +199,12 @@ int main (void) {
       break;
    case 3:
       if (darr.n == 0) break;
-      num = rand () % darr.n;
+      num = (size_t) rand () % darr.n;
       removes_rear_darr (&darr, nums, num);
       break;
    case 4:
       if (darr.n == 0) k = 0;
-      else k = rand () % darr.n;
+      else k = (size_t) rand () % darr.n;
       num = rand ();
       error_check (insert_front_darr (&darr, k, &num) != 0) {
          puts ("error -12"); fflush (stdout);
@@ -213,7 +213,7 @@ int main (void) {
       }
       break;
    case 5:
-      num = rand () % ARRSZ (nums);
+      num = (size_t) rand () % ARRSZ (nums);
       for (k = 0; k != num; k++)
          nums[k] = rand ();
       if (darr.n == 0) k = 0;
@@ -226,12 +226,12 @@ int main (void) {
       break;
    case 6:
       if (darr.n == 0) break;
-      k = rand () % darr.n;
+      k = (size_t) rand () % darr.n;
       remove_front_darr (&darr, k, &num);
       break;
    case 7:
       if (darr.n == 0) break;
-      k = rand () % darr.n;
+      k = (size_t) rand () % darr.n;
       num = k + rand () % (darr.n - k);
       error_check (removes_front_darr (&darr, k, nums, num) != 0) {
          puts ("error -14"); fflush (stdout);
@@ -241,7 +241,7 @@ int main (void) {
       break;
    case 8:
       if (darr.n == 0); break;
-      num = rand () % darr.n;
+      num = (size_t) rand () % darr.n;
       error_check (trim_cap_darr (&darr, num) != 0) {
          puts ("error -15"); fflush (stdout);
          free_darr (&darr);
