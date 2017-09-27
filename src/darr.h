@@ -37,20 +37,21 @@ __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 int trim_cap_darr (darr_t *restrict darr, size_t n)
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 
-void add_darr (darr_t *restrict darr, void const *restrict e)
+int insert_rear_darr (darr_t *restrict darr, void const *restrict e)
 __attribute__ ((nonnull (1, 2), nothrow)) ;
 
-void adds_darr (darr_t *restrict darr, void const *restrict e, size_t n)
+int inserts_rear_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n)
 __attribute__ ((nonnull (1, 2), nothrow)) ;
 
-void remove_darr (darr_t *restrict darr, void *restrict e)
-__attribute__ ((nonnull (1, 2), nothrow)) ;
+void remove_rear_darr (darr_t *restrict darr, void *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
-void removes_darr (darr_t *restrict darr, void *restrict e, size_t n)
-__attribute__ ((nonnull (1, 2), nothrow)) ;
+void removes_rear_darr (darr_t *restrict darr, void *restrict e, size_t n)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
 void free_darr (darr_t *restrict darr)
-__attribute__ ((const, leaf, nonnull (1), nothrow)) ;
+__attribute__ ((leaf, nonnull (1), nothrow)) ;
 
 #ifdef __cplusplus
 }

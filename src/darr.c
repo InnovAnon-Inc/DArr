@@ -72,17 +72,43 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
    return 0;
 }
 
-__attribute__ ((nonnull (1, 2), nothrow))
-void add_darr (darr_t *restrict darr, void const *restrict e) {}
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+int insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
+   error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
+   (void) memcpy ((void *) ((char *) (darr->data) + darr->n * darr->esz),
+      e, darr->esz);
+   darr->n++;
+   return 0;
+}
 
-__attribute__ ((nonnull (1, 2), nothrow))
-void adds_darr (darr_t *restrict darr, void const *restrict e, size_t n) {}
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+int inserts_rear_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n) {
+   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
+   (void) memcpy ((void *) ((char *) (darr->data) + darr->n * darr->esz),
+      e, darr->esz * n);
+   darr->n += n;
+   return 0;
+}
 
-__attribute__ ((nonnull (1, 2), nothrow))
-void remove_darr (darr_t *restrict darr, void *restrict e) {}
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
+   memcpy (e,
+      (void *) ((char *) (darr->data) + (darr->n - 1) * darr->esz),
+      data->esz);
+   darr->n--;
+}
 
-__attribute__ ((nonnull (1, 2), nothrow))
-void removes_darr (darr_t *restrict darr, void *restrict e, size_t n) {}
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void removes_rear_darr (darr_t *restrict darr,
+   void *restrict e, size_t n) {
+   memcpy (e,
+      (void *) ((char *) (darr->data) + (darr->n - n) * darr->esz),
+      data->esz * n);
+   darr->n -= n;
+}
 
-__attribute__ ((const, leaf, nonnull (1), nothrow))
-void free_darr (darr_t *restrict darr) {}
+__attribute__ ((leaf, nonnull (1), nothrow))
+void free_darr (darr_t *restrict darr) {
+   free (darr->data);
+}
