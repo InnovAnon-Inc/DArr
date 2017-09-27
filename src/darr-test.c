@@ -105,7 +105,7 @@ int main (void) {
       return -5;
    }
    */
-/*
+
    for (k = 0; k != ARRSZ (nums); k++) {
       size_t j;
       if (darr.n == 0) j = 0;
@@ -130,7 +130,7 @@ int main (void) {
          return -3;
       }
    }
-*/
+
    /*
    free_darr (&darr);
 
