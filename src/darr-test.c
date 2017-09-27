@@ -234,11 +234,7 @@ int main (void) {
       if (darr.n == 0) break;
       k = (size_t) rand () % darr.n;
       snum = k + (size_t) rand () % (darr.n - k);
-      error_check (removes_front_darr (&darr, k, nums, snum) != 0) {
-         puts ("error -14"); fflush (stdout);
-         free_darr (&darr);
-         return -14;
-      }
+      removes_front_darr (&darr, k, nums, snum);
       break;
    case 8:
       if (darr.n == 0); break;
