@@ -204,7 +204,7 @@ static int reset_test (darr_t *restrict darr) {
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test0 (darr_t *restrict darr) {
-   size_t num = rand ();
+   int num = rand ();
    error_check (insert_rear_darr (darr, &num) != 0) {
       puts ("error -10"); fflush (stdout);
       return -10;
@@ -233,7 +233,19 @@ static void test2 (darr_t *restrict darr) {
    size_t num;
    if (darr->n == 0) return;
    remove_rear_darr (darr, &num);
-   return;
+}
+
+__attribute__ ((nonnull (1), nothrow))
+static void test3 (darr_t *restrict darr) {
+   size_t snum;
+   int *restrict nums;
+   if (darr->n == 0) return 0;
+   nums = malloc (sizeof (int) * snum);
+   error_check (nums == NULL) return -1;
+   snum = (size_t) rand () % darr->n;
+   removes_rear_darr (darr, nums, snum);
+   free (nums);
+   return 0;
 }
 
 __attribute__ ((nothrow, warn_unused_result))
@@ -280,8 +292,9 @@ int main (void) {
    test0 (&darr);
    test1 (&darr, ARRSZ (nums));
    test2 (&darr);
+   test3 (&darr);
 
-   finish_test (&darr);
+   free_test (&darr);
 
 
 
