@@ -62,7 +62,7 @@ int main (void) {
       return -5;
    }
    removes_rear_darr (&darr, tmps, ARRSZ (tmps));
-   error_check (trim_cap_darr (&darr, 0) != 0) {
+   error_check (trim_cap_darr (&darr, (size_t) 0) != 0) {
       puts ("error -7"); fflush (stdout);
       return -7;
    }
