@@ -187,7 +187,7 @@ static int init_test (darr_t *restrict darr) {
       break;
    default: __builtin_unreachable ();
    }
-   return init_darr (&darr, sizeof (int), darr->resizecb, darr->cbargs);
+   return init_darr (darr, sizeof (int), darr->resizecb, darr->cbargs);
 }
 
 __attribute__ ((nonnull (1), nothrow))
