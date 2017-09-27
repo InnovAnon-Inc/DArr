@@ -13,6 +13,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <math.h>
+
 #include <darr.h>
 #include <darr-resize.h>
 
@@ -105,8 +107,9 @@ int main (void) {
    */
 
    for (k = 0; k != ARRSZ (nums); k++) {
+      size_t j = abs (rand () % darr.n);
       nums[k] = rand ();
-      error_check (insert_front_darr (&darr, rand () % darr.n,
+      error_check (insert_front_darr (&darr, j,
          nums + k) != 0) {
          puts ("error -2"); fflush (stdout);
          free_darr (&darr);
@@ -115,7 +118,7 @@ int main (void) {
    }
 
    for (k = 0; k != ARRSZ (nums); k++) {
-      size_t j = rand () % darr.n;
+      size_t j = abs (rand () % darr.n);
       remove_front_darr (&darr, j, &num);
       error_check (trim_cap_darr (&darr, ARRSZ (nums) - k - 1) != 0) {
          puts ("error -3"); fflush (stdout);
