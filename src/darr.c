@@ -5,7 +5,7 @@
 #define _POSIX_C_SOURCE 200112L
 #define __STDC_VERSION__ 200112L
 
-#define NDEBUG 1
+/*#define NDEBUG 1*/
 
 #ifndef NDEBUG
 #include <stdio.h>
@@ -59,6 +59,9 @@ __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int trim_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    if (n >= darr->maxn) return;
+#ifndef NDEBUG
+   printf ("DARRSZN (darr, %d): %d\n", (int) n, (int) DARRSZN (darr, n)); fflush (stdout);
+#endif
    new_data = realloc (darr->data, DARRSZN (darr, n));
    error_check (new_data == NULL) return -1;
    darr->data = new_data;
