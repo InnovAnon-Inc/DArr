@@ -45,24 +45,30 @@ int main (void) {
 
    for (k = 0; k != ARRSZ (nums); k++) {
       remove_rear_darr (&darr, &num);
-      trim_cap_darr (&darr, ARRSZZ (nums) - 1);
-      error_check (num != nums[ARRSZ (nums) - k - 1]) {
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - 1) != 0) {
          puts ("error -3"); fflush (stdout);
          return -3;
+      }
+      error_check (num != nums[ARRSZ (nums) - k - 1]) {
+         puts ("error -4"); fflush (stdout);
+         return -4;
       }
    }
 
    for (k = 0; k != ARRSZ (nums); k++)
       nums[k] = rand ();
    error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0) {
-      puts ("error -4"); fflush (stdout);
-      return -4;
-   }
-   removes_rear_darr (&darr, tmps, ARRSZ (tmps));
-   trim_cap_darr (&darr, 0);
-   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0) {
       puts ("error -5"); fflush (stdout);
       return -5;
+   }
+   removes_rear_darr (&darr, tmps, ARRSZ (tmps));
+   error_check (trim_cap_darr (&darr, 0) != 0) {
+      puts ("error -7"); fflush (stdout);
+      return -7;
+   }
+   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0) {
+      puts ("error -8"); fflush (stdout);
+      return -8;
    }
 
    free_darr (&darr);
