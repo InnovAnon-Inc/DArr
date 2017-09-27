@@ -93,6 +93,65 @@ int main (void) {
       return -8;
    }
 
+   /*
+   free_darr (&darr);
+
+   error_check (init_darr (&darr, sizeof (int),
+      darr_resize_geometric, &factor) != 0) {
+      puts ("error -5"); fflush (stdout);
+      free_darr (&darr);
+      return -5;
+   }
+   */
+
+   for (k = 0; k != ARRSZ (nums); k++) {
+      nums[k] = rand ();
+      error_check (insert_front_darr (&darr, nums + k) != 0) {
+         puts ("error -2"); fflush (stdout);
+         free_darr (&darr);
+         return -2;
+      }
+   }
+
+   for (k = 0; k != ARRSZ (nums); k++) {
+      remove_front_darr (&darr, &num);
+      error_check (trim_cap_darr (&darr, ARRSZ (nums) - k - 1) != 0) {
+         puts ("error -3"); fflush (stdout);
+         free_darr (&darr);
+         return -3;
+      }
+      error_check (num != nums[ARRSZ (nums) - k - 1]) {
+         puts ("error -4"); fflush (stdout);
+         free_darr (&darr);
+         return -4;
+      }
+   }
+
+   /*
+   switch (rand () % 4) {
+   case 0:
+      insert_rear_darr ();
+      break;
+   case 1:
+      inserts_rear_darr ();
+      break;
+   case 2:
+      remove_rear_darr ();
+      break;
+   case 3:
+      removes_rear_darr ();
+      break;
+   case 4:
+      darr_trim_cap ();
+      break;
+   case 5:
+      darr.resizecb = cbs[?];
+      darr.cbargs   = cbargs[?]; // TODO use random factor
+      break;
+   default: __builtin_unreachable ();
+   }
+   */
+
    free_darr (&darr);
 
    puts ("success"); fflush (stdout);

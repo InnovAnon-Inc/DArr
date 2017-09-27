@@ -46,6 +46,13 @@ int inserts_rear_darr (darr_t *restrict darr,
    void const *restrict e, size_t n)
 __attribute__ ((nonnull (1, 2), nothrow)) ;
 
+int insert_front_darr (darr_t *restrict darr, void const *restrict e)
+__attribute__ ((nonnull (1, 2), nothrow)) ;
+
+int inserts_front_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n)
+__attribute__ ((nonnull (1, 2), nothrow)) ;
+
 void remove_rear_darr (darr_t *restrict darr, void *restrict e)
 __attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
