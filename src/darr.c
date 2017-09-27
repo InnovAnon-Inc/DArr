@@ -10,6 +10,7 @@
 #ifndef NDEBUG
 #include <stdio.h>
 #endif
+#include <stdlib.h>
 
 /*#include <math.h>*/
 
@@ -33,7 +34,11 @@ int init_darr (darr_t *restrict darr, size_t esz,
    darr_resize_cb_t resizecb) {
    /* if your resizecb is geometric, then you may have to use
     * init_darr2 (darr, esz, resizecb(1), resizecb) */
-   return init_darr2 (darr, esz, resizecb (0), resizecb);
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
+   size_t maxn = resizecb (0);
+	#pragma GCC diagnostic pop
+   return init_darr2 (darr, esz, maxn, resizecb);
 }
 
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
