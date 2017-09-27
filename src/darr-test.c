@@ -150,7 +150,7 @@ static int removes_front_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    int *restrict tmps = malloc (sizeof (int) * nnum);
    error_check (tmps == NULL) {
-      free_darr (&darr);
+      free_darr (darr);
       return -1;
    }
    removes_front_darr (darr, (size_t) 0, tmps, nnum);
@@ -242,25 +242,8 @@ int main (void) {
    }
    */
 
-   for (k = 0; k != ARRSZ (nums); k++)
-      nums[k] = rand ();
-   error_check (inserts_front_darr (&darr, (size_t) 0,
-      nums, ARRSZ (nums)) != 0) {
-      puts ("error -6"); fflush (stdout);
-      free_darr (&darr);
-      return -6;
-   }
-   removes_front_darr (&darr, (size_t) 0, tmps, ARRSZ (tmps));
-   error_check (trim_cap_darr (&darr, (size_t) 0) != 0) {
-      puts ("error -7"); fflush (stdout);
-      free_darr (&darr);
-      return -7;
-   }
-   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0) {
-      puts ("error -8"); fflush (stdout);
-      free_darr (&darr);
-      return -8;
-   }
+   error_check (inserts_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
+   error_check (removes_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
    /*
    free_darr (&darr);
