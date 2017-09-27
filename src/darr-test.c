@@ -31,7 +31,7 @@ int main (void) {
    size_t k;
    size_t snum;
    /*darr_resize_cb_t cbs[3];*/
-   size_t ntest = 1000;
+   size_t ntest = 100;
    size_t testi;
 
    t = time (NULL);
