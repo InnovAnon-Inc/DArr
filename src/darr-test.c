@@ -17,34 +17,41 @@
 
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
-#ifdef TEST
-   double vals[10];
-   double sum;
-   size_t k;
+   darr_t darr;
    time_t t;
+   int num;
+   int nums[100];
+   int tmps[ARRSZ (nums)];
 
    t = time (NULL);
    srand ((unsigned int) t);
 
-   for (k = 0; k != ARRSZ (vals); k++) {
-      int num, dem;
-      num = rand ();
-      do dem = rand ();
-      /*while_check (dem == 0);*/
-      while (dem == 0); /* let the PGO tune this */
-      vals[k] = (double) num / (double) dem;
-#ifndef NDEBUG
-      printf ("vals[%d]:%g\n", (int) k, vals[k]); fflush (stdout);
-#endif
+   error_check (init_darr (&darr, sizeof (int), darr_resize_geometric) != 0)
+      return -1;
+
+   for (k = 0; k != ARRSZ (nums); k++) {
+      nums[k] = rand ();
+      error_check (insert_rear_darr (&darr, nums + k) != 0)
+         return -2;
    }
 
-#ifndef NDEBUG
-   printf ("ARRSZ(vals):%d\n", (int) ARRSZ (vals)); fflush (stdout);
-#endif
+   for (k = 0; k != ARRSZ (nums); k++) {
+      remove_rear_darr (&darr, &num);
+      error_check (num != nums[k])
+         return -3;
+   }
 
-   sum = ez_kahan (vals, ARRSZ (vals));
+   for (k = 0; k != ARRSZ (nums); k++)
+      nums[k] = rand ();
+   error_check (inserts_rear_darr (&darr, nums, ARRSZ (nums)) != 0)
+         return -4;
+   removes_rear_darr (&darr, tmps, ARRSZ (tmps));
+   error_check (memcmp (nums, tmps, ARRSZ (nums)) != 0)
+      return -5;
 
-   (void) printf ("sum:%g\n", sum);
-#endif
+   free_darr (&darr);
+
+   puts ("success");
+
    return EXIT_SUCCESS;
 }
