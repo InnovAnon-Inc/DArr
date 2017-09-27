@@ -18,6 +18,29 @@
 #include <darr.h>
 #include <darr-resize.h>
 
+__attribute__ ((nonnull (1), nothrow))
+static void darr_print (darr_t const *restrict darr) {
+   size_t i;
+   printf ("esz : %d\n", (int) darr->esz);  fflush (stdout);
+   printf ("maxn: %d\n", (int) darr->maxn); fflush (stdout);
+   printf ("n   : %d\n", (int) darr->n);    fflush (stdout);
+   if (darr->resizecb == darr_resize_linear) {
+   printf ("f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stdout);
+   } else if (darr->resizecb == darr_resize_geometric) {
+   printf ("f   : %g\n", *(double *restrict) darr->cbargs); fflush (stdout);
+   }
+   if (darr->n <= 30) {
+      printf ("[");
+      if (darr->n > 0) {
+         printf ("%d", ((int *restrict) darr->data)[0]);
+         for (i = 1; i != darr->n; i++)
+            printf (", %d", ((int *restrict) darr->data)[i]);
+      }
+      printf ("]\n");
+   }
+   puts (""); fflush (stdout);
+}
+
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int insert_rear_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
@@ -365,30 +388,6 @@ static int test9 (darr_t *restrict darr) {
    darr->cbargs   = cbargs;
    return 0;
 }
-
-__attribute__ ((nonnull (1), nothrow))
-static void darr_print (darr_t const *restrict darr) {
-   size_t i;
-   printf ("esz : %d\n", (int) darr->esz);  fflush (stdout);
-   printf ("maxn: %d\n", (int) darr->maxn); fflush (stdout);
-   printf ("n   : %d\n", (int) darr->n);    fflush (stdout);
-   if (darr->resizecb == darr_resize_linear) {
-   printf ("f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stdout);
-   } else if (darr->resizecb == darr_resize_geometric) {
-   printf ("f   : %g\n", *(double *restrict) darr->cbargs); fflush (stdout);
-   }
-   if (darr->n <= 30) {
-      printf ("[");
-      if (darr->n > 0) {
-         printf ("%d", ((int *restrict) darr->data)[0]);
-         for (i = 1; i != darr->n; i++)
-            printf (", %d", ((int *restrict) darr->data)[i]);
-      }
-      printf ("]\n");
-   }
-   puts (""); fflush (stdout);
-}
-
 
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {

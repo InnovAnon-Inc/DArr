@@ -49,6 +49,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    if (n <= darr->maxn) return 0;
    TODO (max is probably unnecessary here)
    new_n = max (darr->resizecb (n, darr->cbargs), 1);
+   error_check (new_n < n) return -1;
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
 #endif
