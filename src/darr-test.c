@@ -360,7 +360,7 @@ __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
    darr_t darr;
    time_t t;
-   int nums[100];
+   int nums[10];
    size_t ntest = 100;
    size_t testi;
 
