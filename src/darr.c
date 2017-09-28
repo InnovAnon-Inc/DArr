@@ -5,7 +5,7 @@
 #define _POSIX_C_SOURCE 200112L
 #define __STDC_VERSION__ 200112L
 
-/*#define NDEBUG 1*/
+#define NDEBUG 1
 
 #ifndef NDEBUG
 #include <stdio.h>
@@ -18,7 +18,7 @@
 #include <darr.h>
 
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
-int init_darr (darr_t *restrict darr, size_t esz,
+int alloc_darr (darr_t *restrict darr, size_t esz,
    darr_resize_cb_t resizecb, void *restrict cbargs) {
    /* if your resizecb is geometric, then you may have to use
     * init_darr2 (darr, esz, resizecb(1), resizecb) */
@@ -30,33 +30,53 @@ int init_darr (darr_t *restrict darr, size_t esz,
 }
 
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
-int init_darr2 (darr_t *restrict darr, size_t esz, size_t maxn,
+int alloc_darr2 (darr_t *restrict darr
+   size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void *restrict cbargs) {
-   darr->esz  = esz;
-   darr->maxn = maxn;
-   darr->n    = 0;
+   darr->n = 0;
    darr->resizecb = resizecb;
    darr->cbargs   = cbargs;
-   darr->data = malloc (DARRSZ (darr));
-   error_check (darr->data == NULL) return -1;
+   error_check (alloc_array (&(darr->array), esz, maxn) != 0) return -1;
    return 0;
+}
+
+/* don't give us a statically allocated data* */
+__attribute__ ((nonnull (1, 2, 4), nothrow))
+void init_darr (darr_t *restrict darr,
+   void *restrict data, size_t esz,
+   darr_resize_cb_t resizecb, void *restrict cbargs) {
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
+   size_t maxn = resizecb (0, cbargs);
+	#pragma GCC diagnostic pop
+   init_darr2 (darr, data, esz, maxn, resizecb, cbargs);
+}
+
+__attribute__ ((leaf, nonnull (1, 2, 5), nothrow))
+void init_darr2 (darr_t *restrict darr,
+   void *restrict data, size_t esz, size_t maxn,
+   darr_resize_cb_t resizecb, void *restrict cbargs) {
+   init_array (&(darr->array), data, esz, maxn);
+   darr->n = 0;
+   darr->resizecb = resizecb;
+   darr->cbargs   = cbargs;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
-   if (n <= darr->maxn) return 0;
+   if (n <= darr->array.n) return 0;
    TODO (max is probably unnecessary here)
    new_n = max (darr->resizecb (n, darr->cbargs), 1);
    error_check (new_n < n) return -1;
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
 #endif
-   new_data = realloc (darr->data, DARRSZN (darr, new_n));
+   new_data = realloc (darr->array.data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
-   darr->data = new_data;
-   darr->maxn = new_n;
+   darr->array.data = new_data;
+   darr->array.n = new_n;
    return 0;
 }
 
@@ -64,16 +84,16 @@ __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int trim_cap_darr (darr_t *restrict darr, size_t n) {
    void *restrict new_data;
    size_t new_n;
-   if (n >= darr->maxn) return 0;
+   if (n >= darr->array.n) return 0;
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) n, (int) DARRSZN (darr, n)); fflush (stdout);
 #endif
    TODO (new_n = darr->resizecb (n, darr->cbargss))
    new_n = max (n, 1);
-   new_data = realloc (darr->data, DARRSZN (darr, new_n));
+   new_data = realloc (darr->array.data, DARRSZN (darr, new_n));
    error_check (new_data == NULL) return -1;
-   darr->data = new_data;
-   darr->maxn = new_n;
+   darr->array.data = new_data;
+   darr->array.n = new_n;
    darr->n    = min (darr->n, new_n);
    return 0;
 }
@@ -81,8 +101,7 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 int insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
    error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
-   (void) memcpy ((void *) ((char *) (darr->data) + darr->n * darr->esz),
-      e, darr->esz);
+   set_array (&(darr->array), darr->n, e);
    darr->n++;
    return 0;
 }
@@ -91,8 +110,7 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 int inserts_rear_darr (darr_t *restrict darr,
    void const *restrict e, size_t n) {
    error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
-   (void) memcpy ((void *) ((char *) (darr->data) + darr->n * darr->esz),
-      e, darr->esz * n);
+   sets_array (&(darr->array), darr->n, e, n);
    darr->n += n;
    return 0;
 }
@@ -100,14 +118,10 @@ int inserts_rear_darr (darr_t *restrict darr,
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
 int insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
-   void *dest;
-   void *src;
    error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
-   dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
-   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   if (i != darr->n)
-      memmove (dest, src, (darr->n - i) * darr->esz);
-   (void) memcpy (src, e, darr->esz);
+   /*if (i != darr->n)*/
+      mvs_array (&(darr->array), i + 0, i + 1, darr->n - i);
+   set_array (&(darr->array), i + 0, e);
    darr->n++;
    return 0;
 }
@@ -115,73 +129,55 @@ int insert_front_darr (darr_t *restrict darr, size_t i,
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
 int inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n) {
-   void *dest;
-   void *src;
    size_t mv;
    error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
-   dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
-   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
 
    /*if (i + n > darr->n)
       mv = darr->n - i;
    else
       mv = darr->n - i + n;*/
       mv = darr->n - i;
-   if (mv != 0)
-      memmove (dest, src, mv * darr->esz);
-   (void) memcpy (src, e, darr->esz * n);
+
+   /*if (mv != 0)*/
+   mvs_array (&(darr->array), i + 0, i + n, mv);
+   sets_array (&(darr->array), i + 0, e, n);
    darr->n += n;
    return 0;
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
-   memcpy (e,
-      (void *) ((char *) (darr->data) + (darr->n - 1) * darr->esz),
-      darr->esz);
+   get_array (&(darr->array), darr->n - 1, e);
    darr->n--;
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
-   memcpy (e,
-      (void *) ((char *) (darr->data) + (darr->n - n) * darr->esz),
-      darr->esz * n);
+   gets_array (&(darr->array), darr->n - n, e, n);
    darr->n -= n;
 }
 
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void remove_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e) {
-   void *dest;
-   void *src;
-   dest = (void *) ((char *) (darr->data) + (i + 1) * darr->esz);
-   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-   memcpy (e, src, darr->esz);
+   get_array (&(darr->array), i + 0, e);
    if (i != darr->n)
-      memmove (src, dest, (darr->n - i - 1) * darr->esz);
+      mvs_array (&(darr->array), i + 1, i + 0, darr->n - i - 1);
    darr->n--;
 }
 
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n) {
-   void *dest;
-   void *src;
-   dest = (void *) ((char *) (darr->data) + (i + n) * darr->esz);
-   src  = (void *) ((char *) (darr->data) + (i + 0) * darr->esz);
-#ifndef NDEBUG
-
-#endif
-   memcpy (e, src, darr->esz * n);
+   sets_array (&(darr->array), i + 0, e, n);
    /* TODO i + n != darr->n*/
    if (i + n < darr->n)
-      memmove (src, dest, (darr->n - i - n) * darr->esz);
+      mvs_array (&(darr->array), i + n, i + 0, darr->n - i - n);
    darr->n -= n;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t *restrict darr) {
-   free (darr->data);
+   free_array (&(darr->array));
 }
