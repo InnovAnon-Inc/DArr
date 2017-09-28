@@ -280,7 +280,7 @@ static int test1 (darr_t *restrict darr, size_t nnum) {
    }
    free (nums);
    error_check (sz + snum != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -292,7 +292,7 @@ static int test2 (darr_t *restrict darr) {
    if (darr->n == 0) return 0;
    remove_rear_darr (darr, &num);
    error_check (sz - 1 != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -309,7 +309,7 @@ static int test3 (darr_t *restrict darr) {
    removes_rear_darr (darr, nums, snum);
    free (nums);
    error_check (sz - snum != darr->n) return -2;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -327,7 +327,7 @@ static int test4 (darr_t *restrict darr) {
       return -12;
    }
    error_check (sz + 1 != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -350,7 +350,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
       return -13;
    }
    error_check (sz + snum != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -364,7 +364,7 @@ static int test6 (darr_t *restrict darr) {
    k = (size_t) rand () % (darr->n + 1);
    remove_front_darr (darr, k, &num);
    error_check (sz - 1 != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -390,7 +390,7 @@ static int test7 (darr_t *restrict darr) {
    removes_front_darr (darr, k, nums, snum);
    free (nums);
    error_check (sz - snum != darr->n) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -405,7 +405,7 @@ static int test8 (darr_t *restrict darr) {
       return -15;
    }
    error_check (darr->n > snum && !(snum == 0 && darr->n == 1)) return -1;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
@@ -418,7 +418,7 @@ static int test9 (darr_t *restrict darr) {
    error_check (get_cb (&cb, &cbargs) != 0) return -1;
    darr->resizecb = cb;
    darr->cbargs   = cbargs;
-   darr_print (&darr);
+   darr_print (darr);
    return 0;
 }
 
