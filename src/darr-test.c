@@ -38,7 +38,7 @@ static void darr_print (darr_t const *restrict darr) {
       }
       fprintf (stderr, "]\n"); fflush (stderr);
    }
-   fputs (stderr, ""); fflush (stderr);
+   fputs ("", stderr); fflush (stderr);
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
@@ -49,7 +49,7 @@ static int insert_rear_test (darr_t *restrict darr,
    for (k = 0; k != nnum; k++) {
       nums[k] = rand ();
       error_check (insert_rear_darr (darr, nums + k) != 0) {
-         fputs (stderr, "error -2"); fflush (stderr);
+         fputs ("error -2", stderr); fflush (stderr);
          return -2;
       }
    }
@@ -65,11 +65,11 @@ static int remove_rear_test (darr_t *restrict darr,
    for (k = 0; k != nnum; k++) {
       remove_rear_darr (darr, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
-         fputs (stderr, "error -3"); fflush (stderr);
+         fputs ("error -3", stderr); fflush (stderr);
          return -3;
       }
       error_check (num != nums[nnum - k - 1]) {
-         fputs (stderr, "error -4"); fflush (stderr);
+         fputs ("error -4", stderr); fflush (stderr);
          return -4;
       }
    }
@@ -84,7 +84,7 @@ static int inserts_rear_test (darr_t *restrict darr,
    for (k = 0; k != nnum; k++)
       nums[k] = rand ();
    error_check (inserts_rear_darr (darr, nums, nnum) != 0) {
-      fputs (stderr, "error -6"); fflush (stderr);
+      fputs ("error -6", stderr); fflush (stderr);
       return -6;
    }
    return 0;
@@ -101,12 +101,12 @@ static int removes_rear_test (darr_t *restrict darr,
    }
    removes_rear_darr (darr, tmps, nnum);
    error_check (trim_cap_darr (darr, (size_t) 0) != 0) {
-      fputs (stderr, "error -7"); fflush (stderr);
+      fputs ("error -7", stderr); fflush (stderr);
       free (tmps);
       return -7;
    }
    error_check (memcmp (nums, tmps, nnum) != 0) {
-      fputs (stderr, "error -8"); fflush (stderr);
+      fputs ("error -8", stderr); fflush (stderr);
       free (tmps);
       return -8;
    }
@@ -125,7 +125,7 @@ static int insert_front_test (darr_t *restrict darr,
       nums[k] = rand ();
       error_check (insert_front_darr (darr, j,
          nums + k) != 0) {
-         fputs (stderr, "error -2"); fflush (stderr);
+         fputs ("error -2", stderr); fflush (stderr);
          return -2;
       }
    }
@@ -143,7 +143,7 @@ static int remove_front_test (darr_t *restrict darr,
       else j = (size_t) rand () % darr->n;
       remove_front_darr (darr, j, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
-         fputs (stderr, "error -3"); fflush (stderr);
+         fputs ("error -3", stderr); fflush (stderr);
          return -3;
       }
       TODO (compare num against nums)
@@ -160,7 +160,7 @@ static int inserts_front_test (darr_t *restrict darr,
       nums[k] = rand ();
    error_check (inserts_front_darr (darr, (size_t) 0,
       nums, nnum) != 0) {
-      fputs (stderr, "error -6"); fflush (stderr);
+      fputs ("error -6", stderr); fflush (stderr);
       return -6;
    }
    return 0;
@@ -177,12 +177,12 @@ static int removes_front_test (darr_t *restrict darr,
    }
    removes_front_darr (darr, (size_t) 0, tmps, nnum);
    error_check (trim_cap_darr (darr, (size_t) 0) != 0) {
-      fputs (stderr, "error -7"); fflush (stderr);
+      fputs ("error -7", stderr); fflush (stderr);
       free (tmps);
       return -7;
    }
    error_check (memcmp (nums, tmps, nnum) != 0) {
-      fputs (stderr, "error -8"); fflush (stderr);
+      fputs ("error -8", stderr); fflush (stderr);
       free (tmps);
       return -8;
    }
@@ -225,21 +225,21 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int init_test (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict arg;
-   fputs (stderr, "init_test ()"); fflush (stderr);
+   fputs ("init_test ()", stderr); fflush (stderr);
    error_check (get_cb (&cb, &arg) != 0) return -1;
    return init_darr (darr, sizeof (int), cb, arg);
 }
 
 __attribute__ ((nonnull (1), nothrow))
 static void free_test (darr_t *restrict darr) {
-   fputs (stderr, "free_test ()"); fflush (stderr);
+   fputs ("free_test ()", stderr); fflush (stderr);
    free_darr (darr);
    if (darr->cbargs != NULL) free (darr->cbargs);
 }
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int reset_test (darr_t *restrict darr) {
-   fputs (stderr, "reset_test ()"); fflush (stderr);
+   fputs ("reset_test ()", stderr); fflush (stderr);
    free_test (darr);
    return init_test (darr);
 }
@@ -250,7 +250,7 @@ static int test0 (darr_t *restrict darr) {
    size_t sz = darr->n;
    fprintf (stderr, "test0 () num:%d, sz:%d\n", num, (int) sz); fflush (stderr);
    error_check (insert_rear_darr (darr, &num) != 0) {
-      fputs (stderr, "error -10"); fflush (stderr);
+      fputs ("error -10", stderr); fflush (stderr);
       return -10;
    }
    error_check (sz + 1 != darr->n) return -1;
@@ -274,7 +274,7 @@ static int test1 (darr_t *restrict darr, size_t nnum) {
    nums = malloc (sizeof (int) * snum);
    get_nums (nums, snum);
    error_check (inserts_rear_darr (darr, nums, snum) != 0) {
-      fputs (stderr, "error -11"); fflush (stderr);
+      fputs ("error -11", stderr); fflush (stderr);
       free (nums);
       return -11;
    }
@@ -323,7 +323,7 @@ static int test4 (darr_t *restrict darr) {
    num = rand ();
    fprintf (stderr, "test4 () sz: %d, k: %d, num: %d\n", (int) sz, (int) k, (int) num); fflush (stderr);
    error_check (insert_front_darr (darr, k, &num) != 0) {
-      fputs (stderr, "error -12"); fflush (stderr);
+      fputs ("error -12", stderr); fflush (stderr);
       return -12;
    }
    error_check (sz + 1 != darr->n) return -1;
@@ -345,7 +345,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    darr_print (darr);
 
    error_check (inserts_front_darr (darr, k, nums, snum) != 0) {
-      fputs (stderr, "error -13"); fflush (stderr);
+      fputs ("error -13", stderr); fflush (stderr);
       return -13;
    }
    error_check (sz + snum != darr->n) return -1;
@@ -400,7 +400,7 @@ static int test8 (darr_t *restrict darr) {
    snum = (size_t) rand () % darr->n;
    fprintf (stderr, "test8 () snum: %d\n", (int) snum); fflush (stderr);
    error_check (trim_cap_darr (darr, snum) != 0) {
-      fputs (stderr, "error -15"); fflush (stderr);
+      fputs ("error -15", stderr); fflush (stderr);
       return -15;
    }
    error_check (darr->n > snum && !(snum == 0 && darr->n == 1)) return -1;
@@ -668,7 +668,7 @@ int main (void) {
    */
    free_test (&darr);
 
-   fputs (stderr, "success"); fflush (stderr);
+   fputs ("success", stderr); fflush (stderr);
 
    return EXIT_SUCCESS;
 }
