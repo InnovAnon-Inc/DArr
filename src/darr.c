@@ -22,11 +22,11 @@ int alloc_darr (darr_t *restrict darr, size_t esz,
 	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
    size_t maxn = resizecb (0, cbargs);
 	#pragma GCC diagnostic pop
-   return init_darr2 (darr, esz, maxn, resizecb, cbargs);
+   return alloc_darr2 (darr, esz, maxn, resizecb, cbargs);
 }
 
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
-int alloc_darr2 (darr_t *restrict darr
+int alloc_darr2 (darr_t *restrict darr,
    size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void *restrict cbargs) {
    darr->n = 0;
@@ -65,14 +65,11 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
    if (n <= darr->array.n) return 0;
    TODO (max is probably unnecessary here)
    new_n = max (darr->resizecb (n, darr->cbargs), 1);
-   error_check (new_n < n) return -1;
+   /*error_check (new_n < n) return -1;*/
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
 #endif
-   new_data = realloc (darr->array.data, DARRSZN (darr, new_n));
-   error_check (new_data == NULL) return -1;
-   darr->array.data = new_data;
-   darr->array.n = new_n;
+   error_check (realloc_array (&(darr->array.data), new_n) != 0) return -2;
    return 0;
 }
 
@@ -86,10 +83,7 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
 #endif
    TODO (new_n = darr->resizecb (n, darr->cbargss))
    new_n = max (n, 1);
-   new_data = realloc (darr->array.data, DARRSZN (darr, new_n));
-   error_check (new_data == NULL) return -1;
-   darr->array.data = new_data;
-   darr->array.n = new_n;
+   error_check (realloc_array (&(darr->array), new_n) != 0) return -2;
    darr->n    = min (darr->n, new_n);
    return 0;
 }

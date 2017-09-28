@@ -15,7 +15,7 @@ AC_CHECK_HEADERS([stdlib.h sys/types.h])
 #AC_CHECK_HEADERS([math.h])
 AC_CHECK_HEADERS([glitter.h array.h])
 
-#AC_CHECK_LIB([stdlib],[])
+#AC_CHECK_LIB([stdlib],[realloc])
 AC_CHECK_LIB([array],[init_array,alloc_array,free_array])
 AC_CHECK_LIB([array],[get_array,set_array,gets_array,sets_array])
 #AC_CHECK_LIB([math],[fabs])
