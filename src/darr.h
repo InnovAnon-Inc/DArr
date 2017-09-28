@@ -28,7 +28,7 @@ int alloc_darr (darr_t *restrict darr, size_t esz,
    darr_resize_cb_t resizecb, void *restrict cbargs)
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
 
-int alloc_darr2 (darr_t *restrict darr
+int alloc_darr2 (darr_t *restrict darr,
    size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void *restrict cbargs)
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result)) ;
@@ -43,14 +43,6 @@ void init_darr2 (darr_t *restrict darr,
    void *restrict data, size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void *restrict cbargs)
 __attribute__ ((leaf, nonnull (1, 2, 5), nothrow)) ;
-
-int init_darr (darr_t *restrict darr, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
-__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
-
-int init_darr2 (darr_t *restrict darr, size_t maxn, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
-__attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result)) ;
 
 int ensure_cap_darr (darr_t *restrict darr, size_t n)
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;

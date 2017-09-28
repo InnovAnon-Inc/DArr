@@ -227,7 +227,7 @@ static int init_test (darr_t *restrict darr) {
    void *restrict arg;
    fputs ("init_test ()", stderr); fflush (stderr);
    error_check (get_cb (&cb, &arg) != 0) return -1;
-   return init_darr (darr, sizeof (int), cb, arg);
+   return alloc_darr (darr, sizeof (int), cb, arg);
 }
 
 __attribute__ ((nonnull (1), nothrow))

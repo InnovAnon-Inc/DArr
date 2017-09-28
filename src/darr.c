@@ -10,10 +10,6 @@
 #ifndef NDEBUG
 #include <stdio.h>
 #endif
-#include <stdlib.h>
-#include <string.h>
-
-/*#include <math.h>*/
 
 #include <darr.h>
 
