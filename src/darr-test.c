@@ -30,13 +30,13 @@ static void darr_print (darr_t const *restrict darr) {
    printf ("f   : %g\n", *(double *restrict) darr->cbargs); fflush (stdout);
    }
    if (darr->n <= 30) {
-      printf ("[");
+      printf ("["); fflush (stdout);
       if (darr->n > 0) {
-         printf ("%d", ((int *restrict) darr->data)[0]);
+         printf ("%d", ((int *restrict) darr->data)[0]); fflush (stdout);
          for (i = 1; i != darr->n; i++)
-            printf (", %d", ((int *restrict) darr->data)[i]);
+            printf (", %d", ((int *restrict) darr->data)[i]); fflush (stdout);
       }
-      printf ("]\n");
+      printf ("]\n"); fflush (stdout);
    }
    puts (""); fflush (stdout);
 }
