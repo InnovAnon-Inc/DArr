@@ -45,6 +45,7 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int insert_rear_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    size_t k;
+   printf ("insert rear test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++) {
       nums[k] = rand ();
       error_check (insert_rear_darr (darr, nums + k) != 0) {
@@ -60,6 +61,7 @@ static int remove_rear_test (darr_t *restrict darr,
    int const nums[], size_t nnum){
    size_t k;
    int num;
+   printf ("remove rear test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++) {
       remove_rear_darr (darr, &num);
       error_check (trim_cap_darr (darr, nnum - k - 1) != 0) {
@@ -78,6 +80,7 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int inserts_rear_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    size_t k;
+   printf ("inserts rear test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++)
       nums[k] = rand ();
    error_check (inserts_rear_darr (darr, nums, nnum) != 0) {
@@ -90,7 +93,9 @@ static int inserts_rear_test (darr_t *restrict darr,
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int removes_rear_test (darr_t *restrict darr,
    int const nums[], size_t nnum) {
-   int *restrict tmps = malloc (sizeof (int) * nnum);
+   int *restrict tmps;
+   printf ("removes rear test (nnum=%d)\n", (int) nnum);
+   tmps = malloc (sizeof (int) * nnum);
    error_check (tmps == 0) {
       return -1;
    }
@@ -113,6 +118,7 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int insert_front_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    size_t k, j;
+   printf ("insert front test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++) {
       if (darr->n == 0) j = 0;
       else j = (size_t) rand () % darr->n;
@@ -131,6 +137,7 @@ static int remove_front_test (darr_t *restrict darr,
    int const nums[], size_t nnum) {
    size_t num;
    size_t k, j;
+   printf ("remove front test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++) {
       if (darr->n == 0) j = 0;
       else j = (size_t) rand () % darr->n;
@@ -148,6 +155,7 @@ __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int inserts_front_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
    size_t k;
+   printf ("inserts front test (nnum=%d)\n", (int) nnum);
    for (k = 0; k != nnum; k++)
       nums[k] = rand ();
    error_check (inserts_front_darr (darr, (size_t) 0,
@@ -161,7 +169,9 @@ static int inserts_front_test (darr_t *restrict darr,
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
 static int removes_front_test (darr_t *restrict darr,
    int nums[], size_t nnum) {
-   int *restrict tmps = malloc (sizeof (int) * nnum);
+   int *restrict tmps;
+   printf ("removes front test (nnum=%d)\n", (int) nnum);
+   tmps = malloc (sizeof (int) * nnum);
    error_check (tmps == NULL) {
       return -1;
    }
@@ -215,18 +225,21 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int init_test (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict arg;
+   puts ("init_test ()");
    error_check (get_cb (&cb, &arg) != 0) return -1;
    return init_darr (darr, sizeof (int), cb, arg);
 }
 
 __attribute__ ((nonnull (1), nothrow))
 static void free_test (darr_t *restrict darr) {
+   puts ("free_test ()");
    free_darr (darr);
    if (darr->cbargs != NULL) free (darr->cbargs);
 }
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int reset_test (darr_t *restrict darr) {
+   puts ("reset_test ()");
    free_test (darr);
    return init_test (darr);
 }
@@ -235,6 +248,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test0 (darr_t *restrict darr) {
    int num = rand ();
    size_t sz = darr->n;
+   printf ("test0 () num:%d, sz:%d\n", num, (int) sz);
    error_check (insert_rear_darr (darr, &num) != 0) {
       puts ("error -10"); fflush (stdout);
       return -10;
@@ -255,7 +269,9 @@ static int test1 (darr_t *restrict darr, size_t nnum) {
    size_t k;
    size_t snum = (size_t) rand () % nnum;
    size_t sz = darr->n;
-   int *restrict nums = malloc (sizeof (int) * snum);
+   int *restrict nums;
+   printf ("test1 () snum: %d, sz: %d\n", (int) snum, (int) sz);
+   nums = malloc (sizeof (int) * snum);
    get_nums (nums, snum);
    error_check (inserts_rear_darr (darr, nums, snum) != 0) {
       puts ("error -11"); fflush (stdout);
@@ -271,6 +287,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test2 (darr_t *restrict darr) {
    size_t num;
    size_t sz = darr->n;
+   printf ("test2 () sz: %d\n", (int) sz);
    if (darr->n == 0) return 0;
    remove_rear_darr (darr, &num);
    error_check (sz - 1 != darr->n) return -1;
@@ -282,6 +299,7 @@ static int test3 (darr_t *restrict darr) {
    size_t snum;
    int *restrict nums;
    size_t sz = darr->n;
+   printf ("test3 () sz: %d\n", (int) sz);
    if (darr->n == 0) return 0;
    snum = (size_t) rand () % darr->n;
    nums = malloc (sizeof (int) * snum);
@@ -297,6 +315,7 @@ static int test4 (darr_t *restrict darr) {
    int num;
    size_t k;
    size_t sz = darr->n;
+   printf ("test4 () sz: %d\n", (int) sz);
    if (darr->n == 0) k = 0;
    else k = (size_t) rand () % (darr->n + 1);
    num = rand ();
@@ -313,6 +332,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    size_t snum = (size_t) rand () % nnum;
    size_t k;
    size_t sz = darr->n;
+   printf ("test5 () snum: %d, sz: %d\n", (int) snum, (int) sz);
    get_nums (nums, snum);
    if (darr->n == 0) k = 0;
    else k = ((size_t) rand ()) % (darr->n + 1);
@@ -334,6 +354,7 @@ static int test6 (darr_t *restrict darr) {
    size_t k;
    int num;
    size_t sz = darr->n;
+   printf ("test6 () sz: %d\n", (int) sz);
    if (darr->n == 0) return;
    k = (size_t) rand () % (darr->n + 1);
    remove_front_darr (darr, k, &num);
@@ -347,6 +368,7 @@ static int test7 (darr_t *restrict darr) {
    size_t snum;
    int *restrict nums;
    size_t sz = darr->n;
+   printf ("test7 () sz: %d\n", (int) sz);
    if (darr->n == 0) return 0;
    if (darr->n == 1) {
       k    = 0;
@@ -368,6 +390,7 @@ static int test7 (darr_t *restrict darr) {
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test8 (darr_t *restrict darr) {
    size_t snum;
+   printf ("test8 ()\n");
    if (darr->n == 0) return 0;
    snum = (size_t) rand () % darr->n;
    error_check (trim_cap_darr (darr, snum) != 0) {
@@ -382,6 +405,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test9 (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict cbargs;
+   printf ("test9 ()\n");
    if (darr->cbargs != NULL) free (darr->cbargs);
    error_check (get_cb (&cb, &cbargs) != 0) return -1;
    darr->resizecb = cb;
@@ -530,6 +554,7 @@ int main (void) {
    darr_print (&darr);
    */
    for (testi = 0; testi != ntest; testi++) {
+      printf ("testi: %d\n", (int) testi);
       error_check (test0 (&darr) != 0) return -4;
       error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
       error_check (test2 (&darr) != 0) return -6;
