@@ -69,7 +69,7 @@ int ensure_cap_darr (darr_t *restrict darr, size_t n) {
 #ifndef NDEBUG
    printf ("DARRSZN (darr, %d): %d\n", (int) new_n, (int) DARRSZN (darr, new_n)); fflush (stdout);
 #endif
-   error_check (realloc_array (&(darr->array.data), new_n) != 0) return -2;
+   error_check (realloc_array (&(darr->array), new_n) != 0) return -2;
    return 0;
 }
 
