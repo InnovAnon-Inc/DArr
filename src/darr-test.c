@@ -576,6 +576,7 @@ int main (void) {
       error_check (test9 (&darr) != 0) return -9;
    }
    */
+   /*
    for (testi = 0; testi != ntest; testi++) {
       fprintf (stderr, "testi: %d\n", (int) testi);
       error_check (test9 (&darr) != 0) return -9;
@@ -589,11 +590,7 @@ int main (void) {
       error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
       error_check (test0 (&darr) != 0) return -4;
    }
-
-
-
-
-
+   */
    /*
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
@@ -642,7 +639,7 @@ int main (void) {
 
    error_check (reset_test (&darr) != 0) return -3;
    */
-   /*
+
    for (testi = 0; testi != ntest; testi++)
       switch (rand () % 10) {
       case 0:
@@ -677,7 +674,7 @@ int main (void) {
          break;
       default: __builtin_unreachable ();
       }
-   */
+
    free_test (&darr);
 
    fputs ("success", stderr); fflush (stderr);
