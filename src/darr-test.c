@@ -359,7 +359,7 @@ static int test6 (darr_t *restrict darr) {
    int num;
    size_t sz = darr->n;
    if (darr->n == 0) return;
-   k = (size_t) rand () % (darr->n + 1);
+   k = (size_t) rand () % darr->n;
    fprintf (stderr, "test6 () sz: %d, k: %d\n", (int) sz, (int) k); fflush (stderr);
    remove_front_darr (darr, k, &num);
    error_check (sz - 1 != darr->n) return -1;
