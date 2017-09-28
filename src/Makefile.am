@@ -9,11 +9,11 @@ include_HEADERS += darr-resize.h
 
 lib_LTLIBRARIES += libdarr.la
 libdarr_la_SOURCES = darr.c
-libdarr_la_LIBADD = -larray
+libdarr_la_LIBADD = -larray -lswap
 include_HEADERS += darr.h
 bin_PROGRAMS += darr
 darr_SOURCES = darr-test.c
-darr_LDADD = libdarr.la libdarr-resize.la -larray
+darr_LDADD = libdarr.la libdarr-resize.la -larray -lswap
 
 AM_CPPFLAGS = -D__STDC_INT64__
 AM_CPPFLAGS += -I $(srcdir)/../glitter/src
