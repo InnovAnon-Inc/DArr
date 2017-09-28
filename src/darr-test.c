@@ -21,8 +21,8 @@
 __attribute__ ((nonnull (1), nothrow))
 static void darr_print (darr_t const *restrict darr) {
    size_t i;
-   fprintf (stderr, "esz : %d\n", (int) darr->esz);  fflush (stderr);
-   fprintf (stderr, "maxn: %d\n", (int) darr->maxn); fflush (stderr);
+   fprintf (stderr, "esz : %d\n", (int) darr->array.esz);  fflush (stderr);
+   fprintf (stderr, "maxn: %d\n", (int) darr->array.n); fflush (stderr);
    fprintf (stderr, "n   : %d\n", (int) darr->n);    fflush (stderr);
    if (darr->resizecb == darr_resize_linear) {
    fprintf (stderr, "f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stderr);
@@ -32,9 +32,9 @@ static void darr_print (darr_t const *restrict darr) {
    if (darr->n <= 30) {
       fprintf (stderr, "["); fflush (stderr);
       if (darr->n > 0) {
-         fprintf (stderr, "%d", ((int *restrict) darr->data)[0]); fflush (stderr);
+         fprintf (stderr, "%d", ((int *restrict) darr->array.data)[0]); fflush (stderr);
          for (i = 1; i != darr->n; i++)
-            fprintf (stderr, ", %d", ((int *restrict) darr->data)[i]); fflush (stderr);
+            fprintf (stderr, ", %d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
       }
       fprintf (stderr, "]\n"); fflush (stderr);
    }
