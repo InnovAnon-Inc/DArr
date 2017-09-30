@@ -19,22 +19,22 @@
 
 __attribute__ ((const, leaf, warn_unused_result))
 size_t darr_resize_exact (size_t inc,
-   void *restrict unused) {
+   void const *restrict unused) {
    return inc;
 }
 
-__attribute__ ((leaf, pure, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), pure, warn_unused_result))
 size_t darr_resize_geometric (size_t inc,
-   void *restrict _factor) {
-   double const *restrict factor = (double *restrict) _factor;
+   void const *restrict _factor) {
+   double const *restrict factor = (double const *restrict) _factor;
    double tmp = ceil (log ((double) inc) / log (*factor));
    double ret = pow (*factor, tmp);
    return (size_t) ret;
 }
 
-__attribute__ ((leaf, pure, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), pure, warn_unused_result))
 size_t darr_resize_linear (size_t inc,
-   void *restrict _factor) {
+   void const *restrict _factor) {
    size_t const *restrict factor = (size_t const *restrict) _factor;
    double tmp = ceil ((double) inc / (double) *factor);
 	#pragma GCC diagnostic push

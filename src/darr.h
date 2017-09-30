@@ -78,7 +78,7 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n)
 __attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
 
-void free_darr (darr_t *restrict darr)
+void free_darr (darr_t const *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
 
 #ifdef __cplusplus

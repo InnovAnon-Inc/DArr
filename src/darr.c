@@ -168,6 +168,6 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
-void free_darr (darr_t *restrict darr) {
+void free_darr (darr_t const *restrict darr) {
    free_array (&(darr->array));
 }

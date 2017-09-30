@@ -12,16 +12,16 @@ extern "C" {
 #include <darr.h>
 
 size_t darr_resize_exact (size_t inc,
-   void *restrict unused)
+   void const *restrict unused)
 __attribute__ ((const, leaf, warn_unused_result)) ;
 
 size_t darr_resize_geometric (size_t inc,
-   void *restrict factor)
-__attribute__ ((leaf, pure, warn_unused_result)) ;
+   void const *restrict factor)
+__attribute__ ((leaf, nonnull (2), pure, warn_unused_result)) ;
 
 size_t darr_resize_linear (size_t inc,
-   void *restrict factor)
-__attribute__ ((leaf, pure, warn_unused_result)) ;
+   void const *restrict factor)
+__attribute__ ((leaf, nonnull (2), pure, warn_unused_result)) ;
 
 #ifdef __cplusplus
 }
