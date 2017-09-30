@@ -10,14 +10,11 @@ lib_LTLIBRARIES =
 include_HEADERS =
 bin_PROGRAMS    =
 
-LIBDARR_RESIZE_LIBADD = -lm
+include Makefile-LIBADD.inc
 
 lib_LTLIBRARIES += libdarr-resize.la
 libdarr_resize_la_LIBADD = $(LIBDARR_RESIZE_LIBADD)
 include_HEADERS += darr-resize.h
-
-LIBDARR_LIBADD  = ../Array/src/.libs/libarray.la $(LIBARRAY_LIBADD)
-LIBDARR_LIBADD += ../swap/src/.libs/libswap.la $(LIBSWAP_LIBADD)
 
 lib_LTLIBRARIES += libdarr.la
 libdarr_la_SOURCES = darr.c
