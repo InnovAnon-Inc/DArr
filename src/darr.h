@@ -15,7 +15,7 @@ extern "C" {
 
 typedef __attribute__ ((warn_unused_result))
 size_t (*darr_resize_cb_t) (size_t inc,
-   void *restrict args) ;
+   void const *restrict args) ;
 
 typedef struct {
    array_t array;
