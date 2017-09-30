@@ -414,11 +414,15 @@ static int test9 (darr_t *restrict darr) {
    void *restrict cbargs;
    fprintf (stderr, "test9 ()\n"); fflush (stderr);
    if (darr->cbargs != NULL) {
+      /*
       TODO (this looks shady)
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+      */
       free (darr->cbargs);
+      /*
 	#pragma GCC diagnostic pop
+      */
    }
    error_check (get_cb (&cb, &cbargs) != 0) return -1;
    darr->resizecb = cb;

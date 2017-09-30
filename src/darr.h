@@ -21,7 +21,7 @@ typedef struct {
    array_t array;
    size_t n;
    darr_resize_cb_t resizecb;
-   void const *restrict cbargs;
+   void /*const*/ *restrict cbargs;
 } darr_t;
 
 int alloc_darr (darr_t *restrict darr, size_t esz,
