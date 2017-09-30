@@ -25,9 +25,9 @@ static void darr_print (darr_t const *restrict darr) {
    fprintf (stderr, "maxn: %d\n", (int) darr->array.n); fflush (stderr);
    fprintf (stderr, "n   : %d\n", (int) darr->n);    fflush (stderr);
    if (darr->resizecb == darr_resize_linear) {
-   fprintf (stderr, "f   : %d\n", (int) *(size_t *restrict) darr->cbargs); fflush (stderr);
+   fprintf (stderr, "f   : %d\n", (int) *(size_t const *restrict) darr->cbargs); fflush (stderr);
    } else if (darr->resizecb == darr_resize_geometric) {
-   fprintf (stderr, "f   : %g\n", *(double *restrict) darr->cbargs); fflush (stderr);
+   fprintf (stderr, "f   : %g\n", *(double const *restrict) darr->cbargs); fflush (stderr);
    }
    if (darr->n <= 30) {
       fprintf (stderr, "["); fflush (stderr);
@@ -413,7 +413,13 @@ static int test9 (darr_t *restrict darr) {
    darr_resize_cb_t cb;
    void *restrict cbargs;
    fprintf (stderr, "test9 ()\n"); fflush (stderr);
-   if (darr->cbargs != NULL) free (darr->cbargs);
+   if (darr->cbargs != NULL) {
+      TODO (this looks shady)
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+      free (darr->cbargs);
+	#pragma GCC diagnostic pop
+   }
    error_check (get_cb (&cb, &cbargs) != 0) return -1;
    darr->resizecb = cb;
    darr->cbargs   = cbargs;
