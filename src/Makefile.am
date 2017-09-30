@@ -1,3 +1,11 @@
+AM_CPPFLAGS = -D__STDC_INT64__
+
+SUBDIRS = ../glitter
+AM_CPPFLAGS += -I ../glitter/src
+
+SUBDIRS += ../Array
+AM_CPPFLAGS += -I ../Array/src
+
 lib_LTLIBRARIES =
 include_HEADERS =
 bin_PROGRAMS    =
@@ -19,11 +27,3 @@ bin_PROGRAMS += darr
 darr_SOURCES = darr-test.c
 darr_LDADD  = libdarr.la $(LIBDARR_LIBADD)
 darr_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
-
-AM_CPPFLAGS = -D__STDC_INT64__
-
-SUBDIRS = ../glitter
-AM_CPPFLAGS += -I ../glitter/src
-
-SUBDIRS += ../Array
-AM_CPPFLAGS += -I ../Array/src
