@@ -21,27 +21,27 @@ typedef struct {
    array_t array;
    size_t n;
    darr_resize_cb_t resizecb;
-   void *restrict cbargs;
+   void const *restrict cbargs;
 } darr_t;
 
 int alloc_darr (darr_t *restrict darr, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
 
 int alloc_darr2 (darr_t *restrict darr,
    size_t esz, size_t maxn,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result)) ;
 
 /* don't give us a statically allocated data* */
 void init_darr (darr_t *restrict darr,
    void *restrict data, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((nonnull (1, 2, 4), nothrow)) ;
 
 void init_darr2 (darr_t *restrict darr,
    void *restrict data, size_t esz, size_t maxn,
-   darr_resize_cb_t resizecb, void *restrict cbargs)
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((leaf, nonnull (1, 2, 5), nothrow)) ;
 
 int ensure_cap_darr (darr_t *restrict darr, size_t n)

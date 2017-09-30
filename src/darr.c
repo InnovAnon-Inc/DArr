@@ -15,7 +15,7 @@
 
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
 int alloc_darr (darr_t *restrict darr, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs) {
+   darr_resize_cb_t resizecb, void const *restrict cbargs) {
    /* if your resizecb is geometric, then you may have to use
     * init_darr2 (darr, esz, resizecb(1), resizecb) */
 	#pragma GCC diagnostic push
@@ -28,7 +28,7 @@ int alloc_darr (darr_t *restrict darr, size_t esz,
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
 int alloc_darr2 (darr_t *restrict darr,
    size_t esz, size_t maxn,
-   darr_resize_cb_t resizecb, void *restrict cbargs) {
+   darr_resize_cb_t resizecb, void const *restrict cbargs) {
    darr->n = 0;
    darr->resizecb = resizecb;
    darr->cbargs   = cbargs;
@@ -40,7 +40,7 @@ int alloc_darr2 (darr_t *restrict darr,
 __attribute__ ((nonnull (1, 2, 4), nothrow))
 void init_darr (darr_t *restrict darr,
    void *restrict data, size_t esz,
-   darr_resize_cb_t resizecb, void *restrict cbargs) {
+   darr_resize_cb_t resizecb, void const *restrict cbargs) {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wtraditional-conversion"
    size_t maxn = resizecb (0, cbargs);
@@ -51,7 +51,7 @@ void init_darr (darr_t *restrict darr,
 __attribute__ ((leaf, nonnull (1, 2, 5), nothrow))
 void init_darr2 (darr_t *restrict darr,
    void *restrict data, size_t esz, size_t maxn,
-   darr_resize_cb_t resizecb, void *restrict cbargs) {
+   darr_resize_cb_t resizecb, void const *restrict cbargs) {
    init_array (&(darr->array), data, esz, maxn);
    darr->n = 0;
    darr->resizecb = resizecb;
