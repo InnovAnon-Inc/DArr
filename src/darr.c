@@ -31,7 +31,11 @@ int alloc_darr2 (darr_t *restrict darr,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
    darr->n = 0;
    darr->resizecb = resizecb;
+      TODO (this looks shady)
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
    darr->cbargs   = cbargs;
+	#pragma GCC diagnostic pop
    error_check (alloc_array (&(darr->array), esz, maxn) != 0) return -1;
    return 0;
 }
@@ -55,7 +59,10 @@ void init_darr2 (darr_t *restrict darr,
    init_array (&(darr->array), data, esz, maxn);
    darr->n = 0;
    darr->resizecb = resizecb;
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
    darr->cbargs   = cbargs;
+	#pragma GCC diagnostic pop
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
