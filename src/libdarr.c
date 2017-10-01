@@ -95,39 +95,56 @@ int trim_cap_darr (darr_t *restrict darr, size_t n) {
    return 0;
 }
 
-__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
-int insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
-   error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
+   /*error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;*/
    set_array (&(darr->array), darr->n, e);
    darr->n++;
-   return 0;
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
-int inserts_rear_darr (darr_t *restrict darr,
-   void const *restrict e, size_t n) {
-   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
-   sets_array (&(darr->array), darr->n, e, n);
-   darr->n += n;
+int ez_insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
+   error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
+   insert_rear_darr (darr, e);
    return 0;
 }
 
-__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
-int insert_front_darr (darr_t *restrict darr, size_t i,
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void inserts_rear_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n) {
+   sets_array (&(darr->array), darr->n, e, n);
+   darr->n += n;
+}
+
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+int ez_inserts_rear_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n) {
+   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
+   inserts_rear_darr (darr, e, n);
+   return 0;
+}
+
+__attribute__ ((leaf, nonnull (1, 3), nothrow))
+void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
-   error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
    /*if (i != darr->n)*/
       mvs_array (&(darr->array), i + 0, i + 1, darr->n - i);
    set_array (&(darr->array), i + 0, e);
    darr->n++;
-   return 0;
 }
 
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
-int inserts_front_darr (darr_t *restrict darr, size_t i,
+int ez_insert_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e) {
+   error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;
+   insert_front_darr (darr, i, e);
+   return 0;
+}
+
+__attribute__ ((leaf, nonnull (1, 3), nothrow))
+void inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n) {
    size_t mv;
-   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
 
    /*if (i + n > darr->n)
       mv = darr->n - i;
@@ -139,6 +156,13 @@ int inserts_front_darr (darr_t *restrict darr, size_t i,
    mvs_array (&(darr->array), i + 0, i + n, mv);
    sets_array (&(darr->array), i + 0, e, n);
    darr->n += n;
+}
+
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
+int ez_inserts_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e, size_t n) {
+   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
+   inserts_front_darr (darr, i, e, n);
    return 0;
 }
 
@@ -173,6 +197,44 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
       mvs_array (&(darr->array), i + n, i + 0, darr->n - i - n);
    darr->n -= n;
 }
+
+
+
+
+
+
+
+
+
+
+
+__attribute__ ((leaf, nonnull (1, 3), nothrow))
+void inserts_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n) {
+   array_t tmp;
+   size_t i;
+   void const *restrict E;
+
+   init_array (&tmp, e, darr->array.esz, n);
+
+   for (i = n; i != 0; i--) {
+      mvs_array (&(darr->array), is[i - 1], i);
+      E = index_array (&tmp, n - i);
+      set_array (&(darr->array), is[i - 1] + (i - 1), E);
+   }
+
+   darr->n += n;
+}
+
+
+
+
+
+
+
+
+
+
 
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t const *restrict darr) {
