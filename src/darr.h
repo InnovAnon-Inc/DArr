@@ -112,7 +112,7 @@ void unmake_gaps_darr (darr_t *restrict darr,
 __attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
 void removes_darr (darr_t *restrict darr, size_t const is[],
-   void const *restrict e, size_t n)
+   void *restrict e, size_t n)
 __attribute__ ((nonnull (1, 2, 3), nothrow)) ;
 
 void free_darr (darr_t const *restrict darr)
