@@ -273,7 +273,7 @@ void removes_darr (darr_t *restrict darr, size_t const is[],
 	#pragma GCC ivdep
    for (i = 0; i != n; i++) {
       E = index_array (&tmp, i);
-      get_array (&(darr->array), is[i] + i, E);
+      get_array (&(darr->array), is[i] /*+ i*/, E);
    }
 
    unmake_gaps_darr (darr, is, n);
