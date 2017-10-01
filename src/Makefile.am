@@ -19,10 +19,8 @@ libdarr_resize_la_LIBADD = $(LIBDARR_RESIZE_LIBADD)
 include_HEADERS += darr-resize.h
 
 lib_LTLIBRARIES += libdarr.la
-libdarr_la_SOURCES = darr.c
 libdarr_la_LIBADD = $(LIBDARR_LIBADD)
 include_HEADERS += darr.h
-bin_PROGRAMS += darr
-darr_SOURCES = darr-test.c
-darr_LDADD  = libdarr.la $(LIBDARR_LIBADD)
-darr_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
+bin_PROGRAMS += darr-test
+darr_test_LDADD  = libdarr.la $(LIBDARR_LIBADD)
+darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
