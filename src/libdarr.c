@@ -303,7 +303,7 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 size_t indexOf_darr (darr_t const *restrict darr,
 	void const *restrict e) {
    array_t tmp;
-   init_array (&tmp, darr->data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->esz, darr->n);
    return indexOf_array (&tmp, e);
 }
 
@@ -311,7 +311,7 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 bool contains_darr (darr_t const *restrict darr,
 	void const *restrict e) {
    array_t tmp;
-   init_array (&tmp, darr->data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->esz, darr->n);
    return contains_array (&tmp, e);
 }
 
@@ -319,6 +319,6 @@ __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
 ssize_t indexOf_darr_chk (darr_t const *restrict array,
    void const *restrict e) {
    array_t tmp;
-   init_array (&tmp, darr->data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->esz, darr->n);
    return indexOf_array_chk (&tmp, e);
 }
