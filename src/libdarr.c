@@ -206,10 +206,71 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
 
 
 
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void make_gaps_darr (darr_t *restrict darr,
+   size_t const is[], size_t n) {
+   size_t i, prev;
 
+   for (i = n, prev = darr->n; i != 0; i--, prev = is[i])
+      mvs_array (&(darr->array),
+         is[i - 1], is[i - 1] + i, prev - is[i - 1]);
 
-__attribute__ ((leaf, nonnull (1, 3), nothrow))
+   darr->n += n;
+}
+
+__attribute__ ((nonnull (1, 2, 3), nothrow))
 void inserts_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n) {
+   array_t tmp;
+   size_t i;
+   void const *restrict E;
+
+   make_gaps_darr (darr, is, n);
+
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+   init_array (&tmp, e, darr->array.esz, n);
+	#pragma GCC diagnostic pop
+
+	#pragma GCC ivdep
+   for (i = 0; i != n; i++) {
+      E = index_array (&tmp, i);
+      set_array ($(darr->array), is[i] + i, E);
+   }
+
+   /*
+   for (i = n; i != 0; i--) {
+      mvs_array (&(darr->array), is[i - 1], i, darr->n - (i - 1));
+      E = index_array (&tmp, n - i);
+      set_array (&(darr->array), is[i - 1] + (i - 1), E);
+   }
+
+   darr->n += n;
+   */
+}
+
+__attribute__ ((nonnull (1, 2, 3), nothrow, warn_unused_result))
+int ez_inserts_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n) {
+   error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
+   inserts_darr (darr, i, e, n);
+   return 0;
+}
+
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void unmake_gaps_darr (darr_t *restrict darr,
+   size_t const is[], size_t n) {
+   size_t i;
+
+   for (i = 0; i != n - 1; i++)
+      mvs_array (&(darr->array), is[i], is[i] + i, is[i + 1] - is[i]);
+   mvs_array (&(darr->array), is[i], is[i] + i, darr->n - is[i]);
+
+   darr->n -= n;
+}
+
+__attribute__ ((nonnull (1, 2, 3), nothrow))
+void removes_darr (darr_t *restrict darr, size_t const is[],
    void const *restrict e, size_t n) {
    array_t tmp;
    size_t i;
@@ -220,18 +281,14 @@ void inserts_darr (darr_t *restrict darr, size_t const is[],
    init_array (&tmp, e, darr->array.esz, n);
 	#pragma GCC diagnostic pop
 
-   for (i = n; i != 0; i--) {
-      mvs_array (&(darr->array), is[i - 1], i, darr->n - (i - 1));
-      E = index_array (&tmp, n - i);
-      set_array (&(darr->array), is[i - 1] + (i - 1), E);
+	#pragma GCC ivdep
+   for (i = 0; i != n; i++) {
+      E = index_array (&tmp, i);
+      get_array ($(darr->array), is[i] + i, E);
    }
 
-   darr->n += n;
+   unmake_gaps_darr (darr, is, n);
 }
-
-
-
-
 
 
 

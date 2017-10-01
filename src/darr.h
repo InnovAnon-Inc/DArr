@@ -95,9 +95,25 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n)
 __attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
 
+void make_gaps_darr (darr_t *restrict darr,
+   size_t const is[], size_t n)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+
 void inserts_darr (darr_t *restrict darr, size_t const is[],
    void const *restrict e, size_t n)
-__attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
+__attribute__ ((nonnull (1, 2, 3), nothrow)) ;
+
+int ez_inserts_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n)
+__attribute__ ((nonnull (1, 2, 3), nothrow, warn_unused_result)) ;
+
+void unmake_gaps_darr (darr_t *restrict darr,
+   size_t const is[], size_t n)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+
+void removes_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n)
+__attribute__ ((nonnull (1, 2, 3), nothrow)) ;
 
 void free_darr (darr_t const *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
