@@ -6,7 +6,7 @@
 #define __STDC_VERSION__ 200112L
 
 #include <assert.h>
-#include <limits.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include <mmalloc.h>
@@ -49,7 +49,10 @@ darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
 
 __attribute__ ((leaf, nonnull (1), nothrow))
 void ez_free_darr1 (darr_t *restrict darr) {
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
    mfree (darr);
+	#pragma GCC diagnostic pop
    free (darr);
 }
 
@@ -369,7 +372,7 @@ size_t indexOf_darr (darr_t const *restrict darr,
 	void const *restrict e) {
    array_t tmp;
    size_t ret;
-   init_array (&tmp, darr->array.data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    ret = indexOf_array (&tmp, e);
    assert (ret < darr->n);
    return ret;
@@ -384,7 +387,7 @@ bool contains_darr (darr_t const *restrict darr,
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
-ssize_t indexOf_darr_chk (darr_t const *restrict array,
+ssize_t indexOf_darr_chk (darr_t const *restrict darr,
    void const *restrict e) {
    array_t tmp;
    ssize_t ret;
