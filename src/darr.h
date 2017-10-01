@@ -124,6 +124,9 @@ __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 void free_darr (darr_t const *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
 
+size_t remaining_space_darr (darr_t const *restrict darr)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
 #ifdef __cplusplus
 }
 #endif

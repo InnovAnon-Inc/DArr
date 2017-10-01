@@ -289,6 +289,11 @@ bool isempty_darr (darr_t const *restrict darr) {
    return darr->n == 0;
 }
 
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+size_t remaining_space_darr (darr_t const *restrict darr) {
+   return darr->array.n - darr->n;
+}
+
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t const *restrict darr) {
    free_array (&(darr->array));
