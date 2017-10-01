@@ -50,32 +50,53 @@ __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 int trim_cap_darr (darr_t *restrict darr, size_t n)
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 
-int insert_rear_darr (darr_t *restrict darr, void const *restrict e)
-__attribute__ ((nonnull (1, 2), nothrow)) ;
+void insert_rear_darr (darr_t *restrict darr, void const *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
-int inserts_rear_darr (darr_t *restrict darr,
+int ez_insert_rear_darr (darr_t *restrict darr, void const *restrict e)
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result)) ;
+
+void inserts_rear_darr (darr_t *restrict darr,
    void const *restrict e, size_t n)
-__attribute__ ((nonnull (1, 2), nothrow)) ;
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
-int insert_front_darr (darr_t *restrict darr, size_t i,
+int ez_inserts_rear_darr (darr_t *restrict darr,
+   void const *restrict e, size_t n)
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result)) ;
+
+void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e)
-__attribute__ ((nonnull (1, 3), nothrow)) ;
+__attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
 
-int inserts_front_darr (darr_t *restrict darr, size_t,
+int ez_insert_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e)
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
+
+void inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n)
-__attribute__ ((nonnull (1, 3), nothrow)) ;
+__attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
+
+int ez_inserts_front_darr (darr_t *restrict darr, size_t i,
+   void const *restrict e, size_t n)
+__attribute__ ((nonnull (1, 3), nothrow, warn_unused_result)) ;
 
 void remove_rear_darr (darr_t *restrict darr, void *restrict e)
 __attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
-void removes_rear_darr (darr_t *restrict darr, void *restrict e, size_t n)
+void removes_rear_darr (darr_t *restrict darr,
+   void *restrict e, size_t n)
 __attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
-void remove_front_darr (darr_t *restrict darr, size_t i, void *restrict e)
+void remove_front_darr (darr_t *restrict darr, size_t i,
+   void *restrict e)
 __attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
 
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n)
+__attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
+
+void inserts_darr (darr_t *restrict darr, size_t const is[],
+   void const *restrict e, size_t n)
 __attribute__ ((leaf, nonnull (1, 3), nothrow)) ;
 
 void free_darr (darr_t const *restrict darr)
