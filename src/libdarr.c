@@ -6,7 +6,10 @@
 #define __STDC_VERSION__ 200112L
 
 #include <assert.h>
+#include <limits.h>
 #include <stdlib.h>
+
+#include <mmalloc.h>
 
 #include <darr.h>
 
@@ -376,7 +379,7 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 bool contains_darr (darr_t const *restrict darr,
 	void const *restrict e) {
    array_t tmp;
-   init_array (&tmp, darr->array.data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    return contains_array (&tmp, e);
 }
 
@@ -385,7 +388,7 @@ ssize_t indexOf_darr_chk (darr_t const *restrict array,
    void const *restrict e) {
    array_t tmp;
    ssize_t ret;
-   init_array (&tmp, darr->array.data, darr->esz, darr->n);
+   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    ret = indexOf_array_chk (&tmp, e);
    assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
    return ret;
