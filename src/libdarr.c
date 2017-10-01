@@ -51,7 +51,7 @@ __attribute__ ((leaf, nonnull (1), nothrow))
 void ez_free_darr1 (darr_t *restrict darr) {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-   mfree (darr);
+   mfree ((void *restrict) darr);
 	#pragma GCC diagnostic pop
    free (darr);
 }
