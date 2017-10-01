@@ -6,6 +6,7 @@
 #define __STDC_VERSION__ 200112L
 
 #include <assert.h>
+#include <stdlib.h>
 
 #include <darr.h>
 
@@ -15,32 +16,32 @@ size_t darrsz (size_t esz, size_t n) {
 }
 
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (3, 4), nothrow, warn_unused_result))
-darr_t *ez_alloc_darr11 (size_t esz, size_t n,
+	nonnull (2, 3), nothrow, warn_unused_result))
+darr_t *ez_alloc_darr11 (size_t esz,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
    size_t maxn = resizecb ((size_t) 0, cbargs);
-   return ez_alloc_darr12 (esz, n, maxn, resizecb, cbargs);
+   return ez_alloc_darr12 (esz, maxn, resizecb, cbargs);
 }
 
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (4, 5), nothrow, warn_unused_result))
-darr_t *ez_alloc_darr12 (size_t esz, size_t n, size_t maxn,
+	nonnull (3, 4), nothrow, warn_unused_result))
+darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
    void *restrict combined[2];
 	size_t eszs[2];
-	darr_t *restrict array;
+	darr_t *restrict darr;
 	void *restrict data;
 
 	eszs[0] = sizeof (darr_t);
-	eszs[1] = datasz  (esz, n);
+	eszs[1] = datasz  (esz, maxn);
 	error_check (mmalloc (combined, eszs,
 		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
 		return NULL;
-	array = (darr_t *restrict) combined[0];
-	data  = (void *restrict)   combined[1];
+	darr = (darr_t *restrict) combined[0];
+	data = (void *restrict)   combined[1];
 
-   init_darr2 (darr, data, esz, n, maxn, resizecb, cbargs);
-	return array;
+   init_darr2 (darr, data, esz, maxn, resizecb, cbargs);
+	return darr;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
@@ -50,20 +51,20 @@ void ez_free_darr1 (darr_t *restrict darr) {
 }
 
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (3, 4), nothrow, warn_unused_result))
-darr_t *ez_alloc_darr21 (size_t esz, size_t n,
+	nonnull (2, 3), nothrow, warn_unused_result))
+darr_t *ez_alloc_darr21 (size_t esz,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
    size_t maxn = resizecb ((size_t) 0, cbargs);
-   return ez_alloc_darr22 (esz, n, maxn, resizecb, cbargs);
+   return ez_alloc_darr22 (esz, maxn, resizecb, cbargs);
 }
 
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (4, 5), nothrow, warn_unused_result))
-darr_t *ez_alloc_darr22 (size_t esz, size_t n, size_t maxn,
+	nonnull (3, 4), nothrow, warn_unused_result))
+darr_t *ez_alloc_darr22 (size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
 	darr_t *restrict array = malloc (sizeof (darr_t));
 	error_check (array == NULL) return NULL;
-	error_check (alloc_darr2 (array, esz, n, maxn, resizecb, cbargs) != 0) {
+	error_check (alloc_darr2 (array, esz, maxn, resizecb, cbargs) != 0) {
 		free (array);
 		return NULL;
 	}
@@ -75,10 +76,6 @@ void ez_free_darr2 (darr_t *restrict array) {
 	free_darr (array);
 	free (array);
 }
-
-
-
-
 
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
 int alloc_darr (darr_t *restrict darr, size_t esz,

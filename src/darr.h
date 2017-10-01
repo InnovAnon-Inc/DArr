@@ -25,31 +25,31 @@ typedef struct {
    void /*const*/ *restrict cbargs;
 } darr_t;
 
-size_t darrsz (size_t esz, size_t n)
+size_t darrsz (size_t esz, size_t maxn)
 __attribute__ ((const, leaf, nothrow, warn_unused_result)) ;
 
-darr_t *ez_alloc_darr11 (size_t esz, size_t n,
+darr_t *ez_alloc_darr11 (size_t esz,
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
+__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
+	nonnull (2, 3), nothrow, warn_unused_result)) ;
+
+darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
 	nonnull (3, 4), nothrow, warn_unused_result)) ;
-
-darr_t *ez_alloc_darr12 (size_t esz, size_t n, size_t maxn,
-   darr_resize_cb_t resizecb, void const *restrict cbargs)
-__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (4, 5), nothrow, warn_unused_result)) ;
 
 void ez_free_darr1 (darr_t *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
 
-darr_t *ez_alloc_darr21 (size_t esz, size_t n,
+darr_t *ez_alloc_darr21 (size_t esz,
+   darr_resize_cb_t resizecb, void const *restrict cbargs)
+__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
+	nonnull (2, 3), nothrow, warn_unused_result)) ;
+
+darr_t *ez_alloc_darr22 (size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
 	nonnull (3, 4), nothrow, warn_unused_result)) ;
-
-darr_t *ez_alloc_darr22 (size_t esz, size_t n, size_t maxn,
-   darr_resize_cb_t resizecb, void const *restrict cbargs)
-__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
-	nonnull (4, 5), nothrow, warn_unused_result)) ;
 
 void ez_free_darr2 (darr_t *restrict array)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
