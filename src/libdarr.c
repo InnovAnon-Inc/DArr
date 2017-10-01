@@ -245,7 +245,7 @@ __attribute__ ((nonnull (1, 2, 3), nothrow, warn_unused_result))
 int ez_inserts_darr (darr_t *restrict darr, size_t const is[],
    void const *restrict e, size_t n) {
    error_check (ensure_cap_darr (darr, darr->n + n) != 0) return -1;
-   inserts_darr (darr, i, e, n);
+   inserts_darr (darr, is, e, n);
    return 0;
 }
 
@@ -263,15 +263,12 @@ void unmake_gaps_darr (darr_t *restrict darr,
 
 __attribute__ ((nonnull (1, 2, 3), nothrow))
 void removes_darr (darr_t *restrict darr, size_t const is[],
-   void const *restrict e, size_t n) {
+   void *restrict e, size_t n) {
    array_t tmp;
    size_t i;
-   void const *restrict E;
+   void *restrict E;
 
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
    init_array (&tmp, e, darr->array.esz, n);
-	#pragma GCC diagnostic pop
 
 	#pragma GCC ivdep
    for (i = 0; i != n; i++) {
