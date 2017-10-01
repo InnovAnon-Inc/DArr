@@ -198,14 +198,6 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    darr->n -= n;
 }
 
-
-
-
-
-
-
-
-
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void make_gaps_darr (darr_t *restrict darr,
    size_t const is[], size_t n) {
@@ -235,7 +227,7 @@ void inserts_darr (darr_t *restrict darr, size_t const is[],
 	#pragma GCC ivdep
    for (i = 0; i != n; i++) {
       E = index_array (&tmp, i);
-      set_array ($(darr->array), is[i] + i, E);
+      set_array (&(darr->array), is[i] + i, E);
    }
 
    /*
@@ -284,17 +276,11 @@ void removes_darr (darr_t *restrict darr, size_t const is[],
 	#pragma GCC ivdep
    for (i = 0; i != n; i++) {
       E = index_array (&tmp, i);
-      get_array ($(darr->array), is[i] + i, E);
+      get_array (&(darr->array), is[i] + i, E);
    }
 
    unmake_gaps_darr (darr, is, n);
 }
-
-
-
-
-
-
 
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t const *restrict darr) {
