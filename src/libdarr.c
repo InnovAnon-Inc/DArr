@@ -279,6 +279,16 @@ void removes_darr (darr_t *restrict darr, size_t const is[],
    unmake_gaps_darr (darr, is, n);
 }
 
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+bool isfull_darr (darr_t const *restrict darr) {
+   return darr->n == darr->array.n;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+bool isempty_darr (darr_t const *restrict darr) {
+   return darr->n == 0;
+}
+
 __attribute__ ((leaf, nonnull (1), nothrow))
 void free_darr (darr_t const *restrict darr) {
    free_array (&(darr->array));

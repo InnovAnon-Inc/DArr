@@ -115,6 +115,12 @@ void removes_darr (darr_t *restrict darr, size_t const is[],
    void *restrict e, size_t n)
 __attribute__ ((nonnull (1, 2, 3), nothrow)) ;
 
+bool isfull_darr (darr_t const *restrict darr)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
+bool isempty_darr (darr_t const *restrict darr)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
 void free_darr (darr_t const *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
 
