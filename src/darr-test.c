@@ -48,7 +48,7 @@ static int insert_rear_test (darr_t *restrict darr,
    fprintf (stderr, "insert rear test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++) {
       nums[k] = rand ();
-      error_check (insert_rear_darr (darr, nums + k) != 0) {
+      error_check (ez_insert_rear_darr (darr, nums + k) != 0) {
          fputs ("error -2", stderr); fflush (stderr);
          return -2;
       }
@@ -83,7 +83,7 @@ static int inserts_rear_test (darr_t *restrict darr,
    fprintf (stderr, "inserts rear test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++)
       nums[k] = rand ();
-   error_check (inserts_rear_darr (darr, nums, nnum) != 0) {
+   error_check (ez_inserts_rear_darr (darr, nums, nnum) != 0) {
       fputs ("error -6", stderr); fflush (stderr);
       return -6;
    }
@@ -123,7 +123,7 @@ static int insert_front_test (darr_t *restrict darr,
       if (darr->n == 0) j = 0;
       else j = (size_t) rand () % darr->n;
       nums[k] = rand ();
-      error_check (insert_front_darr (darr, j,
+      error_check (ez_insert_front_darr (darr, j,
          nums + k) != 0) {
          fputs ("error -2", stderr); fflush (stderr);
          return -2;
@@ -158,7 +158,7 @@ static int inserts_front_test (darr_t *restrict darr,
    fprintf (stderr, "inserts front test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++)
       nums[k] = rand ();
-   error_check (inserts_front_darr (darr, (size_t) 0,
+   error_check (ez_inserts_front_darr (darr, (size_t) 0,
       nums, nnum) != 0) {
       fputs ("error -6", stderr); fflush (stderr);
       return -6;
@@ -249,7 +249,7 @@ static int test0 (darr_t *restrict darr) {
    int num = rand ();
    size_t sz = darr->n;
    fprintf (stderr, "test0 () num:%d, sz:%d\n", num, (int) sz); fflush (stderr);
-   error_check (insert_rear_darr (darr, &num) != 0) {
+   error_check (ez_insert_rear_darr (darr, &num) != 0) {
       fputs ("error -10", stderr); fflush (stderr);
       return -10;
    }
@@ -273,7 +273,7 @@ static int test1 (darr_t *restrict darr, size_t nnum) {
    fprintf (stderr, "test1 () snum: %d, sz: %d\n", (int) snum, (int) sz); fflush (stderr);
    nums = malloc (sizeof (int) * snum);
    get_nums (nums, snum);
-   error_check (inserts_rear_darr (darr, nums, snum) != 0) {
+   error_check (ez_inserts_rear_darr (darr, nums, snum) != 0) {
       fputs ("error -11", stderr); fflush (stderr);
       free (nums);
       return -11;
@@ -322,7 +322,7 @@ static int test4 (darr_t *restrict darr) {
    else k = (size_t) rand () % (darr->n + 1);
    num = rand ();
    fprintf (stderr, "test4 () sz: %d, k: %d, num: %d\n", (int) sz, (int) k, (int) num); fflush (stderr);
-   error_check (insert_front_darr (darr, k, &num) != 0) {
+   error_check (ez_insert_front_darr (darr, k, &num) != 0) {
       fputs ("error -12", stderr); fflush (stderr);
       return -12;
    }
@@ -344,7 +344,7 @@ static int test5 (darr_t *restrict darr, int nums[], size_t nnum) {
    fprintf (stderr, "k   : %d\n", (int) k);    fflush (stderr);
    darr_print (darr);
 
-   error_check (inserts_front_darr (darr, k, nums, snum) != 0) {
+   error_check (ez_inserts_front_darr (darr, k, nums, snum) != 0) {
       fputs ("error -13", stderr); fflush (stderr);
       return -13;
    }

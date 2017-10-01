@@ -215,10 +215,13 @@ void inserts_darr (darr_t *restrict darr, size_t const is[],
    size_t i;
    void const *restrict E;
 
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
    init_array (&tmp, e, darr->array.esz, n);
+	#pragma GCC diagnostic pop
 
    for (i = n; i != 0; i--) {
-      mvs_array (&(darr->array), is[i - 1], i);
+      mvs_array (&(darr->array), is[i - 1], i, darr->n - (i - 1));
       E = index_array (&tmp, n - i);
       set_array (&(darr->array), is[i - 1] + (i - 1), E);
    }
