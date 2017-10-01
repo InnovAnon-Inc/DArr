@@ -127,6 +127,18 @@ __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 void free_darr (darr_t const *restrict darr)
 __attribute__ ((leaf, nonnull (1), nothrow)) ;
 
+size_t indexOf_darr (darr_t const *restrict darr,
+	void const *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+bool contains_darr (darr_t const *restrict darr,
+	void const *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+ssize_t indexOf_darr_chk (darr_t const *restrict array,
+   void const *restrict e)
+__attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
 #ifdef __cplusplus
 }
 #endif
