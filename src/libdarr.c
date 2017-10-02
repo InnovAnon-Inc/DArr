@@ -6,6 +6,9 @@
 #define __STDC_VERSION__ 200112L
 
 #include <assert.h>
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 #include <stdint.h>
 #include <stdlib.h>
 
