@@ -217,7 +217,7 @@ __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
    assert (! isfull_darr (darr));
-   if (i != darr->n)
+   /*if (i != darr->n)*/
       mvs_array (&(darr->array), i + 0, i + 1, darr->n - i);
    set_array (&(darr->array), i + 0, e);
    darr->n++;
@@ -242,7 +242,8 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - i + n;*/
-      mv = darr->n - i;
+      /*mv = darr->n - i;*/
+      mv = n;
 
    /*if (mv != 0)*/
    mvs_array (&(darr->array), i + 0, i + n, mv);
