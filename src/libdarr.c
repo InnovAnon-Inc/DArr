@@ -267,6 +267,10 @@ void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
+#ifndef NDEBUG
+   fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
+   fprintf (stderr, "amt_to_add: %d\n", (int) n);
+#endif
    assert (remaining_space_darr (darr) >= n);
    gets_array (&(darr->array), darr->n - n, e, n);
    darr->n -= n;
