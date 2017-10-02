@@ -306,13 +306,8 @@ void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
-   size_t mv;
    assert (darr->n >= n || n == 0);
-   if (i + n >= darr->n)
-      mv = darr->n - i;
-   else
-      mv = darr->n - (i + n);
-   gets_array (&(darr->array), darr->n - n, e, mv);
+   gets_array (&(darr->array), darr->n - n, e, n);
    darr->n -= n;
 
 #ifdef TEST
