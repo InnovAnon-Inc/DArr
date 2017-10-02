@@ -327,7 +327,7 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e) {
    size_t mv;
    assert (! isempty_darr (darr));
-   assert (darr->n >= n || n == 0);
+   assert (darr->n >= 1);
    if (i + 1 >= darr->n)
       mv = darr->n - i;
    else
