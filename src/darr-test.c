@@ -570,7 +570,7 @@ int main (void) {
    error_check (trim_cap_darr (&darr, (size_t) 0) != 0) return -1;
    darr_print (&darr);
    */
-   /*
+
    for (testi = 0; testi != ntest; testi++) {
       fprintf (stderr, "testi: %d\n", (int) testi);
       error_check (test0 (&darr) != 0) return -4;
@@ -584,8 +584,7 @@ int main (void) {
       error_check (test8 (&darr) != 0) return -8;
       error_check (test9 (&darr) != 0) return -9;
    }
-   */
-   /*
+
    for (testi = 0; testi != ntest; testi++) {
       fprintf (stderr, "testi: %d\n", (int) testi);
       error_check (test9 (&darr) != 0) return -9;
@@ -599,7 +598,7 @@ int main (void) {
       error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
       error_check (test0 (&darr) != 0) return -4;
    }
-   */
+
    /*
    error_check (insert_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
    error_check (remove_rear_test  (&darr, nums, ARRSZ (nums)) != 0) return -2;
@@ -620,7 +619,7 @@ int main (void) {
    error_check (removes_front_test (&darr, nums, ARRSZ (nums)) != 0) return -2;
 
    error_check (reset_test (&darr) != 0) return -3;
-   */
+
    /*
    error_check (test0 (&darr) != 0) return -4;
    error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
