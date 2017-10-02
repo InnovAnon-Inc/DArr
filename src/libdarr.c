@@ -406,7 +406,7 @@ bool contains_darr (darr_t const *restrict darr,
    bool ret;
    array_t tmp;
    init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
-   ret = contains_array (darr, e);
+   ret = contains_array (&tmp, e);
    return ret;
 }
 
@@ -416,19 +416,21 @@ ssize_t indexOf_darr_chk (darr_t const *restrict darr,
    ssize_t ret;
    array_t tmp;
    init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
-   ret = indexOf_array_chk (darr, e);
+   ret = indexOf_array_chk (&tmp, e);
    assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
    return ret;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result))
 void *index_darr (darr_t const *restrict darr, size_t i) {
-   return index_array (&(darr->array), i);
+   array_t tmp;
+   init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
+   return index_array (&tmp, i);
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void frees_darr (darr_t const *restrict darr, free_t f) {
-   size_t n = darr->array.n;
-   frees_array (&(darr->array), f);
-   darr->array.n = n;
+   array_t tmp;
+   init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
+   frees_array (&tmp, f);
 }
