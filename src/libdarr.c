@@ -332,7 +332,8 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - (i + 1);
-   gets_array (&(darr->array), darr->n - 1, e, mv);
+   gets_array (&(darr->array), i + 0, e, 1);
+   mvs_array (&(darr->array), i + 1, i + 0, mv);
    darr->n--;
 #ifdef TEST
    assert (! isempty_darr (darr));
@@ -347,17 +348,29 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n) {
+   size_t mv;
 #ifndef NDEBUG
    fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
    fprintf (stderr, "amt_to_rem: %d\n", (int) n);
 #endif
    assert (darr->n >= n || n == 0);
+   assert (! isempty_darr (darr));
+   assert (darr->n >= n);
+   if (i + n >= darr->n)
+      mv = darr->n - i;
+   else
+      mv = darr->n - (i + n);
+   gets_array (&(darr->array), i + 0, e, n);
+   mvs_array (&(darr->array), i + n, i + 0, mv);
+   darr->n -=n;
+#ifdef TEST
    sets_array (&(darr->array), i + 0, e, n);
    /* TODO i + n != darr->n*/
    if (i + n < darr->n)
       mvs_array (&(darr->array), i + n, i + 0, darr->n - i - n);
    darr->n -= n;
    TODO (check underflow)
+#endif
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
