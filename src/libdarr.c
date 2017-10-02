@@ -274,7 +274,7 @@ void removes_rear_darr (darr_t *restrict darr,
    fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
    fprintf (stderr, "amt_to_add: %d\n", (int) n);
 #endif
-   assert (remaining_space_darr (darr) >= n || n == 0);
+   assert (darr->n >= n || n == 0);
    gets_array (&(darr->array), darr->n - n, e, n);
    darr->n -= n;
    TODO (check underflow)
@@ -298,7 +298,7 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
    fprintf (stderr, "amt_to_rem: %d\n", (int) n);
 #endif
-   assert (remaining_space_darr (darr) >= n || n == 0);
+   assert (darr->n >= n || n == 0);
    sets_array (&(darr->array), i + 0, e, n);
    /* TODO i + n != darr->n*/
    if (i + n < darr->n)
