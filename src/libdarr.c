@@ -245,10 +245,10 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    size_t mv;
    assert (remaining_space_darr (darr) >= n);
 
-   /*if (i + n > darr->n)*/
-      mv = darr->n - i - 1;
-   /*else
-      mv = darr->n - i + n;*/
+   if (i + n >= darr->n)
+      mv = darr->n - i;
+   else
+      mv = darr->n - (i + n);
       /*mv = darr->n - i;*/
       /*mv = n;*/
 #ifndef NDEBUG
