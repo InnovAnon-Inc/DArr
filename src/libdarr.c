@@ -184,6 +184,15 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
    /*error_check (ensure_cap_darr (darr, darr->n + 1) != 0) return -1;*/
    assert (! isfull_darr (darr));
+#ifndef NDEBUG
+   fprintf (stderr, "insert rear()\n");
+   /*fprintf (stderr, "i    : %d\n", (int) i);*/
+   /*fprintf (stderr, "n    : %d\n", (int) n);*/
+   /*fprintf (stderr, "i + 1: %d\n", (int) (i + 1));*/
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   /*fprintf (stderr, "mv   : %d\n", (int) mv);*/
+#endif
    set_array (&(darr->array), darr->n, e);
    darr->n++;
    assert (darr->n <= darr->array.n);
@@ -200,6 +209,15 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void inserts_rear_darr (darr_t *restrict darr,
    void const *restrict e, size_t n) {
    assert (remaining_space_darr (darr) >= n);
+#ifndef NDEBUG
+   fprintf (stderr, "inserts rear()\n");
+   /*fprintf (stderr, "i    : %d\n", (int) i);*/
+   fprintf (stderr, "n    : %d\n", (int) n);
+   /*fprintf (stderr, "i + 1: %d\n", (int) (i + 1));*/
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   /*fprintf (stderr, "mv   : %d\n", (int) mv);*/
+#endif
    sets_array (&(darr->array), darr->n, e, n);
    darr->n += n;
    assert (darr->n >= n);
@@ -218,23 +236,24 @@ void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
    size_t mv;
    assert (! isfull_darr (darr));
-
    if (i + 1 >= darr->n)
       mv = darr->n - i;
    else
       mv = darr->n - (i + 1);
-   mvs_array (&(darr->array), i + 0, i + 1, mv);
-   set_array (&(darr->array), i + 0, e);
-   darr->n++;
-   assert (darr->n <= darr->array.n);
-#ifdef TEST
 #ifndef NDEBUG
+   fprintf (stderr, "insert front()\n");
    fprintf (stderr, "i    : %d\n", (int) i);
    /*fprintf (stderr, "n    : %d\n", (int) n);*/
    fprintf (stderr, "i + 1: %d\n", (int) (i + 1));
    fprintf (stderr, "curN : %d\n", (int) (darr->n));
    fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   fprintf (stderr, "mv   : %d\n", (int) mv);
 #endif
+   mvs_array (&(darr->array), i + 0, i + 1, mv);
+   set_array (&(darr->array), i + 0, e);
+   darr->n++;
+   assert (darr->n <= darr->array.n);
+#ifdef TEST
    /*if (i != darr->n)*/
       mvs_array (&(darr->array), i + 0, i + 1, darr->n - i);
    set_array (&(darr->array), i + 0, e);
@@ -256,11 +275,19 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n) {
    size_t mv;
    assert (remaining_space_darr (darr) >= n);
-
    if (i + n >= darr->n)
       mv = darr->n - i;
    else
       mv = darr->n - (i + n);
+#ifndef NDEBUG
+   fprintf (stderr, "inserts front()\n");
+   fprintf (stderr, "i    : %d\n", (int) i);
+   fprintf (stderr, "n    : %d\n", (int) n);
+   fprintf (stderr, "i + 1: %d\n", (int) (i + n));
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   fprintf (stderr, "mv   : %d\n", (int) mv);
+#endif
    mvs_array (&(darr->array), i + 0, i + n, mv);
    sets_array (&(darr->array), i + 0, e, n);
    darr->n += n;
@@ -272,13 +299,6 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - (i + n);
       /*mv = darr->n - i;*/
       /*mv = n;*/
-#ifndef NDEBUG
-   fprintf (stderr, "i    : %d\n", (int) i);
-   fprintf (stderr, "n    : %d\n", (int) n);
-   fprintf (stderr, "i + n: %d\n", (int) (i + n));
-   fprintf (stderr, "curN : %d\n", (int) (darr->n));
-   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
-#endif
    /*if (mv != 0)*/
    mvs_array (&(darr->array), i + 0, i + n, mv);
    sets_array (&(darr->array), i + 0, e, n);
@@ -298,6 +318,15 @@ int ez_inserts_front_darr (darr_t *restrict darr, size_t i,
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void remove_rear_darr (darr_t *restrict darr, void *restrict e) {
    assert (! isempty_darr (darr));
+#ifndef NDEBUG
+   fprintf (stderr, "remove rear()\n");
+   /*fprintf (stderr, "i    : %d\n", (int) i);*/
+   /*fprintf (stderr, "n    : %d\n", (int) n);*/
+   /*fprintf (stderr, "i + 1: %d\n", (int) (i + 1));*/
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   /*fprintf (stderr, "mv   : %d\n", (int) mv);*/
+#endif
    get_array (&(darr->array), darr->n - 1, e);
    darr->n--;
    assert (darr->n != SIZE_MAX);
@@ -307,6 +336,15 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
    assert (darr->n >= n || n == 0);
+#ifndef NDEBUG
+   fprintf (stderr, "removes rear()\n");
+   /*fprintf (stderr, "i    : %d\n", (int) i);*/
+   fprintf (stderr, "n    : %d\n", (int) n);
+   /*fprintf (stderr, "i + 1: %d\n", (int) (i + 1));*/
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   /*fprintf (stderr, "mv   : %d\n", (int) mv);*/
+#endif
    gets_array (&(darr->array), darr->n - n, e, n);
    darr->n -= n;
 
