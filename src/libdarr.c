@@ -238,12 +238,12 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    size_t mv;
    assert (remaining_space_darr (darr) >= n);
 
-   /*if (i + n > darr->n)
+   if (i + n > darr->n)
       mv = darr->n - i;
    else
-      mv = darr->n - i + n;*/
+      mv = darr->n - i + n;
       /*mv = darr->n - i;*/
-      mv = n;
+      /*mv = n;*/
 
    /*if (mv != 0)*/
    mvs_array (&(darr->array), i + 0, i + n, mv);
