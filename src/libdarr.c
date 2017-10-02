@@ -332,7 +332,7 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - (i + 1);
-   gets_array (&(darr->array), i + 0, e, 1);
+   get_array (&(darr->array), i + 0, e);
    mvs_array (&(darr->array), i + 1, i + 0, mv);
    darr->n--;
 #ifdef TEST
