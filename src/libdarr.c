@@ -367,9 +367,9 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
    assert (! isempty_darr (darr));
    assert (darr->n >= 1);
    if (i + 1 >= darr->n)
-      mv = darr->n - i;
+      mv = darr->n - i - 1;
    else
-      mv = darr->n - (i + 1);
+      mv = darr->n - (i + 1) - 1;
 #ifndef NDEBUG
    fprintf (stderr, "remove front()\n");
    fprintf (stderr, "i    : %d\n", (int) i);
@@ -404,9 +404,9 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
    assert (! isempty_darr (darr));
    assert (darr->n >= n);
    if (i + n >= darr->n)
-      mv = darr->n - i;
+      mv = darr->n - i - 1;
    else
-      mv = darr->n - (i + n);
+      mv = darr->n - (i + n) - 1;
 #ifndef NDEBUG
    fprintf (stderr, "removes front()\n");
    fprintf (stderr, "i    : %d\n", (int) i);
