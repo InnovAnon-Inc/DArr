@@ -294,6 +294,10 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n) {
+#ifndef NDEBUG
+   fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
+   fprintf (stderr, "amt_to_rem: %d\n", (int) n);
+#endif
    assert (remaining_space_darr (darr) >= n);
    sets_array (&(darr->array), i + 0, e, n);
    /* TODO i + n != darr->n*/
