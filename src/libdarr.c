@@ -283,7 +283,7 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    fprintf (stderr, "inserts front()\n");
    fprintf (stderr, "i    : %d\n", (int) i);
    fprintf (stderr, "n    : %d\n", (int) n);
-   fprintf (stderr, "i + 1: %d\n", (int) (i + n));
+   fprintf (stderr, "i + n: %d\n", (int) (i + n));
    fprintf (stderr, "curN : %d\n", (int) (darr->n));
    fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
    fprintf (stderr, "mv   : %d\n", (int) mv);
@@ -370,6 +370,15 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - (i + 1);
+#ifndef NDEBUG
+   fprintf (stderr, "remove front()\n");
+   fprintf (stderr, "i    : %d\n", (int) i);
+   /*fprintf (stderr, "n    : %d\n", (int) n);*/
+   fprintf (stderr, "i + 1: %d\n", (int) (i + 1));
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   fprintf (stderr, "mv   : %d\n", (int) mv);
+#endif
    get_array (&(darr->array), i + 0, e);
    mvs_array (&(darr->array), i + 1, i + 0, mv);
    darr->n--;
@@ -387,10 +396,10 @@ __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void removes_front_darr (darr_t *restrict darr, size_t i,
    void *restrict e, size_t n) {
    size_t mv;
-#ifndef NDEBUG
+/*#ifndef NDEBUG
    fprintf (stderr, "remaining:  %d\n", (int) remaining_space_darr (darr));
    fprintf (stderr, "amt_to_rem: %d\n", (int) n);
-#endif
+#endif*/
    assert (darr->n >= n || n == 0);
    assert (! isempty_darr (darr));
    assert (darr->n >= n);
@@ -398,6 +407,15 @@ void removes_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i;
    else
       mv = darr->n - (i + n);
+#ifndef NDEBUG
+   fprintf (stderr, "removes front()\n");
+   fprintf (stderr, "i    : %d\n", (int) i);
+   fprintf (stderr, "n    : %d\n", (int) n);
+   fprintf (stderr, "i + n: %d\n", (int) (i + n));
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+   fprintf (stderr, "mv   : %d\n", (int) mv);
+#endif
    gets_array (&(darr->array), i + 0, e, n);
    mvs_array (&(darr->array), i + n, i + 0, mv);
    darr->n -=n;
