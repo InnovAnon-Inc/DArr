@@ -392,57 +392,33 @@ void free_darr (darr_t const *restrict darr) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 size_t indexOf_darr (darr_t const *restrict darr,
 	void const *restrict e) {
-   size_t n = darr->array.n;
    size_t ret;
-   darr->array.n = darr->n;
-   ret = indexOf_array (darr, e);
-   darr->array.n = n;
-   assert (ret < darr->n);
-   return ret;
-   /*
    array_t tmp;
-   size_t ret;
-   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
+   init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
    ret = indexOf_array (&tmp, e);
    assert (ret < darr->n);
    return ret;
-   */
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 bool contains_darr (darr_t const *restrict darr,
 	void const *restrict e) {
-   size_t n = darr->array.n;
    bool ret;
-   darr->array.n = darr->n;
-   ret = contains_array (darr, e);
-   darr->array.n = n;
-   return ret;
-   /*
    array_t tmp;
-   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
-   return contains_array (&tmp, e);
-   */
+   init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
+   ret = contains_array (darr, e);
+   return ret;
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
 ssize_t indexOf_darr_chk (darr_t const *restrict darr,
    void const *restrict e) {
-   size_t n = darr->array.n;
    ssize_t ret;
-   darr->array.n = darr->n;
-   ret = indexOf_array_chk (darr, e);
-   darr->array.n = n;
-   assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
-   return ret;
-   /*
    array_t tmp;
-   ssize_t ret;
-   init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
-   ret = indexOf_array_chk (&tmp, e);
+   init_array2 (&tmp, &(darr->array), (size_t) 0, darr->n);
+   ret = indexOf_array_chk (darr, e);
    assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
    return ret;
-   */
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result))
