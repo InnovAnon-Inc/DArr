@@ -28,6 +28,9 @@ typedef struct {
 size_t darrsz (size_t esz, size_t maxn)
 __attribute__ ((const, leaf, nothrow, warn_unused_result)) ;
 
+size_t darrsz2 (darr_t const *restrict darr)
+__attribute__ ((nonnull (1), nothrow, pure, warn_unused_result)) ;
+
 darr_t *ez_alloc_darr11 (size_t esz,
    darr_resize_cb_t resizecb, void const *restrict cbargs)
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
@@ -167,6 +170,12 @@ __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
 ssize_t indexOf_darr_chk (darr_t const *restrict array,
    void const *restrict e)
 __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+void *index_darr (darr_t const *restrict darr, size_t i)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result)) ;
+
+void frees_darr (darr_t const *restrict darr, free_t cb)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
 #ifdef __cplusplus
 }

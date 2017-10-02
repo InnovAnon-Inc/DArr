@@ -18,6 +18,11 @@ size_t darrsz (size_t esz, size_t n) {
    return sizeof (darr_t) + datasz (esz, n);
 }
 
+__attribute__ ((nonnull (1), nothrow, pure, warn_unused_result))
+size_t darrsz2 (darr_t const *restrict darr) {
+   return darrsz (darr->array.esz, darr->array.n);
+}
+
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
 	nonnull (2, 3), nothrow, warn_unused_result))
 darr_t *ez_alloc_darr11 (size_t esz,
@@ -30,6 +35,7 @@ __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
 	nonnull (3, 4), nothrow, warn_unused_result))
 darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
    darr_resize_cb_t resizecb, void const *restrict cbargs) {
+      /*
    void *restrict combined[2];
 	size_t eszs[2];
 	darr_t *restrict darr;
@@ -45,6 +51,22 @@ darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
 
    init_darr2 (darr, data, esz, maxn, resizecb, cbargs);
 	return darr;
+   */
+   void *restrict *restrict combined[2];
+	size_t eszs[2];
+	darr_t *restrict caq;
+	void *restrict data;
+
+	eszs[0] = sizeof (darr_t);
+	eszs[1] = datasz  (esz, maxn);
+   combined[0] = (void *restrict *restrict) &caq;
+   combined[1] = (void *restrict *restrict) &data;
+	error_check (mmalloc2 (combined, eszs,
+		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
+		return NULL;
+
+   init_darr2 (caq, data, esz, maxn, resizecb, cbargs);
+	return caq;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
@@ -80,7 +102,7 @@ darr_t *ez_alloc_darr22 (size_t esz, size_t maxn,
 __attribute__ ((leaf, nonnull (1), nothrow))
 void ez_free_darr2 (darr_t *restrict array) {
 	free_darr (array);
-	free (array);
+	/*free (array);*/
 }
 
 __attribute__ ((nonnull (1, 3), nothrow, warn_unused_result))
@@ -370,29 +392,67 @@ void free_darr (darr_t const *restrict darr) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 size_t indexOf_darr (darr_t const *restrict darr,
 	void const *restrict e) {
+   size_t n = darr->array.n;
+   size_t ret;
+   darr->array.n = darr->n;
+   ret = indexOf_array (darr, e);
+   darr->array.n = n;
+   assert (ret < darr->n);
+   return ret;
+   /*
    array_t tmp;
    size_t ret;
    init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    ret = indexOf_array (&tmp, e);
    assert (ret < darr->n);
    return ret;
+   */
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 bool contains_darr (darr_t const *restrict darr,
 	void const *restrict e) {
+   size_t n = darr->array.n;
+   bool ret;
+   darr->array.n = darr->n;
+   ret = contains_array (darr, e);
+   darr->array.n = n;
+   return ret;
+   /*
    array_t tmp;
    init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    return contains_array (&tmp, e);
+   */
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
 ssize_t indexOf_darr_chk (darr_t const *restrict darr,
    void const *restrict e) {
+   size_t n = darr->array.n;
+   ssize_t ret;
+   darr->array.n = darr->n;
+   ret = indexOf_array_chk (darr, e);
+   darr->array.n = n;
+   assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
+   return ret;
+   /*
    array_t tmp;
    ssize_t ret;
    init_array (&tmp, darr->array.data, darr->array.esz, darr->n);
    ret = indexOf_array_chk (&tmp, e);
    assert (ret == (ssize_t) -1 || ret < (ssize_t) darr->n);
    return ret;
+   */
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result))
+void *index_darr (darr_t const *restrict darr, size_t i) {
+   return index_array (&(darr->array), i);
+}
+
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void frees_darr (darr_t const *restrict darr, free_t f) {
+   size_t n = darr->array.n;
+   frees_array (&(darr->array), f);
+   darr->array.n = n;
 }
