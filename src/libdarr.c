@@ -216,12 +216,13 @@ int ez_inserts_rear_darr (darr_t *restrict darr,
 __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
+   size_t mv;
    assert (! isfull_darr (darr));
 
    if (i + 1 >= darr->n)
-      mv = darr_n - i;
+      mv = darr->n - i;
    else
-      mv = darr_n - (i + 1);
+      mv = darr->n - (i + 1);
    mvs_array (&(darr->array), i + 0, i + 1, mv);
    set_array (&(darr->array), i + 0, e);
    darr->n++;
@@ -257,9 +258,9 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    assert (remaining_space_darr (darr) >= n);
 
    if (i + n >= darr->n)
-      mv = darr_n - i;
+      mv = darr->n - i;
    else
-      mv = darr_n - (i + n);
+      mv = darr->n - (i + n);
    mvs_array (&(darr->array), i + 0, i + n, mv);
    sets_array (&(darr->array), i + 0, e, n);
    darr->n += n;
@@ -307,10 +308,10 @@ void removes_rear_darr (darr_t *restrict darr,
    void *restrict e, size_t n) {
    size_t mv;
    assert (darr->n >= n || n == 0);
-   if (i + n >= darr_n)
-      mv = darr_n - i;
+   if (i + n >= darr->n)
+      mv = darr->n - i;
    else
-      mv = darr_n - (i + n);
+      mv = darr->n - (i + n);
    gets_array (&(darr->array), darr->n - n, e, mv);
    darr->n -= n;
 
@@ -332,12 +333,12 @@ void remove_front_darr (darr_t *restrict darr, size_t i,
    size_t mv;
    assert (! isempty_darr (darr));
    assert (darr->n >= n || n == 0);
-   if (i + 1 >= darr_n)
-      mv = darr_n - i;
+   if (i + 1 >= darr->n)
+      mv = darr->n - i;
    else
-      mv = darr_n - (i + 1);
+      mv = darr->n - (i + 1);
    gets_array (&(darr->array), darr->n - 1, e, mv);
-   darr->n -= 1;
+   darr->n--;
 #ifdef TEST
    assert (! isempty_darr (darr));
    get_array (&(darr->array), i + 0, e);
