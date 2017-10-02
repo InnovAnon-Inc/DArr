@@ -217,6 +217,13 @@ __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void insert_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e) {
    assert (! isfull_darr (darr));
+#ifndef NDEBUG
+   fprintf (stderr, "i    : %d\n", (int) i);
+   /*fprintf (stderr, "n    : %d\n", (int) n);*/
+   fprintf (stderr, "i + 1: %d\n", (int) (i + 1));
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+#endif
    /*if (i != darr->n)*/
       mvs_array (&(darr->array), i + 0, i + 1, darr->n - i);
    set_array (&(darr->array), i + 0, e);
