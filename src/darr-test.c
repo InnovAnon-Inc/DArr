@@ -5,8 +5,7 @@
 #define _POSIX_C_SOURCE 200112L
 #define __STDC_VERSION__ 200112L
 
-#define NDEBUG 1
-
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,7 +46,7 @@ static int insert_rear_test (darr_t *restrict darr,
    size_t k;
    fprintf (stderr, "insert rear test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++) {
-      nums[k] = rand ();
+      nums[k] = rand () % 100;
       error_check (ez_insert_rear_darr (darr, nums + k) != 0) {
          fputs ("error -2", stderr); fflush (stderr);
          return -2;
@@ -82,7 +81,7 @@ static int inserts_rear_test (darr_t *restrict darr,
    size_t k;
    fprintf (stderr, "inserts rear test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++)
-      nums[k] = rand ();
+      nums[k] = rand () % 100;
    error_check (ez_inserts_rear_darr (darr, nums, nnum) != 0) {
       fputs ("error -6", stderr); fflush (stderr);
       return -6;
@@ -122,7 +121,7 @@ static int insert_front_test (darr_t *restrict darr,
    for (k = 0; k != nnum; k++) {
       if (darr->n == 0) j = 0;
       else j = (size_t) rand () % darr->n;
-      nums[k] = rand ();
+      nums[k] = rand () % 100;
       error_check (ez_insert_front_darr (darr, j,
          nums + k) != 0) {
          fputs ("error -2", stderr); fflush (stderr);
@@ -157,7 +156,7 @@ static int inserts_front_test (darr_t *restrict darr,
    size_t k;
    fprintf (stderr, "inserts front test (nnum=%d)\n", (int) nnum); fflush (stderr);
    for (k = 0; k != nnum; k++)
-      nums[k] = rand ();
+      nums[k] = rand () % 100;
    error_check (ez_inserts_front_darr (darr, (size_t) 0,
       nums, nnum) != 0) {
       fputs ("error -6", stderr); fflush (stderr);
@@ -246,7 +245,7 @@ static int reset_test (darr_t *restrict darr) {
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int test0 (darr_t *restrict darr) {
-   int num = rand ();
+   int num = rand () % 100;
    size_t sz = darr->n;
    fprintf (stderr, "test0 () num:%d, sz:%d\n", num, (int) sz); fflush (stderr);
    error_check (ez_insert_rear_darr (darr, &num) != 0) {
@@ -261,7 +260,7 @@ __attribute__ ((nonnull (1), nothrow))
 static void get_nums (int nums[], size_t snum) {
    size_t k;
    for (k = 0; k != snum; k++)
-      nums[k] = rand ();
+      nums[k] = rand () % 100;
 }
 
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
@@ -320,7 +319,7 @@ static int test4 (darr_t *restrict darr) {
    size_t sz = darr->n;
    if (darr->n == 0) k = 0;
    else k = (size_t) rand () % (darr->n + 1);
-   num = rand ();
+   num = rand () % 100;
    fprintf (stderr, "test4 () sz: %d, k: %d, num: %d\n", (int) sz, (int) k, (int) num); fflush (stderr);
    error_check (ez_insert_front_darr (darr, k, &num) != 0) {
       fputs ("error -12", stderr); fflush (stderr);

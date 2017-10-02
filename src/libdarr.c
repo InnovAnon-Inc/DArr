@@ -75,7 +75,7 @@ void ez_free_darr1 (darr_t *restrict darr) {
 	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
    mfree ((void *restrict) darr);
 	#pragma GCC diagnostic pop
-   free (darr);
+   /*free (darr);*/
 }
 
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
@@ -371,12 +371,22 @@ void removes_darr (darr_t *restrict darr, size_t const is[],
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool isfull_darr (darr_t const *restrict darr) {
-   return darr->n == darr->array.n;
+   if (darr->n == darr->array.n) {
+      assert (remaining_space_darr (darr) == 0);
+      return true;
+   }
+   assert (remaining_space_darr (darr) != 0);
+   return false;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool isempty_darr (darr_t const *restrict darr) {
-   return darr->n == 0;
+   if (darr->n == 0) {
+      assert (remaining_space_darr (darr) != 0);
+      return true;
+   }
+   assert (remaining_space_darr (darr) == 0);
+   return false;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
