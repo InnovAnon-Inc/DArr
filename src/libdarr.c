@@ -244,7 +244,13 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
       mv = darr->n - i + n;
       /*mv = darr->n - i;*/
       /*mv = n;*/
-
+#ifndef NDEBUG
+   fprintf (stderr, "i    : %d\n", (int) i);
+   fprintf (stderr, "n    : %d\n", (int) n);
+   fprintf (stderr, "i + n: %d\n", (int) (i + n));
+   fprintf (stderr, "curN : %d\n", (int) (darr->n));
+   fprintf (stderr, "maxN : %d\n", (int) (darr->array.n));
+#endif
    /*if (mv != 0)*/
    mvs_array (&(darr->array), i + 0, i + n, mv);
    sets_array (&(darr->array), i + 0, e, n);
