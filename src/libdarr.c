@@ -199,7 +199,7 @@ int ez_insert_rear_darr (darr_t *restrict darr, void const *restrict e) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow))
 void inserts_rear_darr (darr_t *restrict darr,
    void const *restrict e, size_t n) {
-   assert (remaining_space_darr (darr) <= n);
+   assert (remaining_space_darr (darr) >= n);
    sets_array (&(darr->array), darr->n, e, n);
    darr->n += n;
    assert (darr->n >= n);
@@ -236,7 +236,7 @@ __attribute__ ((leaf, nonnull (1, 3), nothrow))
 void inserts_front_darr (darr_t *restrict darr, size_t i,
    void const *restrict e, size_t n) {
    size_t mv;
-   assert (remaining_space_darr (darr) <= n);
+   assert (remaining_space_darr (darr) >= n);
 
    /*if (i + n > darr->n)
       mv = darr->n - i;
