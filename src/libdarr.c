@@ -386,17 +386,17 @@ bool isfull_darr (darr_t const *restrict darr) {
       assert (remaining_space_darr (darr) == 0);
       return true;
    }
-   assert (remaining_space_darr (darr) != 0);
+   assert (remaining_space_darr (darr) != 0 || darr->array.n == 0);
    return false;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool isempty_darr (darr_t const *restrict darr) {
    if (darr->n == 0) {
-      assert (remaining_space_darr (darr) != 0);
+      assert (remaining_space_darr (darr) != 0 || darr->array.n == 0);
       return true;
    }
-   assert (remaining_space_darr (darr) == 0);
+   /*assert (remaining_space_darr (darr) == 0);*/
    return false;
 }
 
