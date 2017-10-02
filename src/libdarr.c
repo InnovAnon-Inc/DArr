@@ -246,7 +246,7 @@ void inserts_front_darr (darr_t *restrict darr, size_t i,
    assert (remaining_space_darr (darr) >= n);
 
    /*if (i + n > darr->n)*/
-      mv = darr->n - i;
+      mv = darr->n - i - 1;
    /*else
       mv = darr->n - i + n;*/
       /*mv = darr->n - i;*/
