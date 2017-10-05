@@ -62,8 +62,11 @@ darr_t *ez_alloc_darr12 (size_t esz, size_t maxn,
 
 	eszs[0] = sizeof (darr_t);
 	eszs[1] = datasz  (esz, maxn);
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
    combined[0] = (void *restrict *restrict) &caq;
    combined[1] = (void *restrict *restrict) &data;
+	#pragma GCC diagnostic pop
 	error_check (mmalloc2 (combined, eszs,
 		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
 		return NULL;
@@ -525,6 +528,11 @@ bool isempty_darr (darr_t const *restrict darr) {
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 size_t remaining_space_darr (darr_t const *restrict darr) {
    return darr->array.n - darr->n;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+size_t used_space_darr (darr_t const *restrict darr) {
+   return darr->n;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
