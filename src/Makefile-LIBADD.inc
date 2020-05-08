@@ -1,6 +1,6 @@
 LIBDARR_RESIZE_LIBADD = -lm
 
-include $(top_srcdir)/Array/src/Makefile-LIBADD.inc
+#include $(top_srcdir)/Array/src/Makefile-LIBADD.inc
 #include $(top_srcdir)/swap/src/Makefile-LIBADD.inc
 
 #if USE_SUBMODULES
