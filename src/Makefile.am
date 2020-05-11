@@ -12,7 +12,8 @@ lib_LTLIBRARIES =
 include_HEADERS =
 bin_PROGRAMS    =
 
-include Makefile-LIBADD.inc
+#include Makefile-LIBADD.inc
+dist_bin_SCRIPTS = libdarr_config libdarr_resize_config darr_test_config
 
 lib_LTLIBRARIES += libdarr-resize.la
 libdarr_resize_la_LIBADD = $(LIBDARR_RESIZE_LIBADD)
@@ -22,5 +23,6 @@ lib_LTLIBRARIES += libdarr.la
 libdarr_la_LIBADD = $(LIBDARR_LIBADD)
 include_HEADERS += darr.h
 bin_PROGRAMS += darr-test
-darr_test_LDADD  = libdarr.la $(LIBDARR_LIBADD)
-darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
+#darr_test_LDADD  = libdarr.la $(LIBDARR_LIBADD)
+#darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
+darr_test_LDADD = $(DARR_TEST_LIBADD)
