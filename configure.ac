@@ -34,7 +34,7 @@ LIBDARR_RESIZE_LIBADD="`PATH=$(srcdir)src:$PATH libdarr_resize_config --libs`"
 AC_SUBST(LIBDARR_RESIZE_LIBADD)
 
 #DARR_TEST_LIBADD="libdarr.la `PATH=src:$PATH libdarr_config --libs` libdarr-resize.la `PATH=src:$PATH libdarr_resize_config --libs`"
-DARR_TEST_LIBADD="`PATH=$(srcdir)src:$PATH libdarr_config --libs` libdarr-resize.la `PATH=src:$PATH libdarr_resize_config --libs`"
+DARR_TEST_LIBADD="`PATH=$(srcdir)src:$PATH darr_test_config --libs`"
 AC_SUBST(DARR_TEST_LIBADD)
 
 INNOVANON_WARNINGS([])
