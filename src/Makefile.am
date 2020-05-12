@@ -19,7 +19,7 @@ lib_LTLIBRARIES += libdarr-resize.la
 #libdarr_resize_la_LIBADD = $(LIBDARR_RESIZE_LIBADD)
 libdarr_resize_la_LIBADD = @LIBDARR_RESIZE_LIBADD@
 include_HEADERS += darr-resize.h
-EXTRA_libdarr_resize_la_DEPENDENCIES = libdarr.la
+#EXTRA_libdarr_resize_la_DEPENDENCIES = libdarr.la
 
 lib_LTLIBRARIES += libdarr.la
 #libdarr_la_LIBADD = $(LIBDARR_LIBADD)
@@ -30,6 +30,6 @@ bin_PROGRAMS += darr-test
 #darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
 #darr_test_LDADD = $(DARR_TEST_LIBADD)
 darr_test_LDADD = @DARR_TEST_LIBADD@
-#EXTRA_darr_test_DEPENDENCIES = libdarr.la libdarr-resize.la
+EXTRA_darr_test_DEPENDENCIES = libdarr.la libdarr-resize.la
 #EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la libdarr.la
-EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la
+#EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la

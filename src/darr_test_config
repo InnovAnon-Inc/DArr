@@ -4,5 +4,5 @@ set -eu
 [ $1 == --libs ]
 #echo `libdarr_config --libs` `libdarr_resize_config --libs`
 echo -ldarr        `libdarr_config --libs` \
-     -ldarr_resize `libdarr_resize_config --libs`
+     -ldarr-resize `libdarr_resize_config --libs`
 
