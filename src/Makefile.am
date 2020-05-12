@@ -29,4 +29,5 @@ bin_PROGRAMS += darr-test
 #darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
 #darr_test_LDADD = $(DARR_TEST_LIBADD)
 darr_test_LDADD = @DARR_TEST_LIBADD@
-EXTRA_darr_test_DEPENDENCIES = libdarr.la libdarr-resize.la
+#EXTRA_darr_test_DEPENDENCIES = libdarr.la libdarr-resize.la
+EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la libdarr.la
