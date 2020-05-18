@@ -13,5 +13,6 @@ Cflags: -I${includedir}
 Requires: glitter libdarr
 #Requires.private: -lm
 Requires.private:
-Libs.private: -lm
+#Libs.private: -lm
+Libs.private: @M_CFLAGS@ @M_LIBS@
 
