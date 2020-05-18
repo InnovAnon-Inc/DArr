@@ -1,8 +1,0 @@
-#! /bin/bash
-set -eu
-[ $# -eq 1 ]
-[ $1 == --libs ]
-#echo `libdarr_config --libs` `libdarr_resize_config --libs`
-echo -ldarr        `libdarr_config --libs` \
-     -ldarr-resize `libdarr_resize_config --libs`
-
