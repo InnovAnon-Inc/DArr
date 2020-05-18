@@ -1,35 +1,22 @@
 AM_CPPFLAGS = -D__STDC_INT64__
 
-#if USE_SUBMODULES
-#SUBDIRS = ../glitter
-#AM_CPPFLAGS += -I $(top_srcdir)/glitter/src
-#
-#SUBDIRS += ../Array
-#AM_CPPFLAGS += -I $(top_srcdir)/Array/src
-#endif
-
 lib_LTLIBRARIES =
 include_HEADERS =
 bin_PROGRAMS    =
 
-#include Makefile-LIBADD.inc
-dist_bin_SCRIPTS = libdarr_config libdarr_resize_config darr_test_config
+lib_LTLIBRARIES += libdarr.la
+libdarr_la_CPPFLAGS = $(GLITTER_CFLAGS) $(ARRAY_CFLAGS) $(MMALLOC_CFLAGS)
+libdarr_la_LIBADD   = $(GLITTER_LIBS)   $(ARRAY_LIBS)   $(MMALLOC_LIBS)
+include_HEADERS += darr.h
 
 lib_LTLIBRARIES += libdarr-resize.la
-#libdarr_resize_la_LIBADD = $(LIBDARR_RESIZE_LIBADD)
-libdarr_resize_la_LIBADD = @LIBDARR_RESIZE_LIBADD@
+libdarr_resize_la_CPPFLAGS =        $(GLITTER_CFLAGS)
+libdarr_resize_la_LIBADD   = -ldarr $(GLITTER_LIBS)
 include_HEADERS += darr-resize.h
-#EXTRA_libdarr_resize_la_DEPENDENCIES = libdarr.la
+EXTRA_libdarr_resize_la_DEPENDENCIES = libdarr.la
 
-lib_LTLIBRARIES += libdarr.la
-#libdarr_la_LIBADD = $(LIBDARR_LIBADD)
-libdarr_la_LIBADD = @LIBDARR_LIBADD@
-include_HEADERS += darr.h
 bin_PROGRAMS += darr-test
-#darr_test_LDADD  = libdarr.la $(LIBDARR_LIBADD)
-#darr_test_LDADD += libdarr-resize.la $(LIBDARR_RESIZE_LIBADD)
-#darr_test_LDADD = $(DARR_TEST_LIBADD)
-darr_test_LDADD = @DARR_TEST_LIBADD@
+darr_test_CPPFLAGS =                      $(GLITTER_CFLAGS) $(ARRAY_CFLAGS) $(MMALLOC_CFLAGS)
+darr_test_LDADD    = -ldarr-resize -ldarr $(GLITTER_LIBS)   $(ARRAY_LIBS)   $(MMALLOC_LIBS)
 EXTRA_darr_test_DEPENDENCIES = libdarr.la libdarr-resize.la
-#EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la libdarr.la
-#EXTRA_darr_test_DEPENDENCIES = libdarr-resize.la
+

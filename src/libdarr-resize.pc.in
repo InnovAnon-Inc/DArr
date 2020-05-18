@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#darr-resize_utility=darr-resize-test
+
+Name: @PACKAGE_NAME@ resize
+Description: darr-resize library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -ldarr-resize
+Cflags: -I${includedir}
+Requires: glitter libdarr
+Requires.private: -lm
+

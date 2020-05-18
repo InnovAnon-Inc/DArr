@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#libdarr_utility=libdarr-test
+
+Name: @PACKAGE_NAME@
+Description: libdarr library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -ldarr
+Cflags: -I${includedir}
+Requires: glitter libarray
+Requires.private: libmmalloc
+

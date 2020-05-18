@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#darr_utility=darr-test
+
+Name: @PACKAGE_NAME@ test
+Description: darr library test application
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -ldarr
+Cflags: -I${includedir}
+Requires:
+Requires.private: libdarr-resize libdarr
+
