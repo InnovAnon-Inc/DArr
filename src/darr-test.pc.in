@@ -11,5 +11,5 @@ Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -ldarr
 Cflags: -I${includedir}
 Requires:
-Requires.private: libdarr-resize libdarr
+Requires.private: libdarr-resize libdarr -lm
 
