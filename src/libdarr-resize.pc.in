@@ -11,5 +11,7 @@ Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -ldarr-resize
 Cflags: -I${includedir}
 Requires: glitter libdarr
-Requires.private: -lm
+#Requires.private: -lm
+Requires.private:
+Libs.private: -lm
 
