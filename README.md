@@ -1,6 +1,6 @@
 # DArr
 D(ynamic) Arr(ay) (C Library)
-==========
+----------
 
 [![CircleCI](https://img.shields.io/circleci/build/github/InnovAnon-Inc/DArr?color=%23FF1100&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)](https://circleci.com/gh/InnovAnon-Inc/DArr)
 [![Repo Size](https://img.shields.io/github/repo-size/InnovAnon-Inc/DArr?color=%23FF1100&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)](https://github.com/InnovAnon-Inc/DArr)
